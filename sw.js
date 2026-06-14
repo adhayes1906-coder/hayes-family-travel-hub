@@ -1,4 +1,4 @@
-const CACHE = 'hayes-travel-hub-v3-cache-5';
+const CACHE = 'hayes-travel-hub-v3-cache-6';
 const ASSETS = [
   './',
   './index.html',
