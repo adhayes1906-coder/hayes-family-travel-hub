@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<meta name="theme-color" content="#0f172a" />
+<title>Hayes Family Travel Hub</title>
+<link rel="manifest" href="manifest.json" />
+<style>
+:root{
+  --bg:#08101f;
+  --panel:#0f172a;
+  --panel-2:#111c33;
+  --text:#f8fafc;
+  --muted:#94a3b8;
+  --accent:#38bdf8;
+  --accent-2:#22c55e;
+  --accent-3:#f59e0b;
+  --accent-4:#e879f9;
+  --danger:#ef4444;
+  --border:rgba(255,255,255,.09);
+  --shadow:0 18px 40px rgba(0,0,0,.28);
+  --radius:20px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:linear-gradient(180deg,#07101d,#0a1427 35%,#08101f);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+body{padding:18px 16px 96px}
+a{color:inherit}
+button,input,select,textarea{font:inherit}
+.container{max-width:1024px;margin:0 auto}
+.hero{
+  background:linear-gradient(135deg,rgba(56,189,248,.18),rgba(232,121,249,.12),rgba(34,197,94,.10));
+  border:1px solid var(--border); border-radius:28px; padding:22px 18px; box-shadow:var(--shadow);
+}
+.hero h1{margin:0;font-size:1.7rem;line-height:1.1}
+.hero p{margin:8px 0 0;color:var(--muted);font-size:.98rem}
+.pillrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.pill{padding:8px 12px;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid var(--border);color:#dbeafe;font-size:.85rem}
+.grid{display:grid;gap:14px}
+.grid.cards{grid-template-columns:repeat(auto-fit,minmax(250px,1fr));margin-top:18px}
+.card{
+  background:linear-gradient(180deg,var(--panel),var(--panel-2));
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:16px;
+  box-shadow:var(--shadow);
+}
+.card h2,.card h3{margin:0 0 8px}
+.card p{margin:0;color:var(--muted)}
+.btn{
+  appearance:none;border:0;cursor:pointer;text-decoration:none;
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:13px 14px;border-radius:16px;
+  background:#16253f;color:white;font-weight:700;
+  border:1px solid rgba(255,255,255,.1);
+}
+.btn.primary{background:linear-gradient(135deg,#0ea5e9,#2563eb)}
+.btn.green{background:linear-gradient(135deg,#10b981,#16a34a)}
+.btn.orange{background:linear-gradient(135deg,#f59e0b,#ea580c)}
+.btn.pink{background:linear-gradient(135deg,#d946ef,#7c3aed)}
+.btn.ghost{background:rgba(255,255,255,.05)}
+.btn.full{width:100%}
+.btnbar{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.section-title{font-size:1.15rem;margin:22px 0 12px;color:#e2e8f0}
+.trip-tabs,.subtabs{
+  display:flex;gap:10px;overflow:auto;padding-bottom:6px;scrollbar-width:none
+}
+.trip-tabs::-webkit-scrollbar,.subtabs::-webkit-scrollbar{display:none}
+.tab{
+  white-space:nowrap;padding:12px 14px;border-radius:16px;border:1px solid var(--border);
+  background:rgba(255,255,255,.04);color:#dbeafe;font-weight:700;cursor:pointer
+}
+.tab.active{background:linear-gradient(135deg,rgba(56,189,248,.25),rgba(37,99,235,.25));outline:1px solid rgba(56,189,248,.35)}
+.hidden{display:none !important}
+.trip-panel{margin-top:14px}
+.day-card{padding:14px;border-radius:18px;background:rgba(255,255,255,.03);border:1px solid var(--border);margin-bottom:12px}
+.day-card h3{font-size:1.05rem}
+.day-card .meta{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.badge{font-size:.8rem;color:#e2e8f0;background:rgba(255,255,255,.06);border:1px solid var(--border);padding:6px 10px;border-radius:999px}
+.timeline{margin-top:10px;display:grid;gap:10px}
+.item{
+  display:grid;grid-template-columns:92px 1fr;gap:10px;align-items:start;
+  background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:16px;padding:11px
+}
+.time{font-weight:800;color:#bae6fd}
+.title{font-weight:700}
+.detail{margin-top:4px;color:var(--muted);font-size:.95rem}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.smallbtn{padding:8px 10px;font-size:.88rem;border-radius:12px;background:#102037;border:1px solid var(--border);text-decoration:none}
+.info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+label{display:block;margin-bottom:6px;color:#cbd5e1;font-weight:600}
+input[type="text"],input[type="number"],input[type="datetime-local"],select,textarea{
+  width:100%;padding:12px 12px;background:#091322;color:white;border:1px solid var(--border);border-radius:14px;outline:none
+}
+textarea{min-height:110px;resize:vertical}
+.form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px}
+.checkgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.checkitem{display:flex;gap:10px;align-items:flex-start;background:rgba(255,255,255,.03);padding:12px;border-radius:14px;border:1px solid var(--border)}
+.checkitem input{margin-top:4px;transform:scale(1.15)}
+.person-title{margin:0 0 10px;color:#e2e8f0;font-size:1rem}
+.table{width:100%;border-collapse:collapse;margin-top:10px}
+.table th,.table td{padding:10px;border-bottom:1px solid var(--border);text-align:left;font-size:.94rem}
+.table th{color:#cbd5e1}
+.right{text-align:right}
+.kpi{font-size:1.7rem;font-weight:800}
+.kpi-label{font-size:.86rem;color:var(--muted)}
+.empty{padding:14px;border:1px dashed var(--border);border-radius:16px;color:var(--muted);text-align:center}
+.photo-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:10px;margin-top:10px}
+.photo{
+  position:relative;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:14px;overflow:hidden;min-height:110px
+}
+.photo img{width:100%;height:120px;object-fit:cover;display:block}
+.photo button{position:absolute;top:8px;right:8px;border:0;border-radius:999px;background:rgba(0,0,0,.65);color:#fff;padding:6px 8px;cursor:pointer}
+.footer-note{margin-top:18px;font-size:.86rem;color:var(--muted)}
+.sticky-nav{
+  position:fixed;left:0;right:0;bottom:0;padding:10px 12px calc(10px + env(safe-area-inset-bottom));
+  background:rgba(7,16,29,.9);backdrop-filter:blur(12px);border-top:1px solid var(--border)
+}
+.sticky-nav .wrap{max-width:1024px;margin:0 auto;display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.navbtn{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;
+  min-height:58px;border-radius:16px;text-decoration:none;background:rgba(255,255,255,.05);border:1px solid var(--border);font-size:.8rem;color:#dbeafe;padding:8px 4px
+}
+.navbtn.active{background:linear-gradient(135deg,rgba(14,165,233,.24),rgba(37,99,235,.24))}
+.notice{padding:12px 13px;border-radius:15px;background:rgba(56,189,248,.10);border:1px solid rgba(56,189,248,.25);color:#dbeafe}
+hr.sep{border:none;border-top:1px solid var(--border);margin:18px 0}
+@media (max-width:640px){
+  body{padding-left:12px;padding-right:12px}
+  .item{grid-template-columns:1fr}
+  .time{font-size:.92rem}
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="hero">
+    <h1>Hayes Family Travel Hub</h1>
+    <p>A reusable family trip app for NYC, your July cruise, and future travel. Everything saves on this device so it stays handy on the road.</p>
+    <div class="pillrow">
+      <div class="pill">Phone friendly</div>
+      <div class="pill">Saved packing + budget</div>
+      <div class="pill">Trip notes + photo journal</div>
+      <div class="pill">Shareable after hosting</div>
+    </div>
+    <div class="btnbar">
+      <button class="btn primary" onclick="showSection('trips')">Open trips</button>
+      <button class="btn ghost" onclick="showSection('packing')">Packing lists</button>
+      <button class="btn ghost" onclick="showSection('budget')">Budget tracker</button>
+    </div>
+  </div>
+
+  <section id="section-home">
+    <div class="section-title">Quick access</div>
+    <div class="grid cards">
+      <div class="card">
+        <h2>🗽 NYC • Jun 16–20</h2>
+        <p>Times Square hotel, Hamilton, Statue of Liberty, Chinatown, Harlem, zoo, and Juneteenth stops.</p>
+        <div class="btnbar"><button class="btn full primary" onclick="showSection('trips'); selectTrip('nyc')">Open NYC</button></div>
+      </div>
+      <div class="card">
+        <h2>🚢 Cruise • Jul 12–18</h2>
+        <p>Drive to Galveston same day, then Symphony of the Seas to Costa Maya, Roatan, and Cozumel.</p>
+        <div class="btnbar"><button class="btn full green" onclick="showSection('trips'); selectTrip('cruise')">Open cruise</button></div>
+      </div>
+      <div class="card">
+        <h2>🎒 Packing</h2>
+        <p>Shared and per-person checklists with saved progress.</p>
+        <div class="btnbar"><button class="btn full orange" onclick="showSection('packing')">Open packing</button></div>
+      </div>
+      <div class="card">
+        <h2>💵 Budget + notes</h2>
+        <p>Track spend, save quick notes, and keep a small photo journal by day.</p>
+        <div class="btnbar"><button class="btn full pink" onclick="showSection('budget')">Open tools</button></div>
+      </div>
+    </div>
+    <p class="footer-note">Tip: after you host this, open it on each phone and use “Add to Home Screen” for an app-like experience.</p>
+  </section>
+
+  <section id="section-trips" class="hidden">
+    <div class="section-title">Trips</div>
+    <div class="trip-tabs">
+      <button class="tab active" id="triptab-nyc" onclick="selectTrip('nyc')">NYC</button>
+      <button class="tab" id="triptab-cruise" onclick="selectTrip('cruise')">Cruise</button>
+    </div>
+
+    <div id="trip-nyc" class="trip-panel">
+      <div class="notice">Hotel: Riu Plaza Manhattan Times Square. Wednesday Hamilton is at 7:00 PM. Friday includes Harlem Juneteenth options.</div>
+      <div class="subtabs" style="margin-top:12px">
+        <button class="tab active" id="daytab-nyc-0" onclick="selectDay('nyc',0)">Tue 6/16</button>
+        <button class="tab" id="daytab-nyc-1" onclick="selectDay('nyc',1)">Wed 6/17</button>
+        <button class="tab" id="daytab-nyc-2" onclick="selectDay('nyc',2)">Thu 6/18</button>
+        <button class="tab" id="daytab-nyc-3" onclick="selectDay('nyc',3)">Fri 6/19</button>
+        <button class="tab" id="daytab-nyc-4" onclick="selectDay('nyc',4)">Sat 6/20</button>
+      </div>
+      <div id="nyc-days"></div>
+    </div>
+
+    <div id="trip-cruise" class="trip-panel hidden">
+      <div class="notice">Royal Caribbean’s official itinerary for Symphony of the Seas on July 12–18, 2026 is Galveston → Sea Day → Puerto Costa Maya → Roatan → Cozumel → Sea Day → Galveston. Port times can change, so verify in Royal Caribbean’s app closer to sailing. </div>
+      <div class="subtabs" style="margin-top:12px">
+        <button class="tab active" id="daytab-cruise-0" onclick="selectDay('cruise',0)">Sun 7/12</button>
+        <button class="tab" id="daytab-cruise-1" onclick="selectDay('cruise',1)">Mon 7/13</button>
+        <button class="tab" id="daytab-cruise-2" onclick="selectDay('cruise',2)">Tue 7/14</button>
+        <button class="tab" id="daytab-cruise-3" onclick="selectDay('cruise',3)">Wed 7/15</button>
+        <button class="tab" id="daytab-cruise-4" onclick="selectDay('cruise',4)">Thu 7/16</button>
+        <button class="tab" id="daytab-cruise-5" onclick="selectDay('cruise',5)">Fri 7/17</button>
+        <button class="tab" id="daytab-cruise-6" onclick="selectDay('cruise',6)">Sat 7/18</button>
+      </div>
+      <div id="cruise-days"></div>
+    </div>
+  </section>
+
+  <section id="section-packing" class="hidden">
+    <div class="section-title">Packing lists</div>
+    <div class="info-grid">
+      <div class="card">
+        <h3 class="person-title">Shared family items</h3>
+        <div class="checkgrid" id="pack-shared"></div>
+      </div>
+      <div class="card">
+        <h3 class="person-title">Anthony</h3>
+        <div class="checkgrid" id="pack-anthony"></div>
+      </div>
+      <div class="card">
+        <h3 class="person-title">Wife</h3>
+        <div class="checkgrid" id="pack-wife"></div>
+      </div>
+      <div class="card">
+        <h3 class="person-title">Kids</h3>
+        <div class="checkgrid" id="pack-kids"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="section-budget" class="hidden">
+    <div class="section-title">Budget tracker</div>
+    <div class="info-grid">
+      <div class="card">
+        <h3>Add expense</h3>
+        <div class="form-grid">
+          <div><label for="exp-trip">Trip</label><select id="exp-trip"><option>NYC</option><option>Cruise</option></select></div>
+          <div><label for="exp-date">Date</label><input id="exp-date" type="text" placeholder="e.g., Jun 17" /></div>
+          <div><label for="exp-category">Category</label><select id="exp-category"><option>Food</option><option>Transit</option><option>Tickets</option><option>Excursions</option><option>Shopping</option><option>Other</option></select></div>
+          <div><label for="exp-amount">Amount</label><input id="exp-amount" type="number" step="0.01" placeholder="0.00" /></div>
+        </div>
+        <div style="margin-top:10px"><label for="exp-note">Note</label><input id="exp-note" type="text" placeholder="What was it for?" /></div>
+        <div class="btnbar">
+          <button class="btn primary" onclick="addExpense()">Save expense</button>
+          <button class="btn ghost" onclick="exportExpenses()">Export CSV</button>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Totals</h3>
+        <div class="info-grid">
+          <div><div class="kpi" id="total-all">$0.00</div><div class="kpi-label">All trips</div></div>
+          <div><div class="kpi" id="total-nyc">$0.00</div><div class="kpi-label">NYC</div></div>
+          <div><div class="kpi" id="total-cruise">$0.00</div><div class="kpi-label">Cruise</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:14px">
+      <h3>Expenses</h3>
+      <div id="expense-table-wrap"></div>
+    </div>
+
+    <div class="section-title">Trip notes + mini photo journal</div>
+    <div class="trip-tabs">
+      <button class="tab active" id="journal-trip-nyc" onclick="selectJournalTrip('nyc')">NYC</button>
+      <button class="tab" id="journal-trip-cruise" onclick="selectJournalTrip('cruise')">Cruise</button>
+    </div>
+    <div class="subtabs" id="journal-days" style="margin-top:12px"></div>
+    <div class="card" style="margin-top:12px">
+      <label for="journal-note">Notes for this day</label>
+      <textarea id="journal-note" placeholder="Meeting points, what worked, what to remember, favorite food, etc."></textarea>
+      <div class="btnbar">
+        <button class="btn primary" onclick="saveJournalNote()">Save note</button>
+      </div>
+      <hr class="sep" />
+      <label for="journal-photo">Add photo</label>
+      <input id="journal-photo" type="file" accept="image/*" />
+      <div class="footer-note">Photos are stored locally in this browser on this device. Keep them small for best results.</div>
+      <div class="btnbar">
+        <button class="btn green" onclick="saveJournalPhoto()">Save photo</button>
+      </div>
+      <div id="journal-photos" class="photo-grid"></div>
+    </div>
+  </section>
+
+  <section id="section-more" class="hidden">
+    <div class="section-title">More</div>
+    <div class="info-grid">
+      <div class="card">
+        <h3>Reminders</h3>
+        <p>You can schedule simple local reminders. They work best when this app is open or added to the home screen.</p>
+        <div class="form-grid" style="margin-top:10px">
+          <div><label for="rem-title">Reminder</label><input id="rem-title" type="text" placeholder="Leave for Castle Clinton" /></div>
+          <div><label for="rem-when">When</label><input id="rem-when" type="datetime-local" /></div>
+        </div>
+        <div class="btnbar">
+          <button class="btn primary" onclick="scheduleReminder()">Schedule</button>
+          <button class="btn ghost" onclick="requestNotificationPermission()">Enable notifications</button>
+        </div>
+        <div id="reminder-list" style="margin-top:10px"></div>
+      </div>
+
+      <div class="card">
+        <h3>Emergency + quick links</h3>
+        <table class="table">
+          <tr><th>Need</th><th>Quick action</th></tr>
+          <tr><td>NYC hotel</td><td><a class="smallbtn" href="https://maps.google.com/?q=Riu+Plaza+Manhattan+Times+Square" target="_blank" rel="noopener">Open in Maps</a></td></tr>
+          <tr><td>Galveston terminal</td><td><a class="smallbtn" href="https://maps.google.com/?q=Port+of+Galveston+Cruise+Terminal+Royal+Caribbean" target="_blank" rel="noopener">Open in Maps</a></td></tr>
+          <tr><td>Uber</td><td><a class="smallbtn" href="https://m.uber.com/ul/" target="_blank" rel="noopener">Open Uber</a></td></tr>
+          <tr><td>Royal Caribbean</td><td><a class="smallbtn" href="https://www.royalcaribbean.com/" target="_blank" rel="noopener">Website</a></td></tr>
+        </table>
+      </div>
+
+      <div class="card">
+        <h3>Backup your data</h3>
+        <p>Export your saved budget, packing, notes, photos, and reminders from this device as a JSON backup.</p>
+        <div class="btnbar">
+          <button class="btn primary" onclick="exportBackup()">Export backup</button>
+          <label class="btn ghost" for="import-backup">Import backup</label>
+          <input id="import-backup" type="file" accept="application/json" class="hidden" />
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<nav class="sticky-nav">
+  <div class="wrap">
+    <a href="#" class="navbtn active" id="nav-home" onclick="showSection('home');return false;">🏠<span>Home</span></a>
+    <a href="#" class="navbtn" id="nav-trips" onclick="showSection('trips');return false;">🧭<span>Trips</span></a>
+    <a href="#" class="navbtn" id="nav-packing" onclick="showSection('packing');return false;">🎒<span>Packing</span></a>
+    <a href="#" class="navbtn" id="nav-budget" onclick="showSection('budget');return false;">💵<span>Budget</span></a>
+    <a href="#" class="navbtn" id="nav-more" onclick="showSection('more');return false;">⚙️<span>More</span></a>
+  </div>
+</nav>
+
+<script>
+const STORAGE_KEY = 'hayes-travel-hub-v3';
+
+const data = {
+  nyc: [
+    {
+      title: 'Tuesday • Arrival + easy Midtown',
+      meta: ['Arrive JFK ~2:30 PM', 'Hotel ~4:30–5:00 PM', 'Light walking day'],
+      items: [
+        {time:'2:30–4:30', title:'Arrive JFK + head to Manhattan', detail:'AirTrain → Jamaica → E train → 42 St–Port Authority, then walk to Riu Plaza Manhattan Times Square.', links:[['Hotel','https://maps.google.com/?q=Riu+Plaza+Manhattan+Times+Square'],['E train info','https://maps.google.com/?q=42+St-Port+Authority+Bus+Terminal']]},
+        {time:'5:30–6:15', title:'Times Square', detail:'Stretch your legs and keep it simple after check-in.', links:[['Maps','https://maps.google.com/?q=Times+Square+NYC']]},
+        {time:'6:20–6:50', title:'Bryant Park', detail:'Short walk south for an easy family stop.', links:[['Maps','https://maps.google.com/?q=Bryant+Park+NYC']]},
+        {time:'7:00–7:30', title:'Rockefeller Center', detail:'Short evening loop before dinner.', links:[['Maps','https://maps.google.com/?q=Rockefeller+Center+NYC']]},
+        {time:'7:40–8:50', title:'Dinner • Carmine’s', detail:'Family-style, good first-night dinner near Times Square.', links:[['Maps','https://maps.google.com/?q=Carmine%27s+Italian+Restaurant+Times+Square']]}
+      ]
+    },
+    {
+      title: 'Wednesday • Brooklyn Bridge + Chinatown + Hamilton',
+      meta: ['Start at 9:00 AM', 'Hamilton at 7:00 PM', 'Hotel break built in'],
+      items: [
+        {time:'9:00–9:35', title:'Subway to Brooklyn Bridge–City Hall', detail:'Take the 4 or 5 downtown from Times Sq–42 St to Brooklyn Bridge–City Hall.', links:[['Station','https://maps.google.com/?q=Brooklyn+Bridge-City+Hall+station']]},
+        {time:'9:40–10:30', title:'Walk Brooklyn Bridge', detail:'Best done in the morning before it gets crowded.', links:[['Bridge','https://maps.google.com/?q=Brooklyn+Bridge']]},
+        {time:'10:30–11:20', title:'Brooklyn Bridge Park + DUMBO', detail:'Waterfront views and quick family photos.', links:[['Park','https://maps.google.com/?q=Brooklyn+Bridge+Park']]},
+        {time:'11:30–12:30', title:'Lunch • Juliana’s Pizza', detail:'Popular sit-down stop in DUMBO.', links:[['Maps','https://maps.google.com/?q=Juliana%27s+Pizza+Brooklyn']]},
+        {time:'1:00–2:15', title:'Chinatown walk', detail:'Canal Street, Columbus Park, and the neighborhood core.', links:[['Chinatown','https://maps.google.com/?q=Chinatown+Manhattan'],['Canal St','https://maps.google.com/?q=Canal+Street+Manhattan'],['Columbus Park','https://maps.google.com/?q=Columbus+Park+NYC']]},
+        {time:'2:15–2:45', title:'Snack • Nom Wah Tea Parlor', detail:'Great light stop before returning to Midtown.', links:[['Maps','https://maps.google.com/?q=Nom+Wah+Tea+Parlor']]},
+        {time:'3:15–5:15', title:'Back to hotel + recharge', detail:'Take N/Q/R/W from Canal St to 49 St and reset before the show.', links:[['49 St Station','https://maps.google.com/?q=49+St+subway+station+NYC']]},
+        {time:'5:30–6:30', title:'Dinner • Joe Allen', detail:'Comfortable pre-theater dinner.', links:[['Maps','https://maps.google.com/?q=Joe+Allen+Restaurant+NYC']]},
+        {time:'7:00–10:00', title:'Hamilton • Richard Rodgers Theatre', detail:'Broadway night.', links:[['Theatre','https://maps.google.com/?q=Richard+Rodgers+Theatre']]}
+      ]
+    },
+    {
+      title: 'Thursday • Statue of Liberty + 9/11 Memorial',
+      meta: ['Castle Clinton meet at 9:00 AM', 'Battery Park day', 'Keep morning flexible for ferry timing'],
+      items: [
+        {time:'8:00–8:40', title:'Subway to South Ferry', detail:'Take the 1 downtown from Times Sq–42 St to South Ferry, then walk to Battery Park.', links:[['South Ferry','https://maps.google.com/?q=South+Ferry+subway+station'],['Castle Clinton','https://maps.google.com/?q=Castle+Clinton+NYC']]},
+        {time:'9:00–12:00', title:'Meet at Castle Clinton + Statue of Liberty', detail:'Meet at the front entrance of Castle Clinton in Battery Park, then continue with your 9:00 AM Statue of Liberty visit.', links:[['Castle Clinton','https://maps.google.com/?q=Castle+Clinton+NYC'],['Battery Park','https://maps.google.com/?q=Battery+Park+NYC']]},
+        {time:'12:15–1:15', title:'Lunch • Fraunces Tavern', detail:'Historic Lower Manhattan lunch.', links:[['Maps','https://maps.google.com/?q=Fraunces+Tavern']]},
+        {time:'1:30–3:00', title:'9/11 Memorial', detail:'Easy walk from lunch.', links:[['Maps','https://maps.google.com/?q=9%2F11+Memorial']]},
+        {time:'3:00–4:00', title:'Optional • One World Observatory', detail:'Only if energy and lines look good.', links:[['Maps','https://maps.google.com/?q=One+World+Observatory']]},
+        {time:'6:00–7:00', title:'Dinner • Los Tacos No. 1', detail:'Return to Midtown first.', links:[['Maps','https://maps.google.com/?q=Los+Tacos+No.+1+Times+Square']]}
+      ]
+    },
+    {
+      title: 'Friday • Empire State + Harlem + Juneteenth',
+      meta: ['Start at 9:00 AM', 'Harlem focus', 'Juneteenth stops are flexible'],
+      items: [
+        {time:'9:00–9:25', title:'Subway to Herald Square', detail:'N/Q/R/W from 49 St to 34 St–Herald Square.', links:[['Station','https://maps.google.com/?q=34+St-Herald+Square+station']]},
+        {time:'9:30–11:00', title:'Empire State Building', detail:'Morning is best for shorter lines.', links:[['Maps','https://maps.google.com/?q=Empire+State+Building']]},
+        {time:'11:45–12:45', title:'Lunch • Katz’s Delicatessen', detail:'Classic deli lunch.', links:[['Maps','https://maps.google.com/?q=Katz%27s+Delicatessen']]},
+        {time:'1:15–2:45', title:'Harlem walk + Apollo Theater area', detail:'Take the A/B/D uptown toward 125th Street and explore the corridor.', links:[['Apollo','https://maps.google.com/?q=Apollo+Theater'],['125th St','https://maps.google.com/?q=125th+Street+Harlem']]},
+        {time:'2:45–4:30', title:'Juneteenth option • Studio Museum in Harlem Community Day', detail:'Easy Harlem Juneteenth stop on June 19. Keep this flexible around family energy.', links:[['Studio Museum','https://maps.google.com/?q=Studio+Museum+in+Harlem']]},
+        {time:'5:00–6:30', title:'Dinner • Sylvia’s', detail:'Strong Harlem dinner anchor.', links:[['Maps','https://maps.google.com/?q=Sylvia%27s+Restaurant+Harlem']]},
+        {time:'6:00–8:00', title:'Optional evening Juneteenth music • West Harlem Summer Jazz Festival', detail:'Only if you want to stay uptown later; otherwise head back after dinner.', links:[['Morningside Park area','https://maps.google.com/?q=Morningside+Park+NYC']]}
+      ]
+    },
+    {
+      title: 'Saturday • Central Park Zoo + departure',
+      meta: ['Flight ~2:30 PM', 'Leave Manhattan by ~11:30 AM', 'Keep morning tight'],
+      items: [
+        {time:'9:00–9:20', title:'Walk into Central Park', detail:'Easy hotel-area walk to the zoo.', links:[['Central Park Zoo','https://maps.google.com/?q=Central+Park+Zoo']]},
+        {time:'9:20–10:30', title:'Central Park Zoo', detail:'Short, easy final morning stop.', links:[['Maps','https://maps.google.com/?q=Central+Park+Zoo']]},
+        {time:'10:30–11:10', title:'Breakfast • Ess-a-Bagel', detail:'Grab breakfast and head back.', links:[['Maps','https://maps.google.com/?q=Ess-a-Bagel']]},
+        {time:'11:30–1:00', title:'Head to JFK', detail:'Walk to 42 St–Port Authority, take the E to Jamaica, then AirTrain to JFK.', links:[['JFK','https://maps.google.com/?q=JFK+Airport']]}
+      ]
+    }
+  ],
+  cruise: [
+    {
+      title: 'Sunday • Jul 12 • Drive to Galveston + embark',
+      meta: ['Same-day drive from San Antonio', 'Ship departs from Galveston', 'Target early arrival'],
+      items: [
+        {time:'5:30–9:30', title:'Drive San Antonio → Galveston', detail:'Aim to arrive in the Galveston area with extra buffer for traffic and port processing.', links:[['Galveston terminal','https://maps.google.com/?q=Port+of+Galveston+Cruise+Terminal+Royal+Caribbean']]},
+        {time:'10:30–12:30', title:'Terminal arrival + boarding', detail:'Boarding windows can vary. Keep passports/IDs, luggage tags, and boarding docs easy to reach.', links:[['Terminal','https://maps.google.com/?q=Port+of+Galveston+Cruise+Terminal+Royal+Caribbean']]},
+        {time:'1:00–3:00', title:'Lunch + explore ship', detail:'Take care of muster as soon as possible and settle into the ship.', links:[]},
+        {time:'~3:00 PM', title:'Sail away', detail:'Royal Caribbean lists Galveston departure for this sailing on July 12.', links:[]}
+      ]
+    },
+    {
+      title: 'Monday • Jul 13 • Sea Day',
+      meta: ['No port day', 'Good day for reservations + ship orientation'],
+      items: [
+        {time:'Morning', title:'Water slides, pool, ship highlights', detail:'Good day for family favorites and reservations.', links:[]},
+        {time:'Afternoon', title:'Mini golf / shows / open time', detail:'Use this day to learn the ship layout.', links:[]},
+        {time:'Evening', title:'Family dinner + tomorrow prep', detail:'Check Costa Maya plans in the app and aim for an easy night.', links:[]}
+      ]
+    },
+    {
+      title: 'Tuesday • Jul 14 • Puerto Costa Maya',
+      meta: ['Port day', 'Official itinerary includes Puerto Costa Maya', 'Back-to-ship buffer matters'],
+      items: [
+        {time:'11:59 AM–7:00 PM', title:'Puerto Costa Maya port window', detail:'Use the Royal Caribbean app onboard for exact all-aboard timing.', links:[['Costa Maya port area','https://maps.google.com/?q=Puerto+Costa+Maya+Cruise+Port']]},
+        {time:'Afternoon', title:'Beach club / easy port day', detail:'Choose a lower-stress beach or port exploration day.', links:[]},
+        {time:'By ~6:00 PM', title:'Back onboard buffer', detail:'Do not cut this close on port days.', links:[]}
+      ]
+    },
+    {
+      title: 'Wednesday • Jul 15 • Roatan • Snorkel Safari',
+      meta: ['Day 4', 'Roatan Snorkel Safari included', 'Roatan is known for reef snorkeling'],
+      items: [
+        {time:'7:00 AM–3:00 PM', title:'Roatan port window', detail:'Royal Caribbean’s itinerary shows Roatan on Day 4, and Roatan is especially known for snorkeling on the Mesoamerican Barrier Reef.', links:[['Roatan port','https://maps.google.com/?q=Mahogany+Bay+Cruise+Center+Roatan'],['Roatan overview','https://www.royalcaribbean.com/inspire/caribbean-roatan-honduras-shore-excursions']]},
+        {time:'Morning–early afternoon', title:'Roatan Snorkel Safari excursion', detail:'Keep swimwear, towels, reef-safe sun protection, and dry clothes ready the night before.', links:[]},
+        {time:'By ~2:00 PM', title:'Return-to-ship buffer', detail:'Give yourselves a healthy margin after the excursion.', links:[]}
+      ]
+    },
+    {
+      title: 'Thursday • Jul 16 • Cozumel',
+      meta: ['Port day', 'Good beach-club day', 'Simple family flow works best'],
+      items: [
+        {time:'7:00 AM–5:00 PM', title:'Cozumel port window', detail:'Great day for beach access or a relaxed beach club plan.', links:[['Cozumel port','https://maps.google.com/?q=Puerta+Maya+Cozumel']]},
+        {time:'Morning–afternoon', title:'Beach club / shopping / lunch', detail:'Keep this one simple if you want a lower-hassle day.', links:[]},
+        {time:'By ~4:00 PM', title:'Back onboard buffer', detail:'Build in extra time for taxis and pier walking.', links:[]}
+      ]
+    },
+    {
+      title: 'Friday • Jul 17 • Sea Day',
+      meta: ['Last full day', 'Good for packing and favorite repeats'],
+      items: [
+        {time:'Morning', title:'Relaxed ship time', detail:'Use your favorite activities and any missed ship stops.', links:[]},
+        {time:'Afternoon', title:'Pack most luggage', detail:'Avoid leaving all packing for late night.', links:[]},
+        {time:'Evening', title:'Farewell dinner + final photos', detail:'Good final family night.', links:[]}
+      ]
+    },
+    {
+      title: 'Saturday • Jul 18 • Return to Galveston',
+      meta: ['Arrive back in Galveston', 'Disembark + drive home'],
+      items: [
+        {time:'~7:00 AM', title:'Arrive in Galveston', detail:'Royal Caribbean’s itinerary shows Galveston arrival on July 18.', links:[['Terminal','https://maps.google.com/?q=Port+of+Galveston+Cruise+Terminal+Royal+Caribbean']]},
+        {time:'Morning', title:'Disembarkation', detail:'Keep passports/IDs and car details handy.', links:[]},
+        {time:'After port exit', title:'Drive back to San Antonio', detail:'Plan a food/rest stop before the long push home.', links:[['Home route','https://maps.google.com/?q=San+Antonio+TX']]}
+      ]
+    }
+  ]
+};
+
+const packing = {
+  shared:['Passports / IDs','Boarding confirmations','Phone chargers','Portable battery','Medications','Sunscreen','Reusable water bottles','Snorkel towels / beach bag'],
+  anthony:['Walking shoes','Dress shirt for dinner','Swim trunks','Hat','Sunglasses','Portable fan'],
+  wife:['Dinner outfit','Swimsuit cover-up','Comfortable sandals','Sun hat','Evening bag'],
+  kids:['Swimsuits','Change of clothes','Snacks','Headphones','Light jacket','Water shoes']
+};
+
+let state = loadState();
+let currentSection = 'home';
+let currentTrip = 'nyc';
+let currentJournalTrip = 'nyc';
+let currentJournalDay = 0;
+
+function defaultState(){
+  return {
+    packingChecked:{},
+    expenses:[],
+    journalNotes:{},
+    reminders:[]
+  };
+}
+
+function loadState(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    return raw ? {...defaultState(), ...JSON.parse(raw)} : defaultState();
+  }catch(e){
+    return defaultState();
+  }
+}
+
+function persist(){
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+}
+
+function showSection(name){
+  currentSection = name;
+  ['home','trips','packing','budget','more'].forEach(s=>{
+    document.getElementById(`section-${s}`).classList.toggle('hidden', s!==name);
+    document.getElementById(`nav-${s}`).classList.toggle('active', s===name);
+  });
+  if(name==='packing') renderPacking();
+  if(name==='budget'){ renderBudget(); renderJournal(); }
+  if(name==='trips') renderTripPanels();
+  if(name==='more') renderReminders();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function selectTrip(trip){
+  currentTrip = trip;
+  document.getElementById('triptab-nyc').classList.toggle('active', trip==='nyc');
+  document.getElementById('triptab-cruise').classList.toggle('active', trip==='cruise');
+  document.getElementById('trip-nyc').classList.toggle('hidden', trip!=='nyc');
+  document.getElementById('trip-cruise').classList.toggle('hidden', trip!=='cruise');
+  renderTripPanels();
+}
+
+function selectDay(trip, idx){
+  const prefix = trip==='nyc' ? 'daytab-nyc-' : 'daytab-cruise-';
+  const total = data[trip].length;
+  for(let i=0;i<total;i++){
+    document.getElementById(prefix+i).classList.toggle('active', i===idx);
+  }
+  renderDays(trip, idx);
+}
+
+function renderTripPanels(){
+  renderDays('nyc', getActiveIndex('nyc'));
+  renderDays('cruise', getActiveIndex('cruise'));
+}
+
+function getActiveIndex(trip){
+  const total = data[trip].length;
+  for(let i=0;i<total;i++){
+    const el = document.getElementById(`daytab-${trip}-${i}`);
+    if(el && el.classList.contains('active')) return i;
+  }
+  return 0;
+}
+
+function renderDays(trip, idx){
+  const day = data[trip][idx];
+  const mount = document.getElementById(`${trip}-days`);
+  mount.innerHTML = '';
+  const wrapper = document.createElement('div');
+  wrapper.className = 'day-card';
+  wrapper.innerHTML = `
+    <h3>${day.title}</h3>
+    <div class="meta">${day.meta.map(m=>`<span class="badge">${m}</span>`).join('')}</div>
+    <div class="timeline">
+      ${day.items.map(item=>`
+        <div class="item">
+          <div class="time">${item.time}</div>
+          <div>
+            <div class="title">${item.title}</div>
+            <div class="detail">${item.detail}</div>
+            ${item.links && item.links.length ? `<div class="actions">${item.links.map(l=>`<a class="smallbtn" target="_blank" rel="noopener" href="${l[1]}">${l[0]}</a>`).join('')}</div>`:''}
+          </div>
+        </div>`).join('')}
+    </div>
+  `;
+  mount.appendChild(wrapper);
+}
+
+function renderPacking(){
+  for(const key of Object.keys(packing)){
+    const el = document.getElementById(`pack-${key}`);
+    el.innerHTML = packing[key].map((item, idx)=>{
+      const id = `${key}-${idx}`;
+      const checked = !!state.packingChecked[id];
+      return `<label class="checkitem"><input type="checkbox" ${checked?'checked':''} onchange="togglePacking('${id}', this.checked)" /><span>${item}</span></label>`;
+    }).join('');
+  }
+}
+function togglePacking(id, checked){
+  state.packingChecked[id]=checked;
+  persist();
+}
+
+function currency(n){ return new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(Number(n||0)); }
+
+function addExpense(){
+  const trip = document.getElementById('exp-trip').value;
+  const date = document.getElementById('exp-date').value.trim();
+  const category = document.getElementById('exp-category').value;
+  const amount = parseFloat(document.getElementById('exp-amount').value || '0');
+  const note = document.getElementById('exp-note').value.trim();
+  if(!amount || amount<=0){ alert('Enter an amount greater than 0.'); return; }
+  state.expenses.unshift({id:Date.now(), trip, date, category, amount, note});
+  persist();
+  document.getElementById('exp-date').value='';
+  document.getElementById('exp-amount').value='';
+  document.getElementById('exp-note').value='';
+  renderBudget();
+}
+function deleteExpense(id){
+  state.expenses = state.expenses.filter(x=>x.id!==id);
+  persist(); renderBudget();
+}
+function renderBudget(){
+  const all = state.expenses.reduce((a,b)=>a+b.amount,0);
+  const nyc = state.expenses.filter(x=>x.trip==='NYC').reduce((a,b)=>a+b.amount,0);
+  const cruise = state.expenses.filter(x=>x.trip==='Cruise').reduce((a,b)=>a+b.amount,0);
+  document.getElementById('total-all').textContent = currency(all);
+  document.getElementById('total-nyc').textContent = currency(nyc);
+  document.getElementById('total-cruise').textContent = currency(cruise);
+
+  const wrap = document.getElementById('expense-table-wrap');
+  if(!state.expenses.length){
+    wrap.innerHTML = '<div class="empty">No expenses saved yet.</div>';
+    return;
+  }
+  wrap.innerHTML = `
+    <table class="table">
+      <thead><tr><th>Trip</th><th>Date</th><th>Category</th><th>Note</th><th class="right">Amount</th><th></th></tr></thead>
+      <tbody>
+      ${state.expenses.map(x=>`
+        <tr>
+          <td>${x.trip}</td><td>${x.date||'—'}</td><td>${x.category}</td><td>${escapeHtml(x.note||'')}</td>
+          <td class="right">${currency(x.amount)}</td>
+          <td><button class="smallbtn" onclick="deleteExpense(${x.id})">Delete</button></td>
+        </tr>`).join('')}
+      </tbody>
+    </table>`;
+}
+function exportExpenses(){
+  const rows = [['Trip','Date','Category','Amount','Note'], ...state.expenses.map(x=>[x.trip,x.date,x.category,x.amount,x.note])];
+  const csv = rows.map(r=>r.map(v=>`"${String(v??'').replace(/"/g,'""')}"`).join(',')).join('\n');
+  downloadBlob(csv, 'hayes-travel-expenses.csv', 'text/csv');
+}
+
+function selectJournalTrip(trip){
+  currentJournalTrip = trip;
+  currentJournalDay = 0;
+  document.getElementById('journal-trip-nyc').classList.toggle('active', trip==='nyc');
+  document.getElementById('journal-trip-cruise').classList.toggle('active', trip==='cruise');
+  renderJournal();
+}
+
+function renderJournal(){
+  const days = data[currentJournalTrip];
+  const tabs = document.getElementById('journal-days');
+  tabs.innerHTML = days.map((d,i)=>`<button class="tab ${i===currentJournalDay?'active':''}" onclick="selectJournalDay(${i})">${d.title.split('•')[0].trim()}</button>`).join('');
+  const key = journalKey();
+  document.getElementById('journal-note').value = state.journalNotes[key] || '';
+  loadJournalPhotos();
+}
+function selectJournalDay(i){ currentJournalDay = i; renderJournal(); }
+function journalKey(){ return `${currentJournalTrip}-${currentJournalDay}`; }
+function saveJournalNote(){
+  state.journalNotes[journalKey()] = document.getElementById('journal-note').value;
+  persist();
+  alert('Note saved.');
+}
+
+// IndexedDB for photos
+let dbPromise = null;
+function getDB(){
+  if(dbPromise) return dbPromise;
+  dbPromise = new Promise((resolve,reject)=>{
+    const req = indexedDB.open('hayesTravelHubDB',1);
+    req.onupgradeneeded = e => {
+      const db = e.target.result;
+      if(!db.objectStoreNames.contains('photos')){
+        const store = db.createObjectStore('photos',{keyPath:'id'});
+        store.createIndex('dayKey','dayKey',{unique:false});
+      }
+    };
+    req.onsuccess = ()=>resolve(req.result);
+    req.onerror = ()=>reject(req.error);
+  });
+  return dbPromise;
+}
+async function saveJournalPhoto(){
+  const input = document.getElementById('journal-photo');
+  const file = input.files && input.files[0];
+  if(!file){ alert('Choose a photo first.'); return; }
+  const resized = await fileToDataUrl(file, 1200, 0.82);
+  const db = await getDB();
+  const tx = db.transaction('photos','readwrite');
+  tx.objectStore('photos').add({id: Date.now()+Math.random(), dayKey: journalKey(), dataUrl: resized});
+  await txDone(tx);
+  input.value = '';
+  loadJournalPhotos();
+}
+async function loadJournalPhotos(){
+  const mount = document.getElementById('journal-photos');
+  mount.innerHTML = '';
+  const db = await getDB();
+  const tx = db.transaction('photos','readonly');
+  const store = tx.objectStore('photos').index('dayKey');
+  const req = store.getAll(journalKey());
+  const items = await reqToPromise(req);
+  if(!items.length){
+    mount.innerHTML = '<div class="empty" style="grid-column:1/-1">No photos saved for this day yet.</div>';
+    return;
+  }
+  mount.innerHTML = items.map(p=>`<div class="photo"><img src="${p.dataUrl}" alt="Saved trip photo"/><button onclick="deletePhoto(${p.id})">✕</button></div>`).join('');
+}
+async function deletePhoto(id){
+  const db = await getDB();
+  const tx = db.transaction('photos','readwrite');
+  tx.objectStore('photos').delete(id);
+  await txDone(tx);
+  loadJournalPhotos();
+}
+function fileToDataUrl(file, maxSide=1200, quality=.82){
+  return new Promise((resolve,reject)=>{
+    const reader = new FileReader();
+    reader.onload = () => {
+      const img = new Image();
+      img.onload = ()=>{
+        const scale = Math.min(1, maxSide / Math.max(img.width, img.height));
+        const canvas = document.createElement('canvas');
+        canvas.width = Math.round(img.width * scale);
+        canvas.height = Math.round(img.height * scale);
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img,0,0,canvas.width,canvas.height);
+        resolve(canvas.toDataURL('image/jpeg', quality));
+      };
+      img.onerror = reject;
+      img.src = reader.result;
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+function reqToPromise(req){
+  return new Promise((resolve,reject)=>{ req.onsuccess=()=>resolve(req.result); req.onerror=()=>reject(req.error); });
+}
+function txDone(tx){
+  return new Promise((resolve,reject)=>{ tx.oncomplete=()=>resolve(); tx.onerror=()=>reject(tx.error); tx.onabort=()=>reject(tx.error); });
+}
+
+function requestNotificationPermission(){
+  if(!('Notification' in window)){ alert('Notifications are not supported on this device/browser.'); return; }
+  Notification.requestPermission().then(p=>alert(`Notification permission: ${p}`));
+}
+function scheduleReminder(){
+  const title = document.getElementById('rem-title').value.trim();
+  const when = document.getElementById('rem-when').value;
+  if(!title || !when){ alert('Enter a reminder and a date/time.'); return; }
+  const entry = {id:Date.now(), title, when};
+  state.reminders.push(entry); persist(); renderReminders();
+  trySchedule(entry);
+  document.getElementById('rem-title').value=''; document.getElementById('rem-when').value='';
+}
+function trySchedule(entry){
+  const ms = new Date(entry.when).getTime() - Date.now();
+  if(ms <= 0 || ms > 2147483647) return; // only schedule what JS can handle now
+  setTimeout(()=>{
+    if('Notification' in window && Notification.permission === 'granted'){
+      new Notification(entry.title);
+    }else{
+      alert(entry.title);
+    }
+  }, ms);
+}
+function renderReminders(){
+  const wrap = document.getElementById('reminder-list');
+  if(!state.reminders.length){ wrap.innerHTML = '<div class="empty">No reminders saved.</div>'; return; }
+  wrap.innerHTML = state.reminders
+    .slice().sort((a,b)=>new Date(a.when)-new Date(b.when))
+    .map(r=>`<div class="checkitem"><div style="flex:1"><strong>${escapeHtml(r.title)}</strong><div class="detail">${new Date(r.when).toLocaleString()}</div></div><button class="smallbtn" onclick="deleteReminder(${r.id})">Delete</button></div>`).join('');
+}
+function deleteReminder(id){
+  state.reminders = state.reminders.filter(r=>r.id!==id); persist(); renderReminders();
+}
+
+async function exportBackup(){
+  const db = await getDB();
+  const tx = db.transaction('photos','readonly');
+  const photos = await reqToPromise(tx.objectStore('photos').getAll());
+  const backup = {...state, __photos: photos};
+  downloadBlob(JSON.stringify(backup,null,2), 'hayes-travel-hub-backup.json', 'application/json');
+}
+document.getElementById('import-backup').addEventListener('change', async (e)=>{
+  const file = e.target.files && e.target.files[0];
+  if(!file) return;
+  const text = await file.text();
+  const parsed = JSON.parse(text);
+  state = {...defaultState(), ...parsed};
+  delete state.__photos;
+  persist();
+  if(parsed.__photos){
+    const db = await getDB();
+    const tx = db.transaction('photos','readwrite');
+    const store = tx.objectStore('photos');
+    const clearReq = store.clear();
+    await reqToPromise(clearReq);
+    for(const p of parsed.__photos) store.put(p);
+    await txDone(tx);
+  }
+  renderPacking(); renderBudget(); renderJournal(); renderReminders();
+  alert('Backup imported.');
+});
+
+function downloadBlob(content, filename, type){
+  const blob = new Blob([content], {type});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = filename; a.click();
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+}
+function escapeHtml(str){
+  return String(str).replace(/[&<>"']/g, s=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[s]));
+}
+
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js').catch(()=>{});
+  });
+}
+
+showSection('home');
+renderPacking();
+renderBudget();
+renderTripPanels();
+renderJournal();
+renderReminders();
+state.reminders.forEach(trySchedule);
+</script>
+</body>
+</html>
