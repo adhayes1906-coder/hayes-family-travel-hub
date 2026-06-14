@@ -1,4 +1,5 @@
-const CACHE = 'hayes-travel-hub-v4-cache-1';
+const CACHE = 'hayes-travel-hub-v5-cache-1';
+
 const ASSETS = [
   './',
   './index.html',
@@ -19,7 +20,9 @@ self.addEventListener('install', event => {
 self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys()
-      .then(keys => Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k))))
+      .then(keys => Promise.all(
+        keys.filter(key => key !== CACHE).map(key => caches.delete(key))
+      ))
       .then(() => self.clients.claim())
   );
 });
@@ -29,11 +32,13 @@ self.addEventListener('fetch', event => {
 
   event.respondWith(
     caches.match(event.request).then(cached => {
-      return cached || fetch(event.request)
-        .then(resp => {
-          const copy = resp.clone();
+      if (cached) return cached;
+
+      return fetch(event.request)
+        .then(response => {
+          const copy = response.clone();
           caches.open(CACHE).then(cache => cache.put(event.request, copy));
-          return resp;
+          return response;
         })
         .catch(() => caches.match('./index.html'));
     })
