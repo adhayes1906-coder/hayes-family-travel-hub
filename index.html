@@ -9,7 +9,6 @@
     :root{
       --bg:#0f172a;
       --panel:#111827;
-      --panel2:#1f2937;
       --card:#0b1220;
       --text:#f8fafc;
       --muted:#cbd5e1;
@@ -19,22 +18,26 @@
       --green:#16a34a;
       --green2:#15803d;
       --ghost:#334155;
-      --danger:#dc2626;
       --gold:#f59e0b;
     }
+
     *{box-sizing:border-box}
+
     body{
       margin:0;
       font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
       background:linear-gradient(180deg,#0b1020,#111827 40%,#0b1020);
       color:var(--text);
     }
+
     .app{
       max-width:980px;
       margin:0 auto;
       padding:18px 16px 40px;
     }
+
     h1,h2,h3,p{margin:0}
+
     .hero{
       background:linear-gradient(135deg,#0f172a,#1e293b);
       border:1px solid var(--line);
@@ -42,22 +45,41 @@
       padding:22px 18px;
       box-shadow:0 10px 30px rgba(0,0,0,.25);
     }
-    .hero p{margin-top:10px;color:var(--muted);line-height:1.45}
+
+    .hero p{
+      margin-top:10px;
+      color:var(--muted);
+      line-height:1.45;
+    }
+
     .pillrow{
-      display:flex;flex-wrap:wrap;gap:8px;margin-top:14px
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-top:14px;
     }
+
     .pill{
-      background:#172033;border:1px solid var(--line);padding:8px 12px;
-      border-radius:999px;color:#dbeafe;font-size:14px
+      background:#172033;
+      border:1px solid var(--line);
+      padding:8px 12px;
+      border-radius:999px;
+      color:#dbeafe;
+      font-size:14px;
     }
+
     .section-title{
-      font-size:24px;font-weight:700;margin:18px 2px 12px
+      font-size:24px;
+      font-weight:700;
+      margin:18px 2px 12px;
     }
+
     .grid{
       display:grid;
       grid-template-columns:repeat(auto-fit,minmax(270px,1fr));
       gap:14px;
     }
+
     .card{
       background:linear-gradient(180deg,#111827,#0b1220);
       border:1px solid var(--line);
@@ -65,94 +87,219 @@
       padding:16px;
       box-shadow:0 8px 22px rgba(0,0,0,.22);
     }
-    .card p{color:var(--muted);line-height:1.45;margin-top:8px}
-    .btnbar{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+
+    .card p{
+      color:var(--muted);
+      line-height:1.45;
+      margin-top:8px;
+    }
+
+    .btnbar{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:14px;
+    }
+
     .btn,.tab{
-      appearance:none;border:none;cursor:pointer;text-decoration:none;
-      display:inline-flex;align-items:center;justify-content:center;
-      min-height:44px;padding:12px 14px;border-radius:12px;font-weight:600;
-      transition:.18s ease; color:#fff;
+      appearance:none;
+      border:none;
+      cursor:pointer;
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-height:44px;
+      padding:12px 14px;
+      border-radius:12px;
+      font-weight:600;
+      transition:.18s ease;
+      color:#fff;
       font:inherit;
     }
-    .btn:hover,.tab:hover{transform:translateY(-1px)}
+
+    .btn:hover,.tab:hover{
+      transform:translateY(-1px);
+    }
+
     .primary{background:linear-gradient(180deg,var(--primary),var(--primary2))}
     .green{background:linear-gradient(180deg,var(--green),var(--green2))}
     .ghost{background:var(--ghost)}
     .gold{background:linear-gradient(180deg,#f59e0b,#d97706)}
-    .danger{background:linear-gradient(180deg,#ef4444,#dc2626)}
     .full{width:100%}
+
     .section{display:none}
     .section.active{display:block}
-    .toolbar{
-      display:flex;flex-wrap:wrap;gap:10px;margin-top:16px
-    }
+
     .subtabs{
-      display:flex;flex-wrap:wrap;gap:8px;margin-top:14px
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-top:14px;
     }
+
     .tab{
-      background:#1f2937;border:1px solid #475569;color:#fff
+      background:#1f2937;
+      border:1px solid #475569;
+      color:#fff;
     }
+
     .tab.active{
       background:linear-gradient(180deg,#2563eb,#1d4ed8);
       border-color:#3b82f6;
     }
+
     .trip-panel{display:none}
     .trip-panel.active{display:block}
+
     .daypanel{display:none}
     .daypanel.active{display:block}
+
     .notice{
-      background:#172033;border:1px solid var(--line);border-left:4px solid var(--gold);
-      border-radius:14px;padding:12px 14px;color:#e5e7eb;line-height:1.45;margin:12px 0
+      background:#172033;
+      border:1px solid var(--line);
+      border-left:4px solid var(--gold);
+      border-radius:14px;
+      padding:12px 14px;
+      color:#e5e7eb;
+      line-height:1.45;
+      margin:12px 0;
     }
+
     .timeline{
-      display:grid;gap:10px;margin-top:14px
+      display:grid;
+      gap:10px;
+      margin-top:14px;
     }
+
     .stop{
-      background:#0f172a;border:1px solid var(--line);border-radius:16px;padding:14px
+      background:#0f172a;
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:14px;
     }
+
     .time{
-      color:#93c5fd;font-weight:700;font-size:14px;margin-bottom:6px
+      color:#93c5fd;
+      font-weight:700;
+      font-size:14px;
+      margin-bottom:6px;
     }
-    .stop h3{font-size:18px}
-    .detail{color:var(--muted);margin-top:6px;line-height:1.45}
-    .links{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+
+    .stop h3{
+      font-size:18px;
+    }
+
+    .detail{
+      color:var(--muted);
+      margin-top:6px;
+      line-height:1.45;
+    }
+
+    .links{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-top:10px;
+    }
+
     .linkbtn{
-      text-decoration:none;background:#1f2937;color:#fff;border:1px solid #475569;
-      border-radius:10px;padding:9px 12px;font-size:14px;font-weight:600
+      text-decoration:none;
+      background:#1f2937;
+      color:#fff;
+      border:1px solid #475569;
+      border-radius:10px;
+      padding:9px 12px;
+      font-size:14px;
+      font-weight:600;
     }
+
     .map-card img{
-      width:100%;display:block;border-radius:16px;border:1px solid var(--line)
+      width:100%;
+      display:block;
+      border-radius:16px;
+      border:1px solid var(--line);
     }
+
     .list{
-      display:grid;gap:10px;margin-top:12px
+      display:grid;
+      gap:10px;
+      margin-top:12px;
     }
+
     .checkitem,.budgetrow{
-      display:flex;gap:10px;align-items:center;justify-content:space-between;
-      background:#0f172a;border:1px solid var(--line);border-radius:14px;padding:12px
+      display:flex;
+      gap:10px;
+      align-items:center;
+      justify-content:space-between;
+      background:#0f172a;
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:12px;
     }
-    .checkitem label{display:flex;gap:10px;align-items:center;flex:1}
+
+    .checkitem label{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      flex:1;
+    }
+
     .smallbtn{
-      border:none;background:#334155;color:#fff;padding:8px 10px;border-radius:10px;cursor:pointer
+      border:none;
+      background:#334155;
+      color:#fff;
+      padding:8px 10px;
+      border-radius:10px;
+      cursor:pointer;
+      font:inherit;
     }
+
     .budgetform{
-      display:grid;gap:10px;background:#0f172a;border:1px solid var(--line);
-      border-radius:16px;padding:14px;margin-top:12px
+      display:grid;
+      gap:10px;
+      background:#0f172a;
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:14px;
+      margin-top:12px;
     }
+
     input,select{
-      width:100%;padding:12px 12px;border-radius:12px;border:1px solid #475569;
-      background:#111827;color:#fff;font:inherit
+      width:100%;
+      padding:12px 12px;
+      border-radius:12px;
+      border:1px solid #475569;
+      background:#111827;
+      color:#fff;
+      font:inherit;
     }
+
     .muted{color:var(--muted)}
+
     .spacer{height:6px}
+
     .total{
-      margin-top:12px;font-size:18px;font-weight:700;color:#bbf7d0
+      margin-top:12px;
+      font-size:18px;
+      font-weight:700;
+      color:#bbf7d0;
     }
+
     .topnav{
-      position:sticky;top:0;z-index:5;margin-bottom:14px;
-      background:rgba(11,16,32,.88);backdrop-filter:blur(8px);
-      border:1px solid var(--line);border-radius:16px;padding:10px;
+      position:sticky;
+      top:0;
+      z-index:5;
+      margin-bottom:14px;
+      background:rgba(11,16,32,.88);
+      backdrop-filter:blur(8px);
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:10px;
     }
+
     .topnav .btnbar{margin-top:0}
+
     .activity-badge{
       display:inline-block;
       background:#312e81;
@@ -164,6 +311,7 @@
       font-weight:700;
       margin-top:8px;
     }
+
     @media (max-width:640px){
       .section-title{font-size:22px}
     }
@@ -183,12 +331,12 @@
 
     <div class="hero">
       <h1>Hayes Family Travel Hub</h1>
-      <p>Reusable family trip app for NYC and your July cruise. This version includes the cruise itinerary, onboard activities from your screenshots, the NYC subway guide, packing, and budget tracking.</p>
+      <p>Reusable family trip app for NYC and your July cruise. This version restores the app and uses separate packing lists for Anthony, Sarah, Lyric, Noble, and Sky.</p>
       <div class="pillrow">
         <div class="pill">Phone friendly</div>
         <div class="pill">NYC + Cruise</div>
-        <div class="pill">Onboard activities added</div>
-        <div class="pill">Saved packing</div>
+        <div class="pill">Person-by-person packing</div>
+        <div class="pill">Saved checkboxes</div>
         <div class="pill">Budget tracker</div>
       </div>
       <div class="btnbar">
@@ -212,7 +360,7 @@
 
         <div class="card">
           <h2>🚢 Cruise • Jul 12–18</h2>
-          <p>Drive to Galveston same day, then Symphony of the Seas to Costa Maya, Roatan, and Cozumel with your onboard shows added.</p>
+          <p>Drive to Galveston same day, then Symphony of the Seas to Costa Maya, Roatan, and Cozumel with onboard activities added.</p>
           <div class="btnbar">
             <button class="btn full green" onclick="showSection('trips'); selectTrip('cruise')">Open cruise</button>
           </div>
@@ -476,7 +624,7 @@
 
       <div id="trip-cruise" class="trip-panel">
         <div class="notice">
-          Royal Caribbean Symphony of the Seas • Jul 12–18, 2026 • Same-day drive from San Antonio to Galveston on embarkation day • Onboard activities from your screenshots are added to Days 1, 2, 3, and 6. :contentReference[oaicite:1]{index=1}
+          Symphony of the Seas • Jul 12–18 • Day 1 drive to Galveston and embark • Day 4 Roatan Snorkel Safari • Onboard activities from your screenshots are included on the correct days.
         </div>
 
         <div class="subtabs">
@@ -494,16 +642,18 @@
             <div class="stop">
               <div class="time">Morning</div>
               <h3>Drive San Antonio → Galveston</h3>
-              <div class="detail">Leave early enough for embarkation day. Cruise departs from Galveston. :contentReference[oaicite:2]{index=2}</div>
+              <div class="detail">Leave early enough for embarkation day.</div>
               <div class="links">
                 <a class="linkbtn" href="https://maps.google.com/?q=Galveston+Cruise+Terminal" target="_blank" rel="noopener">Cruise terminal</a>
               </div>
             </div>
+
             <div class="stop">
               <div class="time">Late morning / afternoon</div>
               <h3>Embarkation + sail away</h3>
-              <div class="detail">Board Symphony of the Seas, complete muster, explore the ship, and enjoy sail away from Galveston. :contentReference[oaicite:3]{index=3}</div>
+              <div class="detail">Board Symphony of the Seas, settle in, and enjoy sail away.</div>
             </div>
+
             <div class="stop">
               <div class="time">10:00 PM (50 min)</div>
               <h3>1977</h3>
@@ -518,8 +668,9 @@
             <div class="stop">
               <div class="time">Sea day</div>
               <h3>Relaxing day onboard</h3>
-              <div class="detail">Pool time, slides, food, and ship activities.</div>
+              <div class="detail">Pool time, slides, ship activities, and dinner.</div>
             </div>
+
             <div class="stop">
               <div class="time">3:30 PM (1 hr 30 min)</div>
               <h3>Hairspray: The Broadway Musical</h3>
@@ -533,9 +684,10 @@
           <div class="timeline">
             <div class="stop">
               <div class="time">Port day</div>
-              <h3>Puerto Costa Maya, Mexico</h3>
-              <div class="detail">Beach club or port exploration day. This sailing includes Puerto Costa Maya. :contentReference[oaicite:4]{index=4}</div>
+              <h3>Puerto Costa Maya</h3>
+              <div class="detail">Beach club or port exploration day.</div>
             </div>
+
             <div class="stop">
               <div class="time">10:00 PM (50 min)</div>
               <h3>HiRO</h3>
@@ -549,13 +701,14 @@
           <div class="timeline">
             <div class="stop">
               <div class="time">Port day</div>
-              <h3>Roatan, Honduras</h3>
-              <div class="detail">Official port call for this sailing. :contentReference[oaicite:5]{index=5}</div>
+              <h3>Roatan</h3>
+              <div class="detail">Roatan day with your planned excursion.</div>
             </div>
+
             <div class="stop">
               <div class="time">Excursion</div>
               <h3>Roatan Snorkel Safari</h3>
-              <div class="detail">Locked Day 4 excursion. Roatán is known for snorkeling on the barrier reef. :contentReference[oaicite:6]{index=6}</div>
+              <div class="detail">Locked Day 4 excursion.</div>
             </div>
           </div>
         </div>
@@ -564,8 +717,8 @@
           <div class="timeline">
             <div class="stop">
               <div class="time">Port day</div>
-              <h3>Cozumel, Mexico</h3>
-              <div class="detail">Beach club, relaxing, or shopping day. This sailing includes Cozumel. :contentReference[oaicite:7]{index=7}</div>
+              <h3>Cozumel</h3>
+              <div class="detail">Beach club, relaxing, or shopping day.</div>
             </div>
           </div>
         </div>
@@ -575,8 +728,9 @@
             <div class="stop">
               <div class="time">Sea day</div>
               <h3>Final sea day</h3>
-              <div class="detail">Relax, enjoy the ship, and start packing up.</div>
+              <div class="detail">Relax, enjoy the ship, and start packing.</div>
             </div>
+
             <div class="stop">
               <div class="time">10:15 PM (45 min)</div>
               <h3>Comedy Show starring Royal Comedians</h3>
@@ -591,7 +745,7 @@
             <div class="stop">
               <div class="time">Morning</div>
               <h3>Return to Galveston</h3>
-              <div class="detail">Disembark and drive back to San Antonio. The official itinerary returns to Galveston. :contentReference[oaicite:8]{index=8}</div>
+              <div class="detail">Disembark and drive back to San Antonio.</div>
             </div>
           </div>
         </div>
@@ -600,7 +754,16 @@
 
     <section id="section-packing" class="section">
       <div class="section-title">Packing lists</div>
-      <div class="notice">These checkboxes save on this device.</div>
+      <div class="notice">Each person has a separate saved checklist on this device.</div>
+
+      <div class="subtabs">
+        <button class="tab active" id="packtab-Anthony" onclick="selectPackingPerson('Anthony')">Anthony</button>
+        <button class="tab" id="packtab-Sarah" onclick="selectPackingPerson('Sarah')">Sarah</button>
+        <button class="tab" id="packtab-Lyric" onclick="selectPackingPerson('Lyric')">Lyric</button>
+        <button class="tab" id="packtab-Noble" onclick="selectPackingPerson('Noble')">Noble</button>
+        <button class="tab" id="packtab-Sky" onclick="selectPackingPerson('Sky')">Sky</button>
+      </div>
+
       <div id="packing-list" class="list"></div>
     </section>
 
@@ -623,28 +786,68 @@
   </div>
 
   <script>
-    const PACKING_ITEMS = [
-      'IDs / passports',
-      'Boarding passes / confirmations',
-      'Phone chargers',
-      'Portable battery',
-      'Medications',
-      'Walking shoes',
-      'Dress clothes',
-      'Swimsuits',
-      'Sunscreen',
-      'Snorkel gear / water shoes',
-      'Toiletries',
-      'Kids essentials'
-    ];
+    const PACKING_BY_PERSON = {
+      Anthony: [
+        'ID / passport',
+        'Phone charger',
+        'Walking shoes',
+        'Dinner outfit',
+        'Swim trunks',
+        'Sunscreen',
+        'Toiletries',
+        'Medications'
+      ],
+      Sarah: [
+        'ID / passport',
+        'Phone charger',
+        'Walking shoes',
+        'Dinner outfit',
+        'Swimsuit',
+        'Sunscreen',
+        'Toiletries',
+        'Light sweater'
+      ],
+      Lyric: [
+        'ID / passport',
+        'Phone charger',
+        'Walking shoes',
+        'Dinner outfit',
+        'Swimsuit',
+        'Sunscreen',
+        'Eczema cream',
+        'Toiletries'
+      ],
+      Noble: [
+        'ID / passport',
+        'Phone charger',
+        'Walking shoes',
+        'Swimsuit',
+        'Sunscreen',
+        'Foot powder',
+        'Toiletries',
+        'Casual outfits'
+      ],
+      Sky: [
+        'ID / passport',
+        'Phone charger',
+        'Walking shoes',
+        'Swimsuit',
+        'Sunscreen',
+        'Doo rag',
+        'Toiletries',
+        'Pajamas'
+      ]
+    };
+
+    let activePackingPerson = 'Anthony';
 
     const state = {
-      packing: JSON.parse(localStorage.getItem('hayes-packing') || '{}'),
+      packing: JSON.parse(localStorage.getItem('hayes-packing-by-person') || '{}'),
       budget: JSON.parse(localStorage.getItem('hayes-budget') || '[]')
     };
 
     function savePacking(){
-      localStorage.setItem('hayes-packing', JSON.stringify(state.packing));
+      localStorage.setItem('hayes-packing-by-person', JSON.stringify(state.packing));
     }
 
     function saveBudget(){
@@ -673,14 +876,25 @@
       document.getElementById(`daytab-${trip}-${idx}`).classList.add('active');
     }
 
+    function selectPackingPerson(person){
+      activePackingPerson = person;
+      document.querySelectorAll('[id^="packtab-"]').forEach(t => t.classList.remove('active'));
+      document.getElementById('packtab-' + person).classList.add('active');
+      renderPacking();
+      showSection('packing');
+    }
+
     function renderPacking(){
       const wrap = document.getElementById('packing-list');
-      wrap.innerHTML = PACKING_ITEMS.map((item, i) => {
-        const checked = state.packing[i] ? 'checked' : '';
+      const items = PACKING_BY_PERSON[activePackingPerson] || [];
+      const saved = state.packing[activePackingPerson] || {};
+
+      wrap.innerHTML = items.map((item, i) => {
+        const checked = saved[i] ? 'checked' : '';
         return `
           <div class="checkitem">
             <label>
-              <input type="checkbox" ${checked} onchange="togglePacking(${i}, this.checked)">
+              <input type="checkbox" ${checked} onchange="togglePacking('${activePackingPerson}', ${i}, this.checked)">
               <span>${item}</span>
             </label>
           </div>
@@ -688,19 +902,23 @@
       }).join('');
     }
 
-    function togglePacking(i, checked){
-      state.packing[i] = checked;
+    function togglePacking(person, i, checked){
+      if(!state.packing[person]) state.packing[person] = {};
+      state.packing[person][i] = checked;
       savePacking();
     }
 
     function renderBudget(){
       const wrap = document.getElementById('budget-list');
+
       if(!state.budget.length){
         wrap.innerHTML = '<div class="card"><p class="muted">No expenses added yet.</p></div>';
         document.getElementById('budget-total').textContent = '$0.00';
         return;
       }
+
       let total = 0;
+
       wrap.innerHTML = state.budget.map((row, i) => {
         total += Number(row.amount || 0);
         return `
@@ -714,6 +932,7 @@
           </div>
         `;
       }).join('');
+
       document.getElementById('budget-total').textContent = 'Total: $' + total.toFixed(2);
     }
 
@@ -721,23 +940,31 @@
       const desc = document.getElementById('budget-desc').value.trim();
       const trip = document.getElementById('budget-trip').value;
       const amount = parseFloat(document.getElementById('budget-amount').value);
+
       if(!desc || isNaN(amount)) return;
+
       state.budget.push({desc, trip, amount});
       saveBudget();
+
       document.getElementById('budget-desc').value = '';
       document.getElementById('budget-amount').value = '';
+
       renderBudget();
     }
 
     function deleteBudget(i){
-      state.budget.splice(i,1);
+      state.budget.splice(i, 1);
       saveBudget();
       renderBudget();
     }
 
     function escapeHtml(str){
       return String(str).replace(/[&<>"']/g, s => ({
-        '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+        '&':'&amp;',
+        '<':'&lt;',
+        '>':'&gt;',
+        '"':'&quot;',
+        "'":'&#39;'
       }[s]));
     }
 
