@@ -157,7 +157,7 @@ hr.sep{border:none;border-top:1px solid var(--border);margin:18px 0}
         <p>Times Square hotel, Hamilton, Statue of Liberty, Chinatown, Harlem, zoo, and Juneteenth stops.</p>
        <div class="btnbar">
   <button class="btn full primary" onclick="showSection('trips'); selectTrip('nyc')">Open NYC</button>
-  <a class="btn full ghost" href="./nyc_family_trip_subway_guide.png.png" target="_blank" rel="noopener">Subway Map</a>
+  <button class="btn full ghost" onclick="showSection('subway')">Subway Map</button>
 </div> 
       </div>
       <div class="card">
@@ -177,6 +177,23 @@ hr.sep{border:none;border-top:1px solid var(--border);margin:18px 0}
       </div>
     </div>
     <p class="footer-note">Tip: after you host this, open it on each phone and use “Add to Home Screen” for an app-like experience.</p>
+    <section id="section-subway" style="display:none">
+  <div class="section-title">NYC Subway Map</div>
+  <p>NYC Family Trip subway guide with major lines and destinations.</p>
+
+  <div class="card">
+    <img
+      src="./nyc_family_trip_subway_guide.png.png"
+      alt="NYC Family Trip Subway Guide"
+      style="width:100%; max-width:900px; display:block; margin:16px auto; border-radius:16px;"
+    >
+  </div>
+
+  <div class="btnbar">
+    <button class="btn full primary" onclick="showSection('home')">Back to Home</button>
+    <button class="btn full ghost" onclick="showSection('trips'); selectTrip('nyc')">Back to NYC Trip</button>
+  </div>
+</section>
   </section>
 
   <section id="section-trips" class="hidden">
