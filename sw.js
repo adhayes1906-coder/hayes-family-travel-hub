@@ -1,10 +1,11 @@
-const CACHE = 'hayes-travel-hub-v3-cache-2';
+const CACHE = 'hayes-travel-hub-v3-cache-4';
 const ASSETS = [
   './',
   './index.html',
   './manifest.json',
   './icon-192.png',
-  './icon-512.png'
+  './icon-512.png',
+  './nyc_family_trip_subway_guide.png.png'
 ];
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(ASSETS)));
