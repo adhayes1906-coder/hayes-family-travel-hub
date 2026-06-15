@@ -19,6 +19,8 @@
       --green2:#15803d;
       --ghost:#334155;
       --gold:#f59e0b;
+      --purple:#7c3aed;
+      --purple2:#6d28d9;
     }
 
     *{box-sizing:border-box}
@@ -31,7 +33,7 @@
     }
 
     .app{
-      max-width:980px;
+      max-width:1100px;
       margin:0 auto;
       padding:18px 16px 40px;
     }
@@ -126,6 +128,7 @@
     .green{background:linear-gradient(180deg,var(--green),var(--green2))}
     .ghost{background:var(--ghost)}
     .gold{background:linear-gradient(180deg,#f59e0b,#d97706)}
+    .purple{background:linear-gradient(180deg,var(--purple),var(--purple2))}
     .full{width:100%}
 
     .section{display:none}
@@ -221,6 +224,54 @@
       border:1px solid var(--line);
     }
 
+    .cruise-map-shell{
+      background:linear-gradient(180deg,#111827,#0b1220);
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:16px;
+      margin-top:12px;
+    }
+
+    .cruise-map-grid{
+      display:grid;
+      grid-template-columns:1.3fr .8fr;
+      gap:14px;
+      align-items:start;
+    }
+
+    .route-card{
+      background:#0f172a;
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:10px;
+      overflow:hidden;
+    }
+
+    .route-list{
+      background:#0f172a;
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:14px;
+    }
+
+    .route-list ol{
+      margin:0;
+      padding-left:18px;
+      color:var(--muted);
+      line-height:1.7;
+    }
+
+    .route-list strong{
+      color:#fff;
+    }
+
+    .route-note{
+      margin-top:10px;
+      color:var(--muted);
+      line-height:1.45;
+      font-size:14px;
+    }
+
     .list{
       display:grid;
       gap:10px;
@@ -306,7 +357,6 @@
     }
 
     .muted{color:var(--muted)}
-
     .spacer{height:6px}
 
     .total{
@@ -358,6 +408,12 @@
       }
     }
 
+    @media (max-width:900px){
+      .cruise-map-grid{
+        grid-template-columns:1fr;
+      }
+    }
+
     @media (max-width:640px){
       .section-title{font-size:22px}
     }
@@ -377,13 +433,13 @@
 
     <div class="hero">
       <h1>Hayes Family Travel Hub</h1>
-      <p>Reusable family trip app for NYC and your July cruise. This version restores the app and uses separate packing lists for Anthony, Sarah, Lyric, Noble, and Sky.</p>
+      <p>Reusable family trip app for NYC and your July cruise. This version adds a cruise route map screen along with the NYC subway map, person-by-person packing lists, and saved budget tracking.</p>
       <div class="pillrow">
         <div class="pill">Phone friendly</div>
         <div class="pill">NYC + Cruise</div>
+        <div class="pill">Subway + Cruise maps</div>
         <div class="pill">Person-by-person packing</div>
         <div class="pill">Saved checkboxes</div>
-        <div class="pill">Budget tracker</div>
       </div>
       <div class="btnbar">
         <button class="btn primary" onclick="showSection('trips')">Open trips</button>
@@ -406,9 +462,10 @@
 
         <div class="card">
           <h2>🚢 Cruise • Jul 12–18</h2>
-          <p>Drive to Galveston same day, then Symphony of the Seas to Costa Maya, Roatan, and Cozumel with onboard activities added.</p>
+          <p>Drive to Galveston same day, then Symphony of the Seas to Costa Maya, Roatan, and Cozumel with a cruise route map and onboard activities.</p>
           <div class="btnbar">
             <button class="btn full green" onclick="showSection('trips'); selectTrip('cruise')">Open cruise</button>
+            <button class="btn full purple" onclick="showSection('cruise-map')">Cruise Map</button>
           </div>
         </div>
       </div>
@@ -423,6 +480,87 @@
       <div class="btnbar">
         <button class="btn primary" onclick="showSection('home')">Back to Home</button>
         <button class="btn ghost" onclick="showSection('trips'); selectTrip('nyc')">Back to NYC Trip</button>
+      </div>
+    </section>
+
+    <section id="section-cruise-map" class="section">
+      <div class="section-title">Cruise Route Map</div>
+      <div class="notice">6-night Western Caribbean route: Galveston → Sea Day → Costa Maya → Roatan → Cozumel → Sea Day → Galveston.</div>
+
+      <div class="cruise-map-shell">
+        <div class="cruise-map-grid">
+          <div class="route-card">
+            <svg viewBox="0 0 900 560" width="100%" role="img" aria-label="Cruise route map from Galveston to Costa Maya, Roatan, Cozumel and back">
+              <defs>
+                <linearGradient id="seaGrad" x1="0" x2="0" y1="0" y2="1">
+                  <stop offset="0%" stop-color="#0f4c81"/>
+                  <stop offset="100%" stop-color="#08325a"/>
+                </linearGradient>
+                <linearGradient id="landGrad" x1="0" x2="0" y1="0" y2="1">
+                  <stop offset="0%" stop-color="#6aa96b"/>
+                  <stop offset="100%" stop-color="#3b6f3d"/>
+                </linearGradient>
+                <marker id="arrow" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                  <path d="M 0 0 L 10 5 L 0 10 z" fill="#ffffff"></path>
+                </marker>
+              </defs>
+
+              <rect x="0" y="0" width="900" height="560" rx="18" fill="url(#seaGrad)"></rect>
+
+              <path d="M0,0 L220,0 L250,40 L220,85 L210,140 L155,175 L135,225 L85,260 L40,245 L0,210 Z" fill="url(#landGrad)" opacity="0.95"></path>
+              <path d="M820,235 L900,245 L900,325 L835,330 L780,305 L742,270 Z" fill="url(#landGrad)" opacity="0.95"></path>
+              <path d="M395,310 L470,305 L530,335 L520,382 L430,390 L365,355 Z" fill="url(#landGrad)" opacity="0.95"></path>
+              <path d="M540,395 L650,390 L705,415 L680,452 L560,448 L520,425 Z" fill="url(#landGrad)" opacity="0.95"></path>
+
+              <text x="410" y="115" fill="#dbeafe" font-size="28" font-style="italic" opacity="0.7">GULF OF MEXICO</text>
+              <text x="615" y="490" fill="#dbeafe" font-size="26" font-style="italic" opacity="0.7">CARIBBEAN SEA</text>
+
+              <path d="M190,105 C255,180 335,250 430,330" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-dasharray="14 10" marker-end="url(#arrow)"></path>
+              <path d="M445,334 C505,356 555,392 595,415" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-dasharray="14 10" marker-end="url(#arrow)"></path>
+              <path d="M600,405 C562,390 528,390 505,402" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-dasharray="14 10" marker-end="url(#arrow)"></path>
+              <path d="M500,395 C505,360 495,345 490,342" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-dasharray="14 10" marker-end="url(#arrow)"></path>
+              <path d="M500,338 C420,300 325,230 250,160" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-dasharray="14 10" marker-end="url(#arrow)"></path>
+
+              <circle cx="185" cy="102" r="10" fill="#ffffff"></circle>
+              <circle cx="430" cy="332" r="10" fill="#ffffff"></circle>
+              <circle cx="500" cy="402" r="10" fill="#ffffff"></circle>
+              <circle cx="595" cy="415" r="10" fill="#ffffff"></circle>
+
+              <text x="130" y="70" fill="#ffffff" font-size="34" font-weight="700">GALVESTON</text>
+              <text x="135" y="102" fill="#ffffff" font-size="24">Texas, USA</text>
+
+              <text x="338" y="300" fill="#ffffff" font-size="34" font-weight="700">COSTA MAYA</text>
+              <text x="358" y="332" fill="#ffffff" font-size="24">Mexico</text>
+
+              <text x="455" y="450" fill="#ffffff" font-size="34" font-weight="700">ROATAN</text>
+              <text x="455" y="482" fill="#ffffff" font-size="24">Honduras</text>
+
+              <text x="620" y="405" fill="#ffffff" font-size="34" font-weight="700">COZUMEL</text>
+              <text x="642" y="437" fill="#ffffff" font-size="24">Mexico</text>
+            </svg>
+          </div>
+
+          <div class="route-list">
+            <h3>Cruise itinerary</h3>
+            <ol>
+              <li><strong>Day 1:</strong> Galveston, USA</li>
+              <li><strong>Day 2:</strong> At Sea</li>
+              <li><strong>Day 3:</strong> Costa Maya, Mexico</li>
+              <li><strong>Day 4:</strong> Roatan, Honduras</li>
+              <li><strong>Day 5:</strong> Cozumel, Mexico</li>
+              <li><strong>Day 6:</strong> At Sea</li>
+              <li><strong>Day 7:</strong> Galveston, USA</li>
+            </ol>
+            <div class="route-note">
+              Tap back below to return to the cruise itinerary in the app. Roatan remains your locked Snorkel Safari day.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="btnbar">
+        <button class="btn primary" onclick="showSection('home')">Back to Home</button>
+        <button class="btn ghost" onclick="showSection('trips'); selectTrip('cruise')">Back to Cruise Trip</button>
       </div>
     </section>
 
@@ -670,7 +808,11 @@
 
       <div id="trip-cruise" class="trip-panel">
         <div class="notice">
-          Symphony of the Seas • Jul 12–18 • Day 1 drive to Galveston and embark • Day 4 Roatan Snorkel Safari • Onboard activities from your screenshots are included on the correct days.
+          Symphony of the Seas • Jul 12–18 • Day 1 drive to Galveston and embark • Day 4 Roatan Snorkel Safari • Cruise route map added inside the app.
+        </div>
+
+        <div class="btnbar">
+          <button class="btn purple" onclick="showSection('cruise-map')">Open Cruise Map</button>
         </div>
 
         <div class="subtabs">
