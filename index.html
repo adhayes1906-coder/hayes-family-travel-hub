@@ -2,106 +2,227 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>SHIELD Travel System</title>
+<title>Travel Hub</title>
 
 <style>
-body{margin:0;font-family:-apple-system;background:#000;color:#0f0;text-align:center}
-button{width:90%;padding:16px;margin:10px;border:none;border-radius:12px;background:#0f0;color:#000;font-size:18px}
-#hud{margin-top:20px;font-size:20px}
+body{margin:0;font-family:-apple-system;background:#0f172a;color:#fff}
+
+.tabs{display:flex}
+.tab{flex:1;padding:14px;background:#1e293b;border:none;color:#fff}
+.active-tab{background:#2563eb}
+
+.section{display:none;padding:16px}
+.active{display:block}
+
+.card{background:#1e293b;padding:16px;border-radius:14px;margin-bottom:14px}
+.notice{background:#334155;padding:12px;border-radius:10px;margin-top:10px}
+
+button{width:100%;padding:14px;margin-top:10px;border:none;border-radius:10px;background:#2563eb;color:#fff}
+
+.toggle-on{background:#22c55e;color:#000}
+.toggle-off{background:#ef4444;color:#fff}
+
+select{width:100%;padding:10px;margin-top:10px;border-radius:10px}
 </style>
 </head>
 
 <body>
 
-<h2>🛰️ SHIELD Travel System</h2>
+<!-- TABS -->
+<div class="tabs">
+<button class="tab active-tab" onclick="showTab(event,'nyc')">NYC</button>
+<button class="tab" onclick="showTab(event,'cruise')">Cruise</button>
+</div>
 
-<button onclick="activate()">Activate SHIELD</button>
+<!-- NYC -->
+<div id="nyc" class="section active">
 
-<div id="hud">System Offline</div>
+<h2>NYC Trip</h2>
+
+<button id="toggleBtn" class="toggle-off" onclick="toggleSystem()">
+Activate SHIELD
+</button>
+
+<div id="status" class="notice">System OFF</div>
+
+<div id="daySelector" style="display:none;">
+<select onchange="changeDay(this.value)">
+<option value="1">Day 1 – Arrival</option>
+<option value="2" selected>Day 2 – Brooklyn</option>
+<option value="3">Day 3 – Statue</option>
+<option value="4">Day 4 – Harlem</option>
+<option value="5">Day 5 – Departure</option>
+</select>
+
+<button onclick="startDay()">▶ Start My Day</button>
+</div>
+
+<div id="steps"></div>
+
+<div id="content">
+
+<div class="card"><h3>Day 1 – Arrival</h3></div>
+<div class="card"><h3>Day 2 – Brooklyn Bridge + DUMBO + Hamilton</h3></div>
+<div class="card"><h3>Day 3 – Statue of Liberty + 9/11</h3></div>
+<div class="card"><h3>Day 4 – Harlem + Juneteenth</h3></div>
+<div class="card"><h3>Day 5 – Zoo + Departure</h3></div>
+
+</div>
+
+</div>
+
+<!-- CRUISE -->
+<div id="cruise" class="section">
+
+<h2>Cruise</h2>
+
+<div class="card">Day 1 – Drive + Board</div>
+<div class="card">Day 2 – Sea Day</div>
+<div class="card">Day 3 – Costa Maya</div>
+<div class="card">Day 4 – Roatan Snorkel Safari</div>
+<div class="card">Day 5 – Cozumel</div>
+<div class="card">Day 6 – Sea Day</div>
+<div class="card">Day 7 – Return</div>
+
+</div>
 
 <script>
 
-// SPEAK
+// SYSTEM STATE
+let systemOn = false;
+let currentDay = 2;
+let stepIndex = 0;
+
+// FULL NYC PLAN
+const days = {
+
+1: [
+  {text:"Arrive at hotel and check in"},
+  {text:"Walk to Times Square"},
+  {text:"Explore Times Square and dinner"}
+],
+
+2: [
+  {text:"Walk to Times Square subway entrance"},
+  {text:"Take 4 or 5 train Downtown toward Brooklyn"},
+  {text:"Exit at Brooklyn Bridge City Hall"},
+  {text:"Walk to Brooklyn Bridge entrance"},
+  {text:"Walk across Brooklyn Bridge"},
+  {text:"Explore DUMBO (photos, park, pizza)"},
+  {text:"Return to hotel"},
+  {text:"Walk to Hamilton Theater (7 PM)"}
+],
+
+3: [
+  {text:"Walk to Times Square subway"},
+  {text:"Take 1 train Downtown toward South Ferry"},
+  {text:"Exit at South Ferry"},
+  {text:"Walk to Battery Park"},
+  {text:"Statue of Liberty tour"},
+  {text:"Walk to 9/11 Memorial"},
+  {text:"Return to hotel"}
+],
+
+4: [
+  {text:"Walk to Empire State Building"},
+  {text:"Visit Empire State Building"},
+  {text:"Walk to subway"},
+  {text:"Take A/B/C/D Uptown"},
+  {text:"Exit at 125 St Harlem"},
+  {text:"Walk to Juneteenth Festival"},
+  {text:"Dinner at Sylvia’s"},
+  {text:"Return to hotel"}
+],
+
+5: [
+  {text:"Walk to Central Park Zoo"},
+  {text:"Visit zoo"},
+  {text:"Return to hotel and pack"},
+  {text:"Take E train to Jamaica"},
+  {text:"AirTrain to JFK"}
+]
+
+};
+
+// TOGGLE SYSTEM
+function toggleSystem(){
+  systemOn = !systemOn;
+
+  const btn = document.getElementById("toggleBtn");
+  const status = document.getElementById("status");
+  const selector = document.getElementById("daySelector");
+
+  if(systemOn){
+    btn.innerText = "Deactivate SHIELD";
+    btn.className = "toggle-on";
+    status.innerText = "System ACTIVE";
+    selector.style.display = "block";
+    speak("Shield activated");
+  } else {
+    btn.innerText = "Activate SHIELD";
+    btn.className = "toggle-off";
+    status.innerText = "System OFF";
+    selector.style.display = "none";
+    document.getElementById("steps").innerHTML = "";
+  }
+}
+
+// CHANGE DAY
+function changeDay(day){
+  currentDay = parseInt(day);
+  stepIndex = 0;
+  document.getElementById("steps").innerHTML = "";
+}
+
+// START DAY
+function startDay(){
+  stepIndex = 0;
+  showStep();
+}
+
+// SHOW STEP
+function showStep(){
+  let steps = days[currentDay];
+
+  if(stepIndex >= steps.length){
+    document.getElementById("steps").innerHTML =
+      "<div class='card'>Day Complete 🎉</div>";
+    speak("Day complete");
+    return;
+  }
+
+  let s = steps[stepIndex];
+
+  document.getElementById("steps").innerHTML = `
+    <div class="card">
+      <h3>Step ${stepIndex+1}</h3>
+      <p>${s.text}</p>
+      <button onclick="nextStep()">Next →</button>
+    </div>
+  `;
+
+  speak(s.text);
+}
+
+// NEXT STEP
+function nextStep(){
+  stepIndex++;
+  showStep();
+}
+
+// VOICE
 function speak(text){
+  if(!systemOn) return;
   let msg = new SpeechSynthesisUtterance(text);
   speechSynthesis.speak(msg);
 }
 
-// STATE
-let step = 0;
-
-// YOUR NYC PLAN WITH LOGIC
-const steps = [
-  {text:"Walk to subway on 42nd Street",type:"walk"},
-  {text:"Take 4 or 5 train downtown",type:"subway"},
-  {text:"Exit at Brooklyn Bridge",type:"exit"},
-  {text:"Walk bridge",type:"walk"},
-  {text:"Explore DUMBO",type:"activity"}
-];
-
-// ACTIVATE
-function activate(){
-  speak("Shield system online");
-  update();
-  track();
-  timeCheck();
-}
-
-// UPDATE STEP
-function update(){
-  if(step >= steps.length){
-    speak("Mission complete");
-    document.getElementById("hud").innerText="Complete";
-    return;
-  }
-
-  let s = steps[step];
-  document.getElementById("hud").innerText = s.text;
-
-  speak(s.text);
-
-  // SMART GUIDANCE
-  if(s.type === "subway"){
-    speak("Ensure you take a downtown train, not uptown");
-  }
-}
-
-// NEXT
-function next(){
-  step++;
-  update();
-}
-
-// LOCATION TRACKING
-function track(){
-  navigator.geolocation.watchPosition(pos=>{
-    let lat = pos.coords.latitude;
-
-    // SIMPLE MOVEMENT DETECTION
-    if(lat){
-      // simulate arrival trigger
-      if(Math.random() < 0.05){
-        speak("Arrived. Advancing.");
-        next();
-      }
-    }
-  });
-}
-
-// TIME-BASED ALERTS
-function timeCheck(){
-  setInterval(()=>{
-    let now = new Date();
-
-    let hours = now.getHours();
-    let mins = now.getMinutes();
-
-    // HAMILTON ALERT (example 6PM)
-    if(hours === 18 && mins === 0){
-      speak("You should leave now for Hamilton");
-    }
-
-  },60000);
+// TAB SWITCH
+function showTab(evt, id){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active-tab'));
+  document.getElementById(id).classList.add('active');
+  evt.target.classList.add('active-tab');
 }
 
 </script>
