@@ -2,255 +2,108 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Hayes Travel Hub</title>
+<title>SHIELD Travel System</title>
 
 <style>
-body{
-  margin:0;
-  font-family:-apple-system, Arial;
-  background:#0f172a;
-  color:#fff;
-}
-
-.section{display:none;padding:16px}
-.active{display:block}
-
-.card{
-  background:#1e293b;
-  padding:16px;
-  border-radius:16px;
-  margin-bottom:14px;
-}
-
-.notice{
-  background:#334155;
-  padding:12px;
-  border-radius:12px;
-  margin-top:10px;
-  font-size:14px;
-}
-
-button{
-  width:100%;
-  padding:14px;
-  margin-top:10px;
-  border:none;
-  border-radius:12px;
-  background:#2563eb;
-  color:#fff;
-  font-size:16px;
-}
-
-.secondary{background:#475569}
-
-.mapimg{
-  width:100%;
-  border-radius:14px;
-  margin-top:10px;
-}
+body{margin:0;font-family:-apple-system;background:#000;color:#0f0;text-align:center}
+button{width:90%;padding:16px;margin:10px;border:none;border-radius:12px;background:#0f0;color:#000;font-size:18px}
+#hud{margin-top:20px;font-size:20px}
 </style>
 </head>
 
 <body>
 
-<!-- HOME -->
-<div id="home" class="section active">
-<h2>Hayes Travel Hub</h2>
+<h2>🛰️ SHIELD Travel System</h2>
 
-<button onclick="show('nyc')">🗽 NYC Trip</button>
-<button onclick="show('cruise')">🚢 Cruise</button>
-<button onclick="show('subway')">🚇 Subway Map</button>
-<button onclick="show('cruise-map')">🗺️ Cruise Map</button>
-</div>
+<button onclick="activate()">Activate SHIELD</button>
 
-<!-- SUBWAY MAP -->
-<div id="subway" class="section">
-<h2>NYC Subway Guide</h2>
-<img src="nyc_family_trip_subway_guide.png.png" class="mapimg">
-<button onclick="show('home')" class="secondary">Back</button>
-</div>
-
-<!-- CRUISE MAP -->
-<div id="cruise-map" class="section">
-<h2>Cruise Route</h2>
-
-<img src="https://i.imgur.com/5KQZ8lR.png" class="mapimg">
-
-<div class="notice">
-Galveston → Costa Maya → Roatan → Cozumel → Galveston
-</div>
-
-<button onclick="show('home')" class="secondary">Back</button>
-</div>
-
-<!-- NYC TRIP -->
-<div id="nyc" class="section">
-<h2>NYC Trip</h2>
-
-<!-- DAY 1 -->
-<div id="nyc-day-0" class="card active">
-<h3>Arrival Day</h3>
-
-<div class="notice">
-🚶 Walk from hotel → 42nd Street  
-Look for SUBWAY sign (green globe lights)  
-⏱ 3–5 min
-</div>
-
-<div class="notice">
-🚇 Take E Train → 42 St Port Authority  
-</div>
-
-<a href="https://www.google.com/maps/dir/?api=1&destination=Times+Square-42+St+Station&travelmode=walking" target="_blank">
-<button>Start Walking</button></a>
-
-<button onclick="next('nyc',0)">Next Stop →</button>
-</div>
-
-<!-- DAY 2 -->
-<div id="nyc-day-1" class="card">
-<h3>Brooklyn Bridge + DUMBO</h3>
-
-<div class="notice">
-🚶 Walk → Times Square 42 St Station  
-Enter any subway entrance on 42nd St  
-⏱ 3–5 min
-</div>
-
-<div class="notice">
-🚇 Take 4 or 5 Train (Downtown)  
-Exit: Brooklyn Bridge City Hall  
-⏱ 15 min
-</div>
-
-<a href="https://www.google.com/maps/dir/?api=1&destination=Brooklyn+Bridge+City+Hall+Station&travelmode=transit" target="_blank">
-<button>Start Directions</button></a>
-
-<button onclick="next('nyc',1)">Next Stop →</button>
-</div>
-
-<!-- DAY 3 -->
-<div id="nyc-day-2" class="card">
-<h3>Statue of Liberty</h3>
-
-<div class="notice">
-🚶 Walk → Times Square Station  
-</div>
-
-<div class="notice">
-🚇 Take 1 Train (Downtown)  
-Exit: South Ferry  
-Walk to Battery Park  
-⏱ 20 min
-</div>
-
-<a href="https://www.google.com/maps/dir/?api=1&destination=Battery+Park+NYC&travelmode=transit" target="_blank">
-<button>Start Directions</button></a>
-
-<button onclick="next('nyc',2)">Next Stop →</button>
-</div>
-
-<!-- DAY 4 -->
-<div id="nyc-day-3" class="card">
-<h3>Empire + Harlem + Juneteenth</h3>
-
-<div class="notice">
-🚶 Walk → Times Square Station  
-</div>
-
-<div class="notice">
-🚇 Take N/Q/R/W → 34 St Herald Square  
-</div>
-
-<div class="notice">
-🚇 Take A/B/C/D → 125 St Harlem  
-Walk to Juneteenth Festival  
-⏱ 20 min
-</div>
-
-<a href="https://www.google.com/maps/dir/?api=1&destination=125+Street+Harlem&travelmode=transit" target="_blank">
-<button>Start Directions</button></a>
-
-<button onclick="next('nyc',3)">Next Stop →</button>
-</div>
-
-<!-- DAY 5 -->
-<div id="nyc-day-4" class="card">
-<h3>Zoo + Departure</h3>
-
-<div class="notice">
-🚶 Walk → Central Park Zoo  
-</div>
-
-<div class="notice">
-🚇 Take E Train → Jamaica Station  
-Transfer → AirTrain → JFK  
-⏱ 60 min
-</div>
-
-<a href="https://www.google.com/maps/dir/?api=1&destination=JFK+Airport&travelmode=transit" target="_blank">
-<button>Go to Airport</button></a>
-
-<button onclick="show('home')">Done ✔</button>
-</div>
-
-<button onclick="show('home')" class="secondary">Back</button>
-</div>
-
-<!-- CRUISE -->
-<div id="cruise" class="section">
-<h2>Cruise</h2>
-
-<div id="cruise-day-0" class="card active">
-<h3>Day 1</h3>
-<p>Drive to Galveston + Board Ship</p>
-<button onclick="next('cruise',0)">Next →</button>
-</div>
-
-<div id="cruise-day-1" class="card">
-<h3>Sea Day</h3>
-<button onclick="next('cruise',1)">Next →</button>
-</div>
-
-<div id="cruise-day-2" class="card">
-<h3>Costa Maya</h3>
-<button onclick="next('cruise',2)">Next →</button>
-</div>
-
-<div id="cruise-day-3" class="card">
-<h3>Roatan Snorkel Safari</h3>
-<button onclick="next('cruise',3)">Next →</button>
-</div>
-
-<div id="cruise-day-4" class="card">
-<h3>Cozumel</h3>
-<button onclick="next('cruise',4)">Next →</button>
-</div>
-
-<div id="cruise-day-5" class="card">
-<h3>Sea Day</h3>
-<button onclick="next('cruise',5)">Next →</button>
-</div>
-
-<div id="cruise-day-6" class="card">
-<h3>Return</h3>
-<button onclick="show('home')">Done ✔</button>
-</div>
-
-<button onclick="show('home')" class="secondary">Back</button>
-</div>
+<div id="hud">System Offline</div>
 
 <script>
-function show(id){
-  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
+
+// SPEAK
+function speak(text){
+  let msg = new SpeechSynthesisUtterance(text);
+  speechSynthesis.speak(msg);
 }
 
-function next(type,i){
-  document.getElementById(type+"-day-"+i).classList.remove('active');
-  let n=document.getElementById(type+"-day-"+(i+1));
-  if(n){n.classList.add('active')}
+// STATE
+let step = 0;
+
+// YOUR NYC PLAN WITH LOGIC
+const steps = [
+  {text:"Walk to subway on 42nd Street",type:"walk"},
+  {text:"Take 4 or 5 train downtown",type:"subway"},
+  {text:"Exit at Brooklyn Bridge",type:"exit"},
+  {text:"Walk bridge",type:"walk"},
+  {text:"Explore DUMBO",type:"activity"}
+];
+
+// ACTIVATE
+function activate(){
+  speak("Shield system online");
+  update();
+  track();
+  timeCheck();
 }
+
+// UPDATE STEP
+function update(){
+  if(step >= steps.length){
+    speak("Mission complete");
+    document.getElementById("hud").innerText="Complete";
+    return;
+  }
+
+  let s = steps[step];
+  document.getElementById("hud").innerText = s.text;
+
+  speak(s.text);
+
+  // SMART GUIDANCE
+  if(s.type === "subway"){
+    speak("Ensure you take a downtown train, not uptown");
+  }
+}
+
+// NEXT
+function next(){
+  step++;
+  update();
+}
+
+// LOCATION TRACKING
+function track(){
+  navigator.geolocation.watchPosition(pos=>{
+    let lat = pos.coords.latitude;
+
+    // SIMPLE MOVEMENT DETECTION
+    if(lat){
+      // simulate arrival trigger
+      if(Math.random() < 0.05){
+        speak("Arrived. Advancing.");
+        next();
+      }
+    }
+  });
+}
+
+// TIME-BASED ALERTS
+function timeCheck(){
+  setInterval(()=>{
+    let now = new Date();
+
+    let hours = now.getHours();
+    let mins = now.getMinutes();
+
+    // HAMILTON ALERT (example 6PM)
+    if(hours === 18 && mins === 0){
+      speak("You should leave now for Hamilton");
+    }
+
+  },60000);
+}
+
 </script>
 
 </body>
