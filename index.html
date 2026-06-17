@@ -1,1 +1,214 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NYC + Cruise Travel Hub</title>
 
+<style>
+body{margin:0;font-family:Arial;background:#0f172a;color:white}
+.section{display:none;padding:16px}
+.active{display:block}
+
+button{
+  width:100%;
+  padding:14px;
+  margin-top:10px;
+  border:none;
+  border-radius:10px;
+  background:#2563eb;
+  color:white;
+  font-size:16px;
+}
+
+.card{
+  background:#1e293b;
+  padding:14px;
+  border-radius:12px;
+  margin-bottom:12px;
+}
+
+.notice{
+  background:#334155;
+  padding:12px;
+  border-radius:10px;
+  margin-top:10px;
+  font-size:14px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- HOME -->
+<div id="home" class="section active">
+<h2>Family Travel Hub</h2>
+<button onclick="show('nyc')">NYC Trip</button>
+<button onclick="show('cruise')">Cruise</button>
+</div>
+
+<!-- NYC -->
+<div id="nyc" class="section">
+
+<h2>NYC Trip</h2>
+
+<!-- DAY 1 -->
+<div id="nyc-day-0" class="card active">
+<h3>Arrival</h3>
+
+<div class="notice">
+🚶 Walk: Exit hotel → walk to 42nd Street  
+Look for SUBWAY sign  
+</div>
+
+<div class="notice">
+🚇 Train: E Train → 42 St Port Authority  
+</div>
+
+<a href="https://www.google.com/maps/dir/?api=1&destination=Times+Square-42+St+Station&travelmode=walking" target="_blank">
+<button>Start Walking</button></a>
+
+<button onclick="next('nyc',0)">Next Stop →</button>
+</div>
+
+<!-- DAY 2 -->
+<div id="nyc-day-1" class="card">
+<h3>Brooklyn Bridge + DUMBO</h3>
+
+<div class="notice">
+🚶 Walk to Times Sq 42 St Station (~5 min)
+</div>
+
+<div class="notice">
+🚇 Take 4 or 5 Train (Downtown)  
+Exit: Brooklyn Bridge City Hall  
+</div>
+
+<a href="https://www.google.com/maps/dir/?api=1&destination=Brooklyn+Bridge+City+Hall+Station&travelmode=transit" target="_blank">
+<button>Start Subway Directions</button></a>
+
+<button onclick="next('nyc',1)">Next Stop →</button>
+</div>
+
+<!-- DAY 3 -->
+<div id="nyc-day-2" class="card">
+<h3>Statue of Liberty</h3>
+
+<div class="notice">
+🚶 Walk to Times Sq Station  
+</div>
+
+<div class="notice">
+🚇 Take 1 Train (Downtown)  
+Exit: South Ferry  
+Walk to Battery Park  
+</div>
+
+<a href="https://www.google.com/maps/dir/?api=1&destination=Battery+Park+NYC&travelmode=transit" target="_blank">
+<button>Start Directions</button></a>
+
+<button onclick="next('nyc',2)">Next Stop →</button>
+</div>
+
+<!-- DAY 4 -->
+<div id="nyc-day-3" class="card">
+<h3>Empire + Harlem + Juneteenth</h3>
+
+<div class="notice">
+🚶 Walk to Times Sq Station  
+</div>
+
+<div class="notice">
+🚇 Take N/Q/R/W → 34 St Herald Square  
+</div>
+
+<div class="notice">
+🚇 Take A/B/C/D → 125 St (Harlem)  
+</div>
+
+<a href="https://www.google.com/maps/dir/?api=1&destination=125+Street+Harlem+NYC&travelmode=transit" target="_blank">
+<button>Start Directions</button></a>
+
+<button onclick="next('nyc',3)">Next Stop →</button>
+</div>
+
+<!-- DAY 5 -->
+<div id="nyc-day-4" class="card">
+<h3>Zoo + Departure</h3>
+
+<div class="notice">
+🚶 Walk or short ride to Central Park Zoo  
+</div>
+
+<div class="notice">
+🚇 Take E Train → Jamaica Station  
+Transfer AirTrain → JFK  
+</div>
+
+<a href="https://www.google.com/maps/dir/?api=1&destination=JFK+Airport&travelmode=transit" target="_blank">
+<button>Go to Airport</button></a>
+
+<button onclick="show('home')">Done ✔</button>
+</div>
+
+<button onclick="show('home')">Back</button>
+</div>
+
+<!-- CRUISE -->
+<div id="cruise" class="section">
+
+<h2>Cruise</h2>
+
+<div id="cruise-day-0" class="card active">
+<h3>Day 1</h3>
+<p>Drive to Galveston + Board</p>
+<button onclick="next('cruise',0)">Next →</button>
+</div>
+
+<div id="cruise-day-1" class="card">
+<h3>Sea Day</h3>
+<button onclick="next('cruise',1)">Next →</button>
+</div>
+
+<div id="cruise-day-2" class="card">
+<h3>Costa Maya</h3>
+<button onclick="next('cruise',2)">Next →</button>
+</div>
+
+<div id="cruise-day-3" class="card">
+<h3>Roatan Snorkel Safari</h3>
+<button onclick="next('cruise',3)">Next →</button>
+</div>
+
+<div id="cruise-day-4" class="card">
+<h3>Cozumel</h3>
+<button onclick="next('cruise',4)">Next →</button>
+</div>
+
+<div id="cruise-day-5" class="card">
+<h3>Sea Day</h3>
+<button onclick="next('cruise',5)">Next →</button>
+</div>
+
+<div id="cruise-day-6" class="card">
+<h3>Return</h3>
+<button onclick="show('home')">Done ✔</button>
+</div>
+
+<button onclick="show('home')">Back</button>
+</div>
+
+<script>
+function show(id){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function next(type,i){
+  document.getElementById(type+"-day-"+i).classList.remove('active');
+  let n=document.getElementById(type+"-day-"+(i+1));
+  if(n){n.classList.add('active')}
+}
+</script>
+
+</body>
+</html>
