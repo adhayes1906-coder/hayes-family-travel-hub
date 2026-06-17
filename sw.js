@@ -1,17 +1,41 @@
-const CACHE="travel-hub-vFinal";
+const CACHE_NAME = "shield-mode-v1";
 
-self.addEventListener("install",e=>{
-  e.waitUntil(
-    caches.open(CACHE).then(c=>c.addAll([
-      "./",
-      "./index.html",
-      "./nyc_family_trip_subway_guide.png.png"
-    ]))
+// INSTALL (cache core files)
+self.addEventListener("install", (event) => {
+  self.skipWaiting();
+  event.waitUntil(
+    caches.open(CACHE_NAME).then((cache) => {
+      return cache.addAll([
+        "./",
+        "./index.html"
+      ]);
+    })
   );
 });
 
-self.addEventListener("fetch",e=>{
-  e.respondWith(
-    caches.match(e.request).then(r=>r||fetch(e.request))
+// ACTIVATE (clean old caches)
+self.addEventListener("activate", (event) => {
+  event.waitUntil(
+    caches.keys().then((keys) =>
+      Promise.all(
+        keys.map((key) => {
+          if (key !== CACHE_NAME) {
+            return caches.delete(key);
+          }
+        })
+      )
+    )
+  );
+  self.clients.claim();
+});
+
+// FETCH (network first, fallback to cache)
+self.addEventListener("fetch", (event) => {
+  event.respondWith(
+    fetch(event.request)
+      .then((response) => {
+        return response;
+      })
+      .catch(() => caches.match(event.request))
   );
 });
