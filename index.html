@@ -6,14 +6,52 @@
 
 <style>
 body{margin:0;font-family:-apple-system;background:#0f172a;color:#fff}
+
 .tabs{display:flex}
-.tab{flex:1;padding:14px;background:#1e293b;border:none;color:#fff}
+.tab{
+  flex:1;
+  padding:16px;
+  background:#1e293b;
+  border:none;
+  color:#fff;
+  font-size:16px;
+}
 .active-tab{background:#2563eb}
-.section{display:none;padding:16px}
+
+.section{display:none;padding:20px}
 .section.active{display:block}
-.subtabs button{margin:5px;padding:8px;border:none;border-radius:8px;background:#334155;color:white}
-.card{background:#1e293b;padding:14px;margin-bottom:10px;border-radius:10px}
-a{color:#38bdf8;display:block;margin-top:5px}
+
+.subtabs{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-bottom:15px;
+}
+
+.subtabs button{
+  flex:1 1 30%;
+  padding:12px;
+  border:none;
+  border-radius:12px;
+  background:#334155;
+  color:white;
+  font-size:14px;
+}
+
+.card{
+  background:#1e293b;
+  padding:16px;
+  margin-bottom:12px;
+  border-radius:14px;
+  line-height:1.4;
+}
+
+a{
+  color:#38bdf8;
+  display:block;
+  margin-top:6px;
+  font-size:14px;
+}
 </style>
 </head>
 
@@ -67,28 +105,28 @@ function showTab(evt,id){
 }
 
 function loadNYC(day){
-  let c = document.getElementById("nyc-content");
+  let c=document.getElementById("nyc-content");
 
   if(day==="map"){
     c.innerHTML=`<img src="https://upload.wikimedia.org/wikipedia/commons/8/89/NYC_subway-4D.svg" width="100%">`;
     return;
   }
 
-  render(DATA.NYC[day], c);
+  render(DATA.NYC[day],c);
 }
 
 function loadCruise(day){
-  let c = document.getElementById("cruise-content");
+  let c=document.getElementById("cruise-content");
 
   if(day==="map"){
     c.innerHTML=`<img src="https://www.royalcaribbean.com/content/dam/royal/resources/ports/maps/western-caribbean-map.jpg" width="100%">`;
     return;
   }
 
-  render(DATA.CRUISE[day], c);
+  render(DATA.CRUISE[day],c);
 }
 
-function render(text, container){
+function render(text,container){
   let lines=text.split("\n").filter(l=>l.trim()!="");
   let html="";
 
@@ -96,7 +134,7 @@ function render(text, container){
     if(line.startsWith("http")){
       html+=`<a href="${line}" target="_blank">Open Directions</a>`;
     } else {
-      html+=`<div class="card"><b>${line}</b></div>`;
+      html+=`<div class="card">${line}</div>`;
     }
   });
 
