@@ -1,774 +1,1401 @@
 <!DOCTYPE html>
+
 <html lang="en">
+
 <head>
+
   <meta charset="utf-8" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+
   <title>Team Hayes Travel App</title>
+
   <style>
+
     :root{
+
       --bg:#07111f;
-      --bg2:#0f172a;
+
       --panel:#111c31;
+
       --panel2:#182640;
+
       --text:#f8fafc;
+
       --muted:#bfd0e6;
+
       --line:rgba(255,255,255,.08);
+
       --blue:#3b82f6;
+
       --blue2:#2563eb;
-      --green:#22c55e;
-      --red:#ef4444;
-      --orange:#f97316;
-      --purple:#8b5cf6;
-      --yellow:#eab308;
+
       --shadow:0 14px 40px rgba(0,0,0,.28);
-      --radius:18px;
+
     }
 
     *{box-sizing:border-box}
 
     body{
+
       margin:0;
+
       font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+
       color:var(--text);
+
       background:
+
         radial-gradient(circle at top, #173257 0%, #0d1830 24%, #07111f 62%, #050b16 100%);
+
       min-height:100vh;
+
     }
 
     .app{
+
       max-width:1100px;
+
       margin:0 auto;
+
       padding:18px 16px 42px;
+
     }
 
     .hero{
+
       background:linear-gradient(145deg, rgba(37,99,235,.26), rgba(17,28,49,.92));
+
       border:1px solid var(--line);
+
       border-radius:24px;
+
       padding:22px 18px 18px;
+
       box-shadow:var(--shadow);
+
       margin-bottom:16px;
-      backdrop-filter:blur(8px);
+
     }
 
     .hero h1{
+
       margin:0 0 8px;
+
       font-size:30px;
+
       line-height:1.08;
+
     }
 
     .hero p{
+
       margin:0;
+
       color:var(--muted);
+
       line-height:1.45;
+
       font-size:15px;
+
       max-width:900px;
+
     }
 
     .pill-row{
+
       display:flex;
+
       flex-wrap:wrap;
+
       gap:8px;
+
       margin-top:14px;
+
     }
 
     .pill{
+
       padding:7px 11px;
+
       border-radius:999px;
+
       background:rgba(255,255,255,.07);
+
       border:1px solid rgba(255,255,255,.08);
+
       color:#dbeafe;
+
       font-size:12px;
+
       font-weight:700;
-      letter-spacing:.02em;
+
     }
 
-    .main-tabs,
-    .sub-tabs,
-    .mode-tabs{
+    .main-tabs,.sub-tabs,.mode-tabs{
+
       display:flex;
+
       flex-wrap:wrap;
+
       gap:10px;
+
     }
 
-    .main-tabs{
-      margin-bottom:14px;
-    }
+    .main-tabs{margin-bottom:14px}
 
-    .main-tab,
-    .sub-tab,
-    .mode-tab{
+    .main-tab,.sub-tab,.mode-tab{
+
       appearance:none;
+
       border:none;
+
       cursor:pointer;
+
       border-radius:14px;
+
       color:var(--text);
+
       font-weight:700;
+
       transition:.18s ease;
+
     }
 
     .main-tab{
+
       flex:1;
+
       min-width:150px;
+
       padding:14px 16px;
+
       background:linear-gradient(145deg, #1a2842, #10192c);
+
       border:1px solid var(--line);
+
       box-shadow:var(--shadow);
+
       font-size:15px;
+
     }
 
     .main-tab.active{
+
       background:linear-gradient(145deg, var(--blue), var(--blue2));
+
     }
 
     .sub-tab{
+
       padding:10px 12px;
+
       background:linear-gradient(145deg, #1a2842, #10192c);
+
       border:1px solid var(--line);
+
       font-size:13px;
+
       min-width:88px;
+
     }
 
     .sub-tab.active{
+
       background:linear-gradient(145deg, #2d4f86, #1d3f73);
+
     }
 
     .mode-tab{
+
       padding:10px 12px;
+
       background:#22304b;
+
       border:1px solid var(--line);
+
       font-size:13px;
+
       min-width:110px;
+
     }
 
     .mode-tab.active{
+
       background:linear-gradient(145deg, #2563eb, #1e40af);
+
     }
 
-    .panel{
-      display:none;
-    }
+    .panel{display:none}
 
-    .panel.active{
-      display:block;
-    }
+    .panel.active{display:block}
 
     .section-shell{
+
       background:linear-gradient(145deg, rgba(17,28,49,.95), rgba(9,16,30,.95));
+
       border:1px solid var(--line);
+
       border-radius:24px;
+
       box-shadow:var(--shadow);
+
       padding:16px;
+
     }
 
     .section-intro{
-      color:var(--muted);
-      margin:10px 0 16px;
-      line-height:1.45;
-      font-size:14px;
-    }
 
-    .nested-area{
-      margin-top:14px;
+      color:var(--muted);
+
+      margin:10px 0 16px;
+
+      line-height:1.45;
+
+      font-size:14px;
+
     }
 
     .card-grid{
+
       display:grid;
+
       grid-template-columns:repeat(auto-fit, minmax(250px, 1fr));
+
       gap:12px;
+
     }
 
     .card{
+
       background:linear-gradient(145deg, var(--panel), var(--panel2));
+
       border:1px solid var(--line);
+
       border-radius:18px;
+
       padding:15px;
+
       box-shadow:var(--shadow);
+
     }
 
-    .card h3,
-    .card h4{
+    .card h3{
+
       margin:0 0 8px;
+
     }
 
     .card p{
+
       margin:0;
+
       color:var(--muted);
+
       line-height:1.45;
+
       font-size:14px;
+
     }
 
     .time-badge{
+
       display:inline-block;
+
       margin-bottom:10px;
+
       padding:6px 10px;
+
       border-radius:999px;
+
       background:rgba(59,130,246,.16);
+
       border:1px solid rgba(59,130,246,.28);
+
       color:#dbeafe;
+
       font-size:12px;
+
       font-weight:800;
+
     }
 
     .button-row{
+
       display:flex;
+
       flex-wrap:wrap;
+
       gap:8px;
+
       margin-top:12px;
+
     }
 
     .btn-link{
+
       display:inline-flex;
+
       align-items:center;
+
       justify-content:center;
+
       min-height:40px;
+
       padding:10px 12px;
+
       border-radius:12px;
+
       text-decoration:none;
+
       font-weight:700;
+
       font-size:13px;
+
       border:1px solid transparent;
+
     }
 
     .btn-apple{
+
       background:linear-gradient(145deg, #0f1f35, #0a1423);
+
       border-color:#30486b;
+
       color:#fff;
+
     }
 
     .btn-site{
+
       background:linear-gradient(145deg, #2563eb, #1d4ed8);
+
       color:#fff;
+
     }
 
     .btn-soft{
+
       background:#22304b;
+
       color:#fff;
+
       border-color:#334155;
+
     }
 
     .legend{
+
       display:flex;
+
       flex-wrap:wrap;
+
       gap:8px;
+
       margin-bottom:14px;
+
     }
 
     .line-pill{
+
       display:inline-flex;
+
       align-items:center;
+
       gap:8px;
+
       padding:7px 10px;
+
       border-radius:999px;
+
       background:rgba(255,255,255,.06);
+
       border:1px solid var(--line);
+
       color:#fff;
+
       font-weight:800;
+
       font-size:12px;
+
     }
 
     .swatch{
+
       width:12px;
+
       height:12px;
+
       border-radius:999px;
+
       display:inline-block;
-      background:var(--swatch, #fff);
+
     }
 
     .route-list{
+
       display:grid;
+
       gap:12px;
+
     }
 
     .route-card{
+
       background:linear-gradient(145deg, var(--panel), var(--panel2));
+
       border:1px solid var(--line);
+
       border-radius:18px;
+
       padding:14px;
+
     }
 
     .route-title{
+
       margin:0 0 10px;
+
       font-size:16px;
+
       font-weight:800;
+
     }
 
     .route-strip{
+
       display:grid;
+
       grid-template-columns:auto 1fr auto 1fr auto;
+
       gap:10px;
+
       align-items:center;
+
       margin-top:10px;
+
     }
 
     .station{
+
       background:#0d1728;
+
       border:1px solid var(--line);
+
       padding:10px;
+
       border-radius:14px;
+
       font-size:13px;
+
       line-height:1.35;
+
     }
 
     .arrow{
+
       text-align:center;
+
       font-size:18px;
+
       color:#9fb9de;
+
     }
 
     .line-badge{
+
       display:inline-flex;
+
       align-items:center;
+
       justify-content:center;
+
       min-width:44px;
+
       padding:8px 10px;
+
       border-radius:999px;
+
       font-weight:900;
+
       font-size:13px;
+
       color:#fff;
+
     }
 
     .route-note{
+
       margin-top:10px;
+
       color:var(--muted);
+
       font-size:13px;
+
       line-height:1.4;
+
     }
 
     .map-shell{
+
       background:linear-gradient(145deg, var(--panel), var(--panel2));
+
       border:1px solid var(--line);
+
       border-radius:20px;
+
       padding:16px;
+
       box-shadow:var(--shadow);
+
+    }
+
+    .subway-map-placeholder{
+
+      border-radius:18px;
+
+      overflow:hidden;
+
+      border:1px solid var(--line);
+
+      background:
+
+        linear-gradient(180deg, rgba(15,23,42,.55), rgba(15,23,42,.75)),
+
+        radial-gradient(circle at top, #1d4ed8 0%, #0f172a 60%);
+
+      padding:18px;
+
+    }
+
+    .subway-map-legend{
+
+      display:grid;
+
+      grid-template-columns:repeat(auto-fit, minmax(180px, 1fr));
+
+      gap:10px;
+
+      margin-top:14px;
+
+    }
+
+    .subway-map-card{
+
+      background:#0d1728;
+
+      border:1px solid var(--line);
+
+      border-radius:14px;
+
+      padding:12px;
+
+    }
+
+    .subway-map-card h4{
+
+      margin:0 0 6px;
+
     }
 
     .cruise-route{
+
       display:grid;
+
       gap:12px;
+
       margin-top:12px;
+
     }
 
     .route-stop{
+
       display:grid;
+
       grid-template-columns:20px 1fr;
+
       gap:12px;
+
       align-items:start;
+
     }
 
     .route-dot{
+
       width:20px;
+
       height:20px;
+
       border-radius:999px;
+
       background:linear-gradient(145deg, #60a5fa, #2563eb);
+
       margin-top:2px;
+
       box-shadow:0 0 0 5px rgba(37,99,235,.12);
+
     }
 
     .route-stop-card{
+
       background:#10192c;
+
       border:1px solid var(--line);
+
       border-radius:16px;
+
       padding:12px;
+
     }
 
     .route-stop-card h4{
+
       margin:0 0 6px;
+
     }
 
     .muted{
+
       color:var(--muted);
+
       font-size:14px;
+
       line-height:1.45;
+
     }
 
     .empty{
+
       background:linear-gradient(145deg, var(--panel), var(--panel2));
+
       border:1px dashed var(--line);
+
       border-radius:18px;
+
       padding:18px;
+
       color:var(--muted);
+
       text-align:center;
+
     }
 
     @media (max-width:720px){
+
       .hero h1{font-size:26px}
-      .route-strip{
-        grid-template-columns:1fr;
-      }
-      .arrow{
-        transform:rotate(90deg);
-      }
+
+      .route-strip{grid-template-columns:1fr}
+
+      .arrow{transform:rotate(90deg)}
+
     }
+
   </style>
+
 </head>
+
 <body>
+
   <div class="app">
+
     <header class="hero">
+
       <h1 id="app-title"></h1>
+
       <p id="app-intro"></p>
+
       <div class="pill-row">
+
         <span class="pill">NYC day plans</span>
+
         <span class="pill">Cruise schedule</span>
+
         <span class="pill">Apple Maps links</span>
+
         <span class="pill">Activity websites</span>
+
         <span class="pill">Subway guide</span>
+
         <span class="pill">Cruise route map</span>
+
       </div>
+
     </header>
 
     <div class="main-tabs">
-      <button id="main-nyc" class="main-tab active" onclick="setMainTab('nyc')">NYC Trip</button>
-      <button id="main-cruise" class="main-tab" onclick="setMainTab('cruise')">Cruise</button>
+
+      <button id="main-nyc" class="main-tab active" type="button" onclick="setMainTab('nyc')">NYC Trip</button>
+
+      <button id="main-cruise" class="main-tab" type="button" onclick="setMainTab('cruise')">Cruise</button>
+
     </div>
 
     <section id="panel-nyc" class="panel active">
+
       <div class="section-shell">
+
         <div class="sub-tabs" id="nyc-subtabs"></div>
+
         <div id="nyc-view"></div>
+
       </div>
+
     </section>
 
     <section id="panel-cruise" class="panel">
+
       <div class="section-shell">
+
         <div class="sub-tabs" id="cruise-subtabs"></div>
+
         <div id="cruise-view"></div>
+
       </div>
+
     </section>
+
   </div>
 
   <script src="data.js"></script>
+
   <script>
+
     const state = {
+
       mainTab: "nyc",
+
       nycView: "overview",
+
       cruiseView: "overview",
+
       nycDayMode: "activities",
+
       cruiseDayMode: "activities"
+
     };
 
     function appleMaps(query){
+
       return "https://maps.apple.com/?daddr=" + encodeURIComponent(query);
+
     }
 
     function escapeHtml(str){
+
       return String(str)
+
         .replace(/&/g, "&amp;")
+
         .replace(/</g, "&lt;")
+
         .replace(/>/g, "&gt;")
+
         .replace(/"/g, "&quot;")
+
         .replace(/'/g, "&#39;");
+
+    }
+
+    function safeArray(value){
+
+      return Array.isArray(value) ? value : [];
+
     }
 
     function setMainTab(tab){
+
       state.mainTab = tab;
+
       document.getElementById("panel-nyc").classList.toggle("active", tab === "nyc");
+
       document.getElementById("panel-cruise").classList.toggle("active", tab === "cruise");
+
       document.getElementById("main-nyc").classList.toggle("active", tab === "nyc");
+
       document.getElementById("main-cruise").classList.toggle("active", tab === "cruise");
+
     }
 
     function setNYCView(view){
+
       state.nycView = view;
+
       renderNYC();
+
     }
 
     function setCruiseView(view){
+
       state.cruiseView = view;
+
       renderCruise();
+
     }
 
     function setNYCDayMode(mode){
+
       state.nycDayMode = mode;
+
       renderNYC();
+
     }
 
     function setCruiseDayMode(mode){
+
       state.cruiseDayMode = mode;
+
       renderCruise();
+
     }
 
-    function buildTabs(items, activeValue, handlerName){
-      return items.map(item => `
-        <button class="sub-tab ${activeValue === item.value ? "active" : ""}" onclick="${handlerName}('${item.value}')">
+    function buildTabs(items, activeValue, callbackName){
+
+      return safeArray(items).map(item => `
+
+        <button class="sub-tab ${activeValue === item.value ? "active" : ""}" type="button" onclick="${callbackName}('${item.value}')">
+
           ${escapeHtml(item.label)}
+
         </button>
+
       `).join("");
+
     }
 
-    function buildModeTabs(prefix, mode){
+    function buildModeTabs(kind, mode){
+
+      const alt = kind === "nyc" ? "subway" : "directions";
+
+      const fn = kind === "nyc" ? "setNYCDayMode" : "setCruiseDayMode";
+
       return `
-        <div class="mode-tabs" style="margin: 6px 0 14px;">
-          <button class="mode-tab ${mode === "activities" ? "active" : ""}" onclick="${prefix}('activities')">Activities</button>
-          <button class="mode-tab ${mode === "subway" || mode === "directions" ? "active" : ""}" onclick="${prefix}('${prefix === "setNYCDayMode" ? "subway" : "directions"}')">
-            ${prefix === "setNYCDayMode" ? "Subway" : "Directions"}
+
+        <div class="mode-tabs" style="margin:6px 0 14px;">
+
+          <button class="mode-tab ${mode === "activities" ? "active" : ""}" type="button" onclick="${fn}('activities')">Activities</button>
+
+          <button class="mode-tab ${mode === alt ? "active" : ""}" type="button" onclick="${fn}('${alt}')">
+
+            ${kind === "nyc" ? "Subway" : "Directions"}
+
           </button>
+
         </div>
+
       `;
+
     }
 
     function renderOverviewCards(items){
+
+      const rows = safeArray(items);
+
+      if(!rows.length) return `<div class="empty">No overview items listed yet.</div>`;
+
       return `
+
         <div class="card-grid">
-          ${items.map(item => `
+
+          ${rows.map(item => `
+
             <article class="card">
-              <h3>${escapeHtml(item.title)}</h3>
-              <p>${escapeHtml(item.text)}</p>
+
+              <h3>${escapeHtml(item.title || "")}</h3>
+
+              <p>${escapeHtml(item.text || "")}</p>
+
             </article>
+
           `).join("")}
+
         </div>
+
       `;
+
     }
 
     function renderActivityCards(items){
-      if(!items || !items.length){
-        return `<div class="empty">No activities listed yet.</div>`;
-      }
+
+      const rows = safeArray(items);
+
+      if(!rows.length) return `<div class="empty">No activities listed yet.</div>`;
 
       return `
+
         <div class="card-grid">
-          ${items.map(item => `
+
+          ${rows.map(item => `
+
             <article class="card">
+
               ${item.time ? `<div class="time-badge">${escapeHtml(item.time)}</div>` : ""}
-              <h3>${escapeHtml(item.title)}</h3>
+
+              <h3>${escapeHtml(item.title || "")}</h3>
+
               <p>${escapeHtml(item.description || "")}</p>
+
               <div class="button-row">
+
                 ${item.site ? `<a class="btn-link btn-site" href="${item.site}" target="_blank" rel="noopener">Website</a>` : ""}
+
                 ${item.map ? `<a class="btn-link btn-apple" href="${appleMaps(item.map)}">Apple Maps</a>` : ""}
+
               </div>
+
             </article>
+
           `).join("")}
+
         </div>
+
       `;
+
     }
 
     function renderNYCSubwayCards(items){
-      if(!items || !items.length){
-        return `<div class="empty">No subway details listed yet.</div>`;
-      }
 
-      return items.map(item => `
+      const rows = safeArray(items);
+
+      if(!rows.length) return `<div class="empty">No subway details listed yet.</div>`;
+
+      return rows.map(item => `
+
         <article class="route-card">
-          <h3 class="route-title">${escapeHtml(item.activity)}</h3>
+
+          <h3 class="route-title">${escapeHtml(item.activity || "")}</h3>
 
           <div class="route-strip">
+
             <div class="station">
+
               <strong>Start</strong><br>
-              ${escapeHtml(item.to.startStation)}
+
+              ${escapeHtml(item.to?.startStation || "")}
+
             </div>
+
             <div class="arrow">→</div>
-            <div class="line-badge" style="background:${item.to.color}">
-              ${escapeHtml(item.to.line)}
+
+            <div class="line-badge" style="background:${item.to?.color || '#2563eb'}">
+
+              ${escapeHtml(item.to?.line || "")}
+
             </div>
+
             <div class="arrow">→</div>
+
             <div class="station">
+
               <strong>Exit</strong><br>
-              ${escapeHtml(item.to.endStation)}
+
+              ${escapeHtml(item.to?.endStation || "")}
+
             </div>
+
           </div>
 
           <div class="route-note">
-            <strong>To activity:</strong> ${escapeHtml(item.to.direction)}. ${escapeHtml(item.to.notes || "")}
+
+            <strong>To activity:</strong> ${escapeHtml(item.to?.direction || "")}. ${escapeHtml(item.to?.notes || "")}
+
           </div>
 
           <div class="button-row">
-            ${item.to.startWalk ? `<a class="btn-link btn-apple" href="${appleMaps(item.to.startWalk)}">Walk to start station</a>` : ""}
-            ${item.to.finishWalk ? `<a class="btn-link btn-soft" href="${appleMaps(item.to.finishWalk)}">Walk from exit to activity</a>` : ""}
+
+            ${item.to?.startWalk ? `<a class="btn-link btn-apple" href="${appleMaps(item.to.startWalk)}">Walk to start station</a>` : ""}
+
+            ${item.to?.finishWalk ? `<a class="btn-link btn-soft" href="${appleMaps(item.to.finishWalk)}">Walk from exit to activity</a>` : ""}
+
           </div>
 
           <div class="route-strip" style="margin-top:16px;">
+
             <div class="station">
+
               <strong>Return start</strong><br>
-              ${escapeHtml(item.return.startStation)}
+
+              ${escapeHtml(item.return?.startStation || "")}
+
             </div>
+
             <div class="arrow">→</div>
-            <div class="line-badge" style="background:${item.return.color}">
-              ${escapeHtml(item.return.line)}
+
+            <div class="line-badge" style="background:${item.return?.color || '#2563eb'}">
+
+              ${escapeHtml(item.return?.line || "")}
+
             </div>
+
             <div class="arrow">→</div>
+
             <div class="station">
+
               <strong>Return end</strong><br>
-              ${escapeHtml(item.return.endStation)}
+
+              ${escapeHtml(item.return?.endStation || "")}
+
             </div>
+
           </div>
 
           <div class="route-note">
-            <strong>From activity:</strong> ${escapeHtml(item.return.direction)}. ${escapeHtml(item.return.notes || "")}
+
+            <strong>From activity:</strong> ${escapeHtml(item.return?.direction || "")}. ${escapeHtml(item.return?.notes || "")}
+
           </div>
 
           <div class="button-row">
-            ${item.return.startWalk ? `<a class="btn-link btn-apple" href="${appleMaps(item.return.startWalk)}">Walk to return station</a>` : ""}
-            ${item.return.finishWalk ? `<a class="btn-link btn-soft" href="${appleMaps(item.return.finishWalk)}">Walk from exit to next stop</a>` : ""}
+
+            ${item.return?.startWalk ? `<a class="btn-link btn-apple" href="${appleMaps(item.return.startWalk)}">Walk to return station</a>` : ""}
+
+            ${item.return?.finishWalk ? `<a class="btn-link btn-soft" href="${appleMaps(item.return.finishWalk)}">Walk from exit to next stop</a>` : ""}
+
           </div>
+
         </article>
+
       `).join("");
+
     }
 
     function renderCruiseDirectionsCards(items){
-      if(!items || !items.length){
-        return `<div class="empty">No direction details listed yet.</div>`;
-      }
+
+      const rows = safeArray(items);
+
+      if(!rows.length) return `<div class="empty">No direction details listed yet.</div>`;
 
       return `
+
         <div class="card-grid">
-          ${items.map(item => `
+
+          ${rows.map(item => `
+
             <article class="card">
-              <h3>${escapeHtml(item.activity)}</h3>
+
+              <h3>${escapeHtml(item.activity || "")}</h3>
+
               <p>${escapeHtml(item.description || "")}</p>
+
               <div class="button-row">
+
                 ${item.site ? `<a class="btn-link btn-site" href="${item.site}" target="_blank" rel="noopener">Website</a>` : ""}
+
                 ${item.map ? `<a class="btn-link btn-apple" href="${appleMaps(item.map)}">Apple Maps</a>` : ""}
+
               </div>
+
             </article>
+
           `).join("")}
+
         </div>
+
       `;
+
     }
 
     function renderSubwayGuide(){
-      const guide = APP_DATA.nyc.subwayGuide;
+
+      const guide = APP_DATA?.nyc?.subwayGuide || { intro:"", lines:[], routes:[] };
+
       return `
-        <div class="section-intro">${escapeHtml(guide.intro)}</div>
+
+        <div class="section-intro">${escapeHtml(guide.intro || "")}</div>
+
         <div class="legend">
-          ${guide.lines.map(line => `
+
+          ${safeArray(guide.lines).map(line => `
+
             <span class="line-pill">
-              <span class="swatch" style="--swatch:${line.color}"></span>
-              ${escapeHtml(line.label)}
+
+              <span class="swatch" style="background:${line.color || '#2563eb'}"></span>
+
+              ${escapeHtml(line.label || "")}
+
             </span>
+
           `).join("")}
+
         </div>
-        <div class="route-list">
-          ${guide.routes.map(route => `
+
+        <div class="map-shell">
+
+          <div class="subway-map-placeholder">
+
+            <h3 style="margin:0 0 10px;">Color-Coded NYC Subway Guide</h3>
+
+            <div class="muted">
+
+              This built-in guide highlights the exact train families used for your itinerary.
+
+            </div>
+
+            <div class="subway-map-legend">
+
+              ${safeArray(guide.routes).map(route => `
+
+                <div class="subway-map-card">
+
+                  <h4>${escapeHtml(route.activity || "")}</h4>
+
+                  <div class="line-pill" style="margin-bottom:8px;">
+
+                    <span class="swatch" style="background:${route.color || '#2563eb'}"></span>
+
+                    ${escapeHtml(route.line || "")}
+
+                  </div>
+
+                  <div class="muted">
+
+                    ${escapeHtml(route.from || "")} → ${escapeHtml(route.to || "")}
+
+                  </div>
+
+                </div>
+
+              `).join("")}
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="route-list" style="margin-top:14px;">
+
+          ${safeArray(guide.routes).map(route => `
+
             <article class="route-card">
-              <h3 class="route-title">${escapeHtml(route.activity)}</h3>
+
+              <h3 class="route-title">${escapeHtml(route.activity || "")}</h3>
+
               <div class="route-strip">
+
                 <div class="station">
+
                   <strong>From</strong><br>
-                  ${escapeHtml(route.from)}
+
+                  ${escapeHtml(route.from || "")}
+
                 </div>
+
                 <div class="arrow">→</div>
-                <div class="line-badge" style="background:${route.color}">
-                  ${escapeHtml(route.line)}
+
+                <div class="line-badge" style="background:${route.color || '#2563eb'}">
+
+                  ${escapeHtml(route.line || "")}
+
                 </div>
+
                 <div class="arrow">→</div>
+
                 <div class="station">
+
                   <strong>To</strong><br>
-                  ${escapeHtml(route.to)}
+
+                  ${escapeHtml(route.to || "")}
+
                 </div>
+
               </div>
-              <div class="route-note">${escapeHtml(route.note)}</div>
+
+              <div class="route-note">${escapeHtml(route.note || "")}</div>
+
             </article>
+
           `).join("")}
+
         </div>
+
       `;
+
     }
 
     function renderCruiseMap(){
-      const stops = APP_DATA.cruise.route;
+
+      const cruise = APP_DATA?.cruise || {};
+
+      const stops = safeArray(cruise.route);
+
       return `
-        <div class="section-intro">${escapeHtml(APP_DATA.cruise.routeIntro)}</div>
+
+        <div class="section-intro">${escapeHtml(cruise.routeIntro || "")}</div>
+
         <div class="map-shell">
+
           <div class="cruise-route">
+
             ${stops.map(stop => `
+
               <div class="route-stop">
+
                 <div class="route-dot"></div>
+
                 <div class="route-stop-card">
-                  <h4>${escapeHtml(stop.day)} · ${escapeHtml(stop.port)}</h4>
-                  <div class="muted">${escapeHtml(stop.note)}</div>
+
+                  <h4>${escapeHtml(stop.day || "")} · ${escapeHtml(stop.port || "")}</h4>
+
+                  <div class="muted">${escapeHtml(stop.note || "")}</div>
+
                 </div>
+
               </div>
+
             `).join("")}
+
           </div>
+
         </div>
+
       `;
+
     }
 
     function renderNYC(){
-      const subtabs = [
+
+      const nyc = APP_DATA?.nyc || { overview:{summary:"",cards:[]}, days:[] };
+
+      const tabs = [
+
         { value: "overview", label: "Overview" },
+
         { value: "subway", label: "Subway Guide" },
-        ...APP_DATA.nyc.days.map(day => ({ value: `day-${day.id}`, label: day.label }))
+
+        ...safeArray(nyc.days).map(day => ({ value: "day-" + day.id, label: day.label }))
+
       ];
 
-      document.getElementById("nyc-subtabs").innerHTML = buildTabs(subtabs, state.nycView, "setNYCView");
+      document.getElementById("nyc-subtabs").innerHTML = buildTabs(tabs, state.nycView, "setNYCView");
 
       const view = document.getElementById("nyc-view");
 
       if(state.nycView === "overview"){
+
         view.innerHTML = `
-          <div class="section-intro">${escapeHtml(APP_DATA.nyc.overview.summary)}</div>
-          ${renderOverviewCards(APP_DATA.nyc.overview.cards)}
+
+          <div class="section-intro">${escapeHtml(nyc.overview?.summary || "")}</div>
+
+          ${renderOverviewCards(nyc.overview?.cards)}
+
         `;
+
         return;
+
       }
 
       if(state.nycView === "subway"){
+
         view.innerHTML = renderSubwayGuide();
+
         return;
+
       }
 
       const dayId = state.nycView.replace("day-", "");
-      const day = APP_DATA.nyc.days.find(d => d.id === dayId);
+
+      const day = safeArray(nyc.days).find(d => d.id === dayId);
 
       if(!day){
+
         view.innerHTML = `<div class="empty">Day not found.</div>`;
+
         return;
+
       }
 
       view.innerHTML = `
-        <div class="section-intro"><strong>${escapeHtml(day.fullLabel)}</strong><br>${escapeHtml(day.summary)}</div>
-        ${buildModeTabs("setNYCDayMode", state.nycDayMode)}
+
+        <div class="section-intro"><strong>${escapeHtml(day.fullLabel || "")}</strong><br>${escapeHtml(day.summary || "")}</div>
+
+        ${buildModeTabs("nyc", state.nycDayMode)}
+
         ${state.nycDayMode === "activities" ? renderActivityCards(day.activities) : renderNYCSubwayCards(day.subway)}
+
       `;
+
     }
 
     function renderCruise(){
-      const subtabs = [
+
+      const cruise = APP_DATA?.cruise || { overview:{summary:"",cards:[]}, days:[] };
+
+      const tabs = [
+
         { value: "overview", label: "Overview" },
+
         { value: "map", label: "Cruise Map" },
-        ...APP_DATA.cruise.days.map(day => ({ value: `day-${day.id}`, label: day.label }))
+
+        ...safeArray(cruise.days).map(day => ({ value: "day-" + day.id, label: day.label }))
+
       ];
 
-      document.getElementById("cruise-subtabs").innerHTML = buildTabs(subtabs, state.cruiseView, "setCruiseView");
+      document.getElementById("cruise-subtabs").innerHTML = buildTabs(tabs, state.cruiseView, "setCruiseView");
 
       const view = document.getElementById("cruise-view");
 
       if(state.cruiseView === "overview"){
+
         view.innerHTML = `
-          <div class="section-intro">${escapeHtml(APP_DATA.cruise.overview.summary)}</div>
-          ${renderOverviewCards(APP_DATA.cruise.overview.cards)}
+
+          <div class="section-intro">${escapeHtml(cruise.overview?.summary || "")}</div>
+
+          ${renderOverviewCards(cruise.overview?.cards)}
+
         `;
+
         return;
+
       }
 
       if(state.cruiseView === "map"){
+
         view.innerHTML = renderCruiseMap();
+
         return;
+
       }
 
       const dayId = state.cruiseView.replace("day-", "");
-      const day = APP_DATA.cruise.days.find(d => d.id === dayId);
+
+      const day = safeArray(cruise.days).find(d => d.id === dayId);
 
       if(!day){
+
         view.innerHTML = `<div class="empty">Day not found.</div>`;
+
         return;
+
       }
 
       view.innerHTML = `
-        <div class="section-intro"><strong>${escapeHtml(day.fullLabel)}</strong><br>${escapeHtml(day.summary)}</div>
-        ${buildModeTabs("setCruiseDayMode", state.cruiseDayMode)}
+
+        <div class="section-intro"><strong>${escapeHtml(day.fullLabel || "")}</strong><br>${escapeHtml(day.summary || "")}</div>
+
+        ${buildModeTabs("cruise", state.cruiseDayMode)}
+
         ${state.cruiseDayMode === "activities" ? renderActivityCards(day.activities) : renderCruiseDirectionsCards(day.directions)}
+
       `;
+
     }
 
     function boot(){
-      document.getElementById("app-title").textContent = APP_DATA.app.title;
-      document.getElementById("app-intro").textContent = APP_DATA.app.intro;
+
+      document.getElementById("app-title").textContent = APP_DATA?.app?.title || "Team Hayes Travel App";
+
+      document.getElementById("app-intro").textContent = APP_DATA?.app?.intro || "";
+
       renderNYC();
+
       renderCruise();
+
     }
 
     boot();
+
   </script>
+
 </body>
+
 </html>
