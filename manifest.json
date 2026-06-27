@@ -4,9 +4,9 @@
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#08101f",
-  "theme_color": "#0f172a",
-  "description": "Reusable family travel planner for NYC, cruises, packing, and budget tracking.",
+  "background_color": "#f6f8fb",
+  "theme_color": "#103b54",
+  "description": "Hayes family cruise planner for the July 12-18, 2026 Symphony of the Seas sailing.",
   "icons": [
     {
       "src": "./icon-192.png",
