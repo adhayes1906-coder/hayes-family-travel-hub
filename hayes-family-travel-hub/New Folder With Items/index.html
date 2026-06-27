@@ -1,0 +1,1280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<meta name="theme-color" content="#103b54" />
+<title>Hayes Family Travel Hub</title>
+<link rel="manifest" href="manifest.json" />
+<style>
+:root{
+  --bg:#f6f8fb;
+  --surface:#ffffff;
+  --surface-2:#eef6f8;
+  --ink:#12202f;
+  --muted:#667085;
+  --line:#dce5ec;
+  --navy:#103b54;
+  --teal:#0b7f86;
+  --coral:#ee6c5a;
+  --gold:#f2b84b;
+  --green:#2f9d6a;
+  --violet:#7167d8;
+  --blue:#3d82cf;
+  --shadow:0 12px 28px rgba(16,59,84,.12);
+  --radius:8px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  background:
+    radial-gradient(circle at 12% 0%, rgba(238,108,90,.18), transparent 26rem),
+    radial-gradient(circle at 88% 6%, rgba(11,127,134,.18), transparent 24rem),
+    var(--bg);
+  color:var(--ink);
+  font-family:Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+}
+button,input{font:inherit}
+button{cursor:pointer}
+a{color:inherit}
+.app{max-width:1180px;margin:0 auto;padding:20px 18px 104px}
+.topbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  padding:10px 0 18px;
+}
+.brand{display:flex;align-items:center;gap:12px;min-width:0}
+.brand-mark{
+  width:44px;height:44px;border-radius:8px;
+  background:linear-gradient(135deg,var(--coral),var(--gold) 48%,var(--teal));
+  display:grid;place-items:center;color:white;box-shadow:var(--shadow);flex:0 0 auto;
+}
+.brand h1{font-size:clamp(1.35rem,3vw,2rem);line-height:1.05;margin:0;letter-spacing:0}
+.brand p{margin:4px 0 0;color:var(--muted);font-size:.94rem}
+.trip-chip{
+  display:flex;align-items:center;gap:8px;flex:0 0 auto;
+  border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.78);
+  padding:9px 12px;color:var(--navy);font-weight:800;box-shadow:0 8px 18px rgba(16,59,84,.08);
+}
+.hero{
+  background:linear-gradient(135deg,rgba(255,255,255,.92),rgba(238,246,248,.92));
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  display:grid;
+  grid-template-columns:minmax(0,1.08fr) minmax(320px,.92fr);
+  overflow:hidden;
+}
+.hero-copy{padding:24px}
+.eyebrow{
+  margin:0 0 9px;
+  color:var(--teal);
+  font-size:.82rem;
+  font-weight:900;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+.hero h2{font-size:clamp(1.9rem,4.2vw,3.35rem);line-height:.98;margin:0;letter-spacing:0}
+.hero h2 span{color:var(--coral)}
+.hero .lede{color:#435064;font-size:1.02rem;line-height:1.55;margin:14px 0 0;max-width:60ch}
+.metric-row{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:10px;
+  margin-top:20px;
+}
+.metric{
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  background:#fff;
+  padding:13px 12px;
+}
+.metric strong{display:block;font-size:1.2rem;line-height:1.1}
+.metric span{display:block;margin-top:4px;color:var(--muted);font-size:.82rem}
+.hero-map{min-height:310px;background:#dff4f7;position:relative;border-left:1px solid var(--line)}
+.hero-map svg{width:100%;height:100%;display:block}
+.tabbar{
+  position:sticky;
+  top:0;
+  z-index:10;
+  display:flex;
+  gap:8px;
+  padding:14px 0;
+  background:linear-gradient(180deg,var(--bg) 78%,rgba(246,248,251,0));
+  overflow:auto;
+  scrollbar-width:none;
+}
+.tabbar::-webkit-scrollbar{display:none}
+.tab-btn{
+  min-height:42px;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  white-space:nowrap;
+  border:1px solid var(--line);
+  border-radius:999px;
+  padding:9px 13px;
+  background:rgba(255,255,255,.82);
+  color:#344054;
+  font-weight:850;
+}
+.tab-btn svg{width:18px;height:18px;stroke-width:2.25}
+.tab-btn.active{
+  background:var(--navy);
+  border-color:var(--navy);
+  color:#fff;
+  box-shadow:0 10px 22px rgba(16,59,84,.18);
+}
+.panel{display:none}
+.panel.active{display:block}
+.section-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin:8px 0 12px}
+.section-head h2{font-size:1.3rem;margin:0;letter-spacing:0}
+.section-head p{margin:4px 0 0;color:var(--muted)}
+.grid{display:grid;gap:12px}
+.overview-grid{grid-template-columns:1.1fr .9fr}
+.cards-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.cards-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.card{
+  background:rgba(255,255,255,.9);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  box-shadow:0 10px 22px rgba(16,59,84,.08);
+  padding:16px;
+}
+.card h3{margin:0;font-size:1.02rem;letter-spacing:0}
+.card p{margin:7px 0 0;color:var(--muted);line-height:1.45}
+.accent-card{border-top:4px solid var(--coral)}
+.accent-card.teal{border-top-color:var(--teal)}
+.accent-card.gold{border-top-color:var(--gold)}
+.accent-card.green{border-top-color:var(--green)}
+.accent-card.violet{border-top-color:var(--violet)}
+.next-event{
+  display:grid;
+  grid-template-columns:auto 1fr;
+  gap:12px;
+  align-items:start;
+}
+.date-tile{
+  width:62px;
+  border-radius:var(--radius);
+  overflow:hidden;
+  border:1px solid var(--line);
+  text-align:center;
+  background:#fff;
+  flex:0 0 auto;
+}
+.date-tile span{display:block;background:var(--coral);color:#fff;font-size:.78rem;font-weight:900;padding:4px 0}
+.date-tile strong{display:block;font-size:1.45rem;line-height:1.3;padding:4px 0 6px}
+.tag-row{display:flex;flex-wrap:wrap;gap:7px;margin-top:11px}
+.tag{
+  display:inline-flex;align-items:center;gap:6px;
+  border:1px solid var(--line);
+  border-radius:999px;
+  background:#fff;
+  padding:6px 9px;
+  color:#475467;
+  font-size:.84rem;
+  font-weight:750;
+}
+.tag.coral{border-color:rgba(238,108,90,.35);background:rgba(238,108,90,.1);color:#963f33}
+.tag.teal{border-color:rgba(11,127,134,.3);background:rgba(11,127,134,.09);color:#075c61}
+.tag.gold{border-color:rgba(242,184,75,.38);background:rgba(242,184,75,.14);color:#765316}
+.tag.green{border-color:rgba(47,157,106,.28);background:rgba(47,157,106,.1);color:#236d4b}
+.weather-strip{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+  margin-top:10px;
+}
+.weather-chip{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  border:1px solid rgba(61,130,207,.24);
+  border-radius:999px;
+  background:rgba(61,130,207,.08);
+  color:#224c7d;
+  padding:6px 9px;
+  font-size:.84rem;
+  font-weight:800;
+}
+.map-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.map-link{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:34px;
+  border:1px solid var(--line);
+  border-radius:999px;
+  background:#fff;
+  color:var(--navy);
+  padding:7px 10px;
+  text-decoration:none;
+  font-size:.84rem;
+  font-weight:900;
+}
+.timeline{display:grid;gap:10px}
+.day-card{
+  display:grid;
+  grid-template-columns:96px minmax(0,1fr);
+  gap:14px;
+  background:rgba(255,255,255,.93);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:14px;
+  box-shadow:0 8px 20px rgba(16,59,84,.07);
+}
+.day-num{color:var(--muted);font-size:.83rem;font-weight:850;text-transform:uppercase;letter-spacing:.05em}
+.day-date{font-size:1.15rem;font-weight:900;margin-top:3px}
+.day-main h3{margin:0;font-size:1.05rem}
+.day-main p{margin:5px 0 0;color:var(--muted);line-height:1.42}
+.event-list{display:grid;gap:8px;margin-top:10px}
+.event{
+  display:grid;
+  grid-template-columns:78px minmax(0,1fr);
+  gap:10px;
+  border-left:4px solid var(--blue);
+  background:#f8fbfd;
+  border-radius:var(--radius);
+  padding:10px;
+}
+.event.show{border-left-color:var(--violet)}
+.event.excursion{border-left-color:var(--green)}
+.event.travel{border-left-color:var(--coral)}
+.event-time{font-weight:900;color:#223044}
+.event-title{font-weight:900}
+.event-detail{color:var(--muted);font-size:.9rem;margin-top:3px;line-height:1.35}
+.event-description{color:#435064;font-size:.9rem;line-height:1.4;margin-top:6px}
+.calendar-shell{
+  background:rgba(255,255,255,.92);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  overflow:hidden;
+}
+.calendar-title{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  padding:16px;
+  border-bottom:1px solid var(--line);
+  background:linear-gradient(135deg,#fff,rgba(238,246,248,.88));
+}
+.calendar-title h3{margin:0;font-size:1.15rem}
+.calendar-grid{
+  display:grid;
+  grid-template-columns:repeat(7,minmax(0,1fr));
+}
+.dow{
+  padding:10px 8px;
+  color:#667085;
+  font-weight:900;
+  font-size:.78rem;
+  text-align:center;
+  border-bottom:1px solid var(--line);
+  background:#f9fbfc;
+}
+.cal-day{
+  min-height:118px;
+  border-right:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+  padding:8px;
+  background:#fff;
+}
+.cal-day:nth-child(7n){border-right:0}
+.cal-day.muted{background:#f6f8fb;color:#98a2b3}
+.cal-day.trip{background:linear-gradient(180deg,#fff,rgba(11,127,134,.06))}
+.cal-day.today{outline:2px solid var(--gold);outline-offset:-2px}
+.cal-date{font-weight:900;margin-bottom:6px}
+.cal-chip{
+  display:block;
+  width:100%;
+  border-radius:6px;
+  padding:5px 6px;
+  margin-top:5px;
+  font-size:.76rem;
+  font-weight:850;
+  line-height:1.2;
+  color:#fff;
+  background:var(--blue);
+}
+.cal-chip.show{background:var(--violet)}
+.cal-chip.excursion{background:var(--green)}
+.cal-chip.travel{background:var(--coral)}
+.route-layout{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(280px,.55fr);gap:12px}
+.route-map{
+  background:#dff4f7;
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  overflow:hidden;
+  min-height:520px;
+  box-shadow:var(--shadow);
+}
+.route-map svg{width:100%;height:100%;display:block}
+.port-list{display:grid;gap:10px}
+.port{
+  display:grid;
+  grid-template-columns:34px 1fr;
+  gap:10px;
+  align-items:start;
+}
+.port-index{
+  width:34px;height:34px;border-radius:999px;
+  display:grid;place-items:center;
+  background:var(--navy);
+  color:#fff;
+  font-weight:950;
+}
+.port h3{margin:0;font-size:.98rem}
+.port p{margin:4px 0 0;color:var(--muted);font-size:.9rem;line-height:1.35}
+.weather-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+.weather-card{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  min-height:210px;
+}
+.weather-place{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.weather-place h3{margin:0;font-size:1.02rem}
+.weather-temp{
+  font-size:1.45rem;
+  line-height:1;
+  font-weight:950;
+  color:var(--teal);
+  white-space:nowrap;
+}
+.weather-card p{margin:0;color:var(--muted);line-height:1.42}
+.weather-tip{
+  margin-top:auto;
+  border-top:1px solid var(--line);
+  padding-top:10px;
+  color:#344054;
+  font-weight:750;
+}
+.packing-toolbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-bottom:12px;
+}
+.progress-line{color:var(--muted);font-weight:800}
+.icon-button{
+  width:40px;height:40px;
+  border:1px solid var(--line);
+  border-radius:999px;
+  background:#fff;
+  color:var(--navy);
+  display:grid;
+  place-items:center;
+}
+.icon-button svg{width:18px;height:18px}
+.packing-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+.pack-card{
+  background:rgba(255,255,255,.94);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:14px;
+  box-shadow:0 10px 22px rgba(16,59,84,.07);
+}
+.pack-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:10px}
+.pack-head h3{margin:0;font-size:1.04rem}
+.pack-count{
+  border-radius:999px;
+  background:rgba(11,127,134,.1);
+  color:#075c61;
+  padding:5px 8px;
+  font-weight:900;
+  font-size:.8rem;
+  white-space:nowrap;
+}
+.checklist{display:grid;gap:8px}
+.checkitem{
+  display:grid;
+  grid-template-columns:22px minmax(0,1fr);
+  gap:8px;
+  align-items:start;
+  color:#344054;
+  line-height:1.32;
+}
+.checkitem input{
+  width:18px;height:18px;margin:1px 0 0;
+  accent-color:var(--teal);
+}
+.checkitem span{overflow-wrap:anywhere}
+.checkitem input:checked + span{color:#98a2b3;text-decoration:line-through}
+.link-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+.link-card{
+  min-height:132px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  text-decoration:none;
+  transition:transform .16s ease, box-shadow .16s ease;
+}
+.link-card:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+.link-card svg{width:24px;height:24px;color:var(--teal);stroke-width:2.2}
+.notice{
+  border:1px solid rgba(242,184,75,.45);
+  background:rgba(242,184,75,.14);
+  border-radius:var(--radius);
+  padding:12px 14px;
+  color:#624814;
+  line-height:1.45;
+  font-weight:700;
+}
+.bottom-nav{
+  position:fixed;
+  left:0;right:0;bottom:0;
+  z-index:20;
+  padding:10px 12px calc(10px + env(safe-area-inset-bottom));
+  background:rgba(255,255,255,.88);
+  border-top:1px solid var(--line);
+  backdrop-filter:blur(14px);
+}
+.bottom-nav .wrap{
+  max-width:860px;
+  margin:0 auto;
+  display:grid;
+  grid-template-columns:repeat(6,1fr);
+  gap:8px;
+}
+.nav-btn{
+  min-height:58px;
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  background:#fff;
+  color:#475467;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:4px;
+  font-size:.75rem;
+  font-weight:850;
+}
+.nav-btn svg{width:19px;height:19px;stroke-width:2.25}
+.nav-btn.active{background:var(--navy);border-color:var(--navy);color:#fff}
+.visually-hidden{
+  position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
+  clip:rect(0,0,0,0);white-space:nowrap;border:0;
+}
+@media (max-width:920px){
+  .hero{grid-template-columns:1fr}
+  .hero-map{border-left:0;border-top:1px solid var(--line)}
+  .overview-grid,.route-layout{grid-template-columns:1fr}
+  .cards-3,.packing-grid,.link-grid,.weather-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:660px){
+  .app{padding:14px 12px 98px}
+  .topbar{align-items:flex-start}
+  .trip-chip{display:none}
+  .hero-copy{padding:18px}
+  .metric-row{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .cards-3,.cards-2,.packing-grid,.link-grid,.weather-grid{grid-template-columns:1fr}
+  .day-card{grid-template-columns:1fr}
+  .event{grid-template-columns:1fr}
+  .calendar-grid{display:block}
+  .dow{display:none}
+  .cal-day{min-height:auto;border-right:0;padding:10px 12px}
+  .cal-day.muted{display:none}
+  .cal-day:not(.trip){display:none}
+  .cal-date{font-size:.95rem}
+  .bottom-nav .wrap{gap:6px}
+  .nav-btn{font-size:.7rem;min-height:55px}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 16h16" />
+          <path d="M6 16l2-8h8l2 8" />
+          <path d="M8 8l4-4 4 4" />
+          <path d="M6 19c1.6 1 3.4 1 5 0 1.6-1 3.4-1 5 0 .7.4 1.3.6 2 .6" />
+        </svg>
+      </div>
+      <div>
+        <h1>Hayes Family Travel Hub</h1>
+        <p>Symphony of the Seas - July 12-18, 2026</p>
+      </div>
+    </div>
+    <div class="trip-chip" id="countdown-chip">Loading trip</div>
+  </header>
+
+  <section class="hero" aria-labelledby="trip-title">
+    <div class="hero-copy">
+      <p class="eyebrow">6 night western caribbean cruise</p>
+      <h2 id="trip-title">Galveston to the <span>Caribbean</span></h2>
+      <p class="lede">Cruise calendar, ship entertainment, route map, excursion details, and family packing lists in one phone-friendly hub.</p>
+      <div class="metric-row" aria-label="Trip summary">
+        <div class="metric"><strong>Jul 12</strong><span>Embark Galveston</span></div>
+        <div class="metric"><strong>3 shows</strong><span>Reserved entertainment</span></div>
+        <div class="metric"><strong>Day 5</strong><span>Secret River excursion</span></div>
+        <div class="metric"><strong>7 days</strong><span>Weather notes</span></div>
+      </div>
+    </div>
+    <div class="hero-map" aria-hidden="true">
+      <svg viewBox="0 0 620 360" role="img">
+        <defs>
+          <linearGradient id="smallSea" x1="0" y1="0" x2="1" y2="1">
+            <stop stop-color="#cceff6" />
+            <stop offset="1" stop-color="#bfe6ef" />
+          </linearGradient>
+          <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+            <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#103b54" flood-opacity=".18"/>
+          </filter>
+        </defs>
+        <rect width="620" height="360" fill="url(#smallSea)" />
+        <path d="M0 75 C60 38 118 34 172 62 C216 84 252 76 290 62 C253 106 229 129 188 136 C129 146 73 127 0 151 Z" fill="#b7d9bf" opacity=".9"/>
+        <path d="M402 174 C455 160 513 176 545 216 C523 250 509 286 463 304 C418 321 377 300 363 260 C351 225 365 190 402 174 Z" fill="#b7d9bf"/>
+        <path d="M486 288 C536 282 596 304 620 330 L620 360 L453 360 C444 329 459 299 486 288 Z" fill="#9fccaa"/>
+        <path d="M164 86 C254 154 329 252 442 236 C499 228 509 181 455 178 C369 173 349 298 473 306 C548 312 540 168 164 86" fill="none" stroke="#ee6c5a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" filter="url(#softShadow)"/>
+        <g fill="#103b54" stroke="#fff" stroke-width="4">
+          <circle cx="164" cy="86" r="9"/>
+          <circle cx="442" cy="236" r="9"/>
+          <circle cx="473" cy="306" r="9"/>
+          <circle cx="455" cy="178" r="9"/>
+        </g>
+        <g font-family="Inter, Arial, sans-serif" font-size="15" font-weight="850" fill="#103b54">
+          <text x="112" y="66">Galveston</text>
+          <text x="371" y="229">Costa Maya</text>
+          <text x="484" y="314">Roatan</text>
+          <text x="467" y="172">Cozumel</text>
+        </g>
+      </svg>
+    </div>
+  </section>
+
+  <nav class="tabbar" aria-label="Travel hub tabs">
+    <button class="tab-btn active" data-tab="overview" type="button">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 13h8V3H3z"/><path d="M13 21h8V11h-8z"/><path d="M13 3h8v6h-8z"/><path d="M3 21h8v-6H3z"/></svg>
+      Overview
+    </button>
+    <button class="tab-btn" data-tab="map" type="button">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 18l-6 3V6l6-3 6 3 6-3v15l-6 3-6-3z"/><path d="M9 3v15"/><path d="M15 6v15"/></svg>
+      Map
+    </button>
+    <button class="tab-btn" data-tab="calendar" type="button">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/></svg>
+      Calendar
+    </button>
+    <button class="tab-btn" data-tab="weather" type="button">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 3v2"/><path d="M12 19v2"/><path d="M4.2 4.2l1.4 1.4"/><path d="M18.4 18.4l1.4 1.4"/><path d="M3 12h2"/><path d="M19 12h2"/><path d="M4.2 19.8l1.4-1.4"/><path d="M18.4 5.6l1.4-1.4"/><circle cx="12" cy="12" r="4"/></svg>
+      Weather
+    </button>
+    <button class="tab-btn" data-tab="packing" type="button">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6 7h12l1 14H5z"/><path d="M9 7V5a3 3 0 0 1 6 0v2"/><path d="M9 11v1"/><path d="M15 11v1"/></svg>
+      Packing
+    </button>
+    <button class="tab-btn" data-tab="links" type="button">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M10 13a5 5 0 0 0 7.1 0l2-2a5 5 0 0 0-7.1-7.1l-1.1 1.1"/><path d="M14 11a5 5 0 0 0-7.1 0l-2 2a5 5 0 0 0 7.1 7.1l1.1-1.1"/></svg>
+      Links
+    </button>
+  </nav>
+
+  <main>
+    <section id="panel-overview" class="panel active">
+      <div class="section-head">
+        <div>
+          <h2>Trip Snapshot</h2>
+          <p>Key plans for the July 12-18, 2026 sailing.</p>
+        </div>
+      </div>
+      <div class="grid overview-grid">
+        <article class="card accent-card teal">
+          <h3>Route</h3>
+          <p>Galveston, Texas -> Puerto Costa Maya, Mexico -> Roatan, Honduras -> Cozumel, Mexico -> Galveston, Texas.</p>
+          <div class="tag-row">
+            <span class="tag teal">6 nights</span>
+            <span class="tag coral">Western Caribbean</span>
+            <span class="tag gold">Royal Caribbean</span>
+          </div>
+        </article>
+        <article class="card accent-card violet">
+          <h3>Entertainment</h3>
+          <p>1977, Hairspray, and Hiro are placed on the correct cruise days in the calendar.</p>
+          <div class="tag-row">
+            <span class="tag">Studio B</span>
+            <span class="tag">Royal Theater</span>
+            <span class="tag">Aqua Theater</span>
+          </div>
+        </article>
+      </div>
+      <div class="grid cards-3" style="margin-top:12px">
+        <article class="card accent-card">
+          <div class="next-event">
+            <div class="date-tile"><span>DAY 1</span><strong>12</strong></div>
+            <div>
+              <h3>1977</h3>
+              <p>10:00 PM CST - 50 min - Studio B, Deck 4</p>
+              <p>Ice skating production with music, lighting, and a time-travel style adventure built for Studio B.</p>
+            </div>
+          </div>
+        </article>
+        <article class="card accent-card gold">
+          <div class="next-event">
+            <div class="date-tile"><span>DAY 2</span><strong>13</strong></div>
+            <div>
+              <h3>Hairspray</h3>
+              <p>3:30 PM CST - 1 hr 30 min - Royal Theater, Deck 4</p>
+              <p>Broadway musical set in 1960s Baltimore, centered on Tracy Turnblad, dance TV, confidence, and inclusion.</p>
+            </div>
+          </div>
+        </article>
+        <article class="card accent-card green">
+          <div class="next-event">
+            <div class="date-tile"><span>DAY 3</span><strong>14</strong></div>
+            <div>
+              <h3>Hiro</h3>
+              <p>10:00 PM - 50 min - Aqua Theater, Deck 6</p>
+              <p>AquaTheater show with high dives, acrobatics, aerial movement, music, and big outdoor stage effects.</p>
+            </div>
+          </div>
+        </article>
+        <article class="card accent-card green">
+          <div class="next-event">
+            <div class="date-tile"><span>DAY 5</span><strong>16</strong></div>
+            <div>
+              <h3>Amazing Secret River</h3>
+              <p>7:30 AM - 9 hrs - Playa del Carmen excursion</p>
+            </div>
+          </div>
+        </article>
+      </div>
+      <div class="section-head" style="margin-top:20px">
+        <div>
+          <h2>Daily Flow</h2>
+          <p>Port days, sea days, and scheduled plans.</p>
+        </div>
+      </div>
+      <div id="overview-days" class="timeline"></div>
+    </section>
+
+    <section id="panel-map" class="panel">
+      <div class="section-head">
+        <div>
+          <h2>Ship Route Map</h2>
+          <p>Approximate path for the July 12-18, 2026 Western Caribbean sailing.</p>
+        </div>
+      </div>
+      <div class="route-layout">
+        <div class="route-map">
+          <svg viewBox="0 0 900 560" role="img" aria-labelledby="mapTitle mapDesc">
+            <title id="mapTitle">Symphony of the Seas Western Caribbean route</title>
+            <desc id="mapDesc">Route from Galveston to Costa Maya, Roatan, Cozumel, and back to Galveston.</desc>
+            <defs>
+              <linearGradient id="sea" x1="0" y1="0" x2="1" y2="1">
+                <stop stop-color="#d7f2f7" />
+                <stop offset=".55" stop-color="#c5e9f1" />
+                <stop offset="1" stop-color="#a9d7e4" />
+              </linearGradient>
+              <filter id="routeShadow" x="-20%" y="-20%" width="140%" height="140%">
+                <feDropShadow dx="0" dy="10" stdDeviation="8" flood-color="#103b54" flood-opacity=".16"/>
+              </filter>
+            </defs>
+            <rect width="900" height="560" fill="url(#sea)" />
+            <path d="M0 120 C82 63 150 46 226 80 C286 107 352 113 431 76 C410 127 377 167 319 191 C245 221 144 196 60 223 C34 231 15 239 0 246 Z" fill="#b9d9bf"/>
+            <path d="M0 0H900V60C806 84 736 74 676 45C575-4 477 16 392 48C297 83 215 57 132 30C78 13 36 10 0 16Z" fill="#d8e9d2" opacity=".55"/>
+            <path d="M548 236 C630 213 733 239 785 305 C745 361 724 427 649 458 C573 489 510 452 488 389 C469 333 497 257 548 236 Z" fill="#b7d9bf"/>
+            <path d="M628 444 C704 428 812 455 900 508 L900 560 L590 560 C571 515 585 465 628 444 Z" fill="#9fccaa"/>
+            <path d="M255 132 C352 200 456 320 610 340 C704 352 726 267 643 257 C504 245 479 450 681 472 C804 485 798 236 255 132" fill="none" stroke="#ee6c5a" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" filter="url(#routeShadow)"/>
+            <path d="M255 132 C352 200 456 320 610 340 C704 352 726 267 643 257 C504 245 479 450 681 472 C804 485 798 236 255 132" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity=".85"/>
+            <g font-family="Inter, Arial, sans-serif">
+              <g transform="translate(255 132)">
+                <circle r="15" fill="#103b54" stroke="#fff" stroke-width="5"/>
+                <text x="-8" y="6" fill="#fff" font-size="16" font-weight="900">1</text>
+                <text x="-84" y="-24" fill="#103b54" font-size="21" font-weight="900">Galveston</text>
+                <text x="-76" y="37" fill="#475467" font-size="14" font-weight="700">Jul 12 + Jul 18</text>
+              </g>
+              <g transform="translate(610 340)">
+                <circle r="15" fill="#0b7f86" stroke="#fff" stroke-width="5"/>
+                <text x="-8" y="6" fill="#fff" font-size="16" font-weight="900">3</text>
+                <text x="-62" y="-24" fill="#103b54" font-size="21" font-weight="900">Costa Maya</text>
+                <text x="-45" y="39" fill="#475467" font-size="14" font-weight="700">Jul 14</text>
+              </g>
+              <g transform="translate(681 472)">
+                <circle r="15" fill="#2f9d6a" stroke="#fff" stroke-width="5"/>
+                <text x="-8" y="6" fill="#fff" font-size="16" font-weight="900">4</text>
+                <text x="24" y="7" fill="#103b54" font-size="21" font-weight="900">Roatan</text>
+                <text x="24" y="28" fill="#475467" font-size="14" font-weight="700">Jul 15</text>
+              </g>
+              <g transform="translate(643 257)">
+                <circle r="15" fill="#7167d8" stroke="#fff" stroke-width="5"/>
+                <text x="-8" y="6" fill="#fff" font-size="16" font-weight="900">5</text>
+                <text x="24" y="-4" fill="#103b54" font-size="21" font-weight="900">Cozumel</text>
+                <text x="24" y="18" fill="#475467" font-size="14" font-weight="700">Jul 16</text>
+              </g>
+            </g>
+            <g font-family="Inter, Arial, sans-serif" fill="#2f596a" font-size="13" font-weight="800" opacity=".72">
+              <text x="58" y="322">Gulf of Mexico</text>
+              <text x="646" y="520">Caribbean Sea</text>
+              <text x="665" y="318">Yucatan</text>
+            </g>
+          </svg>
+        </div>
+        <aside class="card">
+          <h3>Route Stops</h3>
+          <div class="port-list" id="port-list" style="margin-top:13px"></div>
+          <div class="notice" style="margin-top:14px">Final sailing tracks and port times can change for weather and operations. Confirm final details in the Royal Caribbean app close to sailing.</div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="panel-calendar" class="panel">
+      <div class="section-head">
+        <div>
+          <h2>Calendar</h2>
+          <p>Shows, excursion, port days, and return day.</p>
+        </div>
+      </div>
+      <div class="calendar-shell">
+        <div class="calendar-title">
+          <h3>July 2026</h3>
+          <div class="tag-row" style="margin:0">
+            <span class="tag coral">Travel</span>
+            <span class="tag">Shows</span>
+            <span class="tag green">Excursion</span>
+          </div>
+        </div>
+        <div id="calendar-grid" class="calendar-grid"></div>
+      </div>
+      <div class="section-head" style="margin-top:20px">
+        <div>
+          <h2>Cruise Schedule</h2>
+          <p>Day-by-day details for the full sailing.</p>
+        </div>
+      </div>
+      <div id="calendar-days" class="timeline"></div>
+    </section>
+
+    <section id="panel-weather" class="panel">
+      <div class="section-head">
+        <div>
+          <h2>Weather</h2>
+          <p>Typical July weather for each cruise day. Check live forecasts again right before sailing.</p>
+        </div>
+      </div>
+      <div class="notice" style="margin-bottom:12px">Daily forecasts for July 12-18, 2026 are still too far out to trust. These notes use typical July conditions for each stop so the family can pack smart now.</div>
+      <div id="weather-grid" class="grid weather-grid"></div>
+    </section>
+
+    <section id="panel-packing" class="panel">
+      <div class="packing-toolbar">
+        <div>
+          <h2 style="margin:0;font-size:1.3rem">Packing Lists</h2>
+          <div class="progress-line" id="packing-progress">0 packed</div>
+        </div>
+        <button class="icon-button" id="reset-packing" type="button" title="Clear packing checks" aria-label="Clear packing checks">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v6h6"/></svg>
+        </button>
+      </div>
+      <div class="grid packing-grid" id="packing-grid"></div>
+    </section>
+
+    <section id="panel-links" class="panel">
+      <div class="section-head">
+        <div>
+          <h2>Quick Links</h2>
+          <p>Useful cruise, maps, and travel anchors.</p>
+        </div>
+      </div>
+      <div class="grid link-grid">
+        <a class="card link-card" href="https://www.royalcaribbean.com/" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 19h16"/><path d="M5 19l2-10h10l2 10"/><path d="M9 9V5h6v4"/><path d="M9 14h6"/></svg>
+          <div><h3>Royal Caribbean</h3><p>Reservations, app details, and sailing updates.</p></div>
+        </a>
+        <a class="card link-card" href="https://maps.google.com/?q=Port+of+Galveston+Cruise+Terminal+Royal+Caribbean" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 21s7-5.3 7-11a7 7 0 1 0-14 0c0 5.7 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+          <div><h3>Galveston Terminal</h3><p>Open the cruise terminal in maps.</p></div>
+        </a>
+        <a class="card link-card" href="https://maps.google.com/?q=Puerto+Costa+Maya+Cruise+Port" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 12h18"/><path d="M6 12c0-4 2.7-7 6-7s6 3 6 7-2.7 7-6 7-6-3-6-7z"/><path d="M12 5v14"/></svg>
+          <div><h3>Costa Maya</h3><p>Port area map for Day 3.</p></div>
+        </a>
+        <a class="card link-card" href="https://maps.google.com/?q=Playa+del+Carmen+Rio+Secreto" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 19c3-6 13-6 16 0"/><path d="M7 14c1.8-3 8.2-3 10 0"/><path d="M9 9h6"/><path d="M12 5v8"/></svg>
+          <div><h3>Secret River</h3><p>Excursion area near Playa del Carmen.</p></div>
+        </a>
+      </div>
+      <div class="notice" style="margin-top:12px">The app uses the itinerary and times provided for this rebuild. Ship schedules can move, especially show times, so the Royal Caribbean app remains the final source during the sailing.</div>
+    </section>
+  </main>
+</div>
+
+<nav class="bottom-nav" aria-label="Primary navigation">
+  <div class="wrap">
+    <button class="nav-btn active" data-tab="overview" type="button">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 13h8V3H3z"/><path d="M13 21h8V11h-8z"/><path d="M13 3h8v6h-8z"/><path d="M3 21h8v-6H3z"/></svg>
+      Home
+    </button>
+    <button class="nav-btn" data-tab="map" type="button">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 18l-6 3V6l6-3 6 3 6-3v15l-6 3-6-3z"/><path d="M9 3v15"/><path d="M15 6v15"/></svg>
+      Map
+    </button>
+    <button class="nav-btn" data-tab="calendar" type="button">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/></svg>
+      Calendar
+    </button>
+    <button class="nav-btn" data-tab="weather" type="button">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 3v2"/><path d="M12 19v2"/><path d="M4.2 4.2l1.4 1.4"/><path d="M18.4 18.4l1.4 1.4"/><path d="M3 12h2"/><path d="M19 12h2"/><path d="M4.2 19.8l1.4-1.4"/><path d="M18.4 5.6l1.4-1.4"/><circle cx="12" cy="12" r="4"/></svg>
+      Weather
+    </button>
+    <button class="nav-btn" data-tab="packing" type="button">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6 7h12l1 14H5z"/><path d="M9 7V5a3 3 0 0 1 6 0v2"/></svg>
+      Packing
+    </button>
+    <button class="nav-btn" data-tab="links" type="button">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M10 13a5 5 0 0 0 7.1 0l2-2a5 5 0 0 0-7.1-7.1l-1.1 1.1"/><path d="M14 11a5 5 0 0 0-7.1 0l-2 2a5 5 0 0 0 7.1 7.1l1.1-1.1"/></svg>
+      Links
+    </button>
+  </div>
+</nav>
+
+<script>
+const STORAGE_KEY = "hayes-cruise-hub-2026-v1";
+
+const itinerary = [
+  {
+    day: 1,
+    date: "2026-07-12",
+    label: "Sun, Jul 12",
+    title: "Galveston, Texas",
+    summary: "Embarkation day for Symphony of the Seas.",
+    mapUrl: "https://maps.google.com/?q=Port+of+Galveston+Cruise+Terminal+Royal+Caribbean",
+    weather: {
+      place: "Galveston, Texas",
+      temp: "80-91 F",
+      outlook: "Typical July is hot, humid, and breezy near the water with a chance of afternoon storms.",
+      tip: "Wear light clothes for boarding and keep rain gear easy to reach."
+    },
+    events: [
+      {time:"Embark", title:"Board in Galveston", detail:"Keep IDs, cruise documents, luggage tags, medications, and chargers easy to reach.", type:"travel", mapUrl:"https://maps.google.com/?q=Port+of+Galveston+Cruise+Terminal+Royal+Caribbean"},
+      {time:"10:00 PM", title:"1977", detail:"50 min - Studio B, Deck 4 - CST", type:"show", description:"Ice skating production with music, lighting, and a time-travel style adventure built for Studio B."}
+    ]
+  },
+  {
+    day: 2,
+    date: "2026-07-13",
+    label: "Mon, Jul 13",
+    title: "Cruising",
+    summary: "Sea day for ship exploring, pools, dining, and reservations.",
+    mapUrl: "https://maps.google.com/?q=Gulf+of+Mexico",
+    weather: {
+      place: "Gulf of Mexico",
+      temp: "80s F",
+      outlook: "Typical sea day weather is warm, humid, sunny at times, and breezy on open decks.",
+      tip: "Use sunscreen even when it is cloudy, and bring a light layer for indoor venues."
+    },
+    events: [
+      {time:"3:30 PM", title:"Hairspray: The Broadway Musical", detail:"1 hr 30 min - Royal Theater, Deck 4 - CST", type:"show", description:"Broadway musical set in 1960s Baltimore, centered on Tracy Turnblad, dance TV, confidence, and inclusion."}
+    ]
+  },
+  {
+    day: 3,
+    date: "2026-07-14",
+    label: "Tue, Jul 14",
+    title: "Puerto Costa Maya, Mexico",
+    summary: "First port day, with evening entertainment back onboard.",
+    mapUrl: "https://maps.google.com/?q=Puerto+Costa+Maya+Cruise+Port",
+    weather: {
+      place: "Puerto Costa Maya, Mexico",
+      temp: "78-90 F",
+      outlook: "Typical July is tropical, hot, humid, and mixed between sun and passing showers.",
+      tip: "Pack sunscreen, hats, water, and a small rain layer for the port bag."
+    },
+    events: [
+      {time:"Port day", title:"Puerto Costa Maya", detail:"Use the Royal Caribbean app for final gangway and all-aboard times.", type:"travel", mapUrl:"https://maps.google.com/?q=Puerto+Costa+Maya+Cruise+Port"},
+      {time:"10:00 PM", title:"Hiro", detail:"50 min - Aqua Theater, Deck 6 - ship time", type:"show", description:"AquaTheater show with high dives, acrobatics, aerial movement, music, and big outdoor stage effects."}
+    ]
+  },
+  {
+    day: 4,
+    date: "2026-07-15",
+    label: "Wed, Jul 15",
+    title: "Roatan, Honduras",
+    summary: "Port day in Roatan.",
+    mapUrl: "https://maps.google.com/?q=Roatan+Honduras+Cruise+Port",
+    weather: {
+      place: "Roatan, Honduras",
+      temp: "77-88 F",
+      outlook: "Typical July is warm and tropical with humid air, bright sun, and quick showers possible.",
+      tip: "Good day for water shoes, reef-safe sunscreen, and a dry change of clothes."
+    },
+    events: [
+      {time:"Port day", title:"Roatan", detail:"Pack swimwear, sunscreen, water shoes, and dry clothes if planning beach or water activities.", type:"travel", mapUrl:"https://maps.google.com/?q=Roatan+Honduras+Cruise+Port"}
+    ]
+  },
+  {
+    day: 5,
+    date: "2026-07-16",
+    label: "Thu, Jul 16",
+    title: "Cozumel, Mexico",
+    summary: "Excursion day for Amazing Secret River and Playa del Carmen.",
+    mapUrl: "https://maps.google.com/?q=Cozumel+Cruise+Port",
+    weather: {
+      place: "Cozumel and Playa del Carmen",
+      temp: "78-90 F",
+      outlook: "Typical July is hot, humid, and tropical, with sun, clouds, and scattered showers possible.",
+      tip: "For Secret River, bring water shoes, dry clothes, sunscreen, and a waterproof bag."
+    },
+    events: [
+      {time:"7:30 AM", title:"Amazing Secret River and Playa del Carmen", detail:"9 hrs - excursion from the Cozumel port day", type:"excursion", mapUrl:"https://maps.google.com/?q=Playa+del+Carmen+Rio+Secreto", description:"Underground river and Playa del Carmen day, so pack water shoes, dry clothes, and sun protection."}
+    ]
+  },
+  {
+    day: 6,
+    date: "2026-07-17",
+    label: "Fri, Jul 17",
+    title: "Cruising",
+    summary: "Final sea day for favorite ship activities and packing.",
+    mapUrl: "https://maps.google.com/?q=Gulf+of+Mexico",
+    weather: {
+      place: "Gulf of Mexico",
+      temp: "80s F",
+      outlook: "Typical July sea conditions are warm and humid with strong sun and possible scattered showers.",
+      tip: "Keep sunscreen handy and pack most luggage before dinner."
+    },
+    events: [
+      {time:"Afternoon", title:"Pack most luggage", detail:"Keep next-day clothes, toiletries, IDs, and medications separate.", type:"travel"}
+    ]
+  },
+  {
+    day: 7,
+    date: "2026-07-18",
+    label: "Sat, Jul 18",
+    title: "Galveston, Texas",
+    summary: "Disembarkation and return from the cruise.",
+    mapUrl: "https://maps.google.com/?q=Port+of+Galveston+Cruise+Terminal+Royal+Caribbean",
+    weather: {
+      place: "Galveston, Texas",
+      temp: "80-91 F",
+      outlook: "Typical July return weather is hot and humid, often with a chance of showers or storms.",
+      tip: "Dress light for the port and keep water available for the ride home."
+    },
+    events: [
+      {time:"Morning", title:"Disembark in Galveston", detail:"Keep IDs, car details, and carry-off bags with the family.", type:"travel", mapUrl:"https://maps.google.com/?q=Port+of+Galveston+Cruise+Terminal+Royal+Caribbean"}
+    ]
+  }
+];
+
+const ports = [
+  {name:"Galveston, Texas", day:"Day 1 and Day 7", detail:"Embark July 12 and return July 18.", mapUrl:"https://maps.google.com/?q=Port+of+Galveston+Cruise+Terminal+Royal+Caribbean"},
+  {name:"Cruising", day:"Day 2", detail:"Sea day between Galveston and the Western Caribbean.", mapUrl:"https://maps.google.com/?q=Gulf+of+Mexico"},
+  {name:"Puerto Costa Maya, Mexico", day:"Day 3", detail:"First port stop on Tuesday, July 14.", mapUrl:"https://maps.google.com/?q=Puerto+Costa+Maya+Cruise+Port"},
+  {name:"Roatan, Honduras", day:"Day 4", detail:"Honduras port stop on Wednesday, July 15.", mapUrl:"https://maps.google.com/?q=Roatan+Honduras+Cruise+Port"},
+  {name:"Cozumel, Mexico", day:"Day 5", detail:"Excursion day for Amazing Secret River and Playa del Carmen.", mapUrl:"https://maps.google.com/?q=Cozumel+Cruise+Port"},
+  {name:"Cruising", day:"Day 6", detail:"Sea day back toward Galveston.", mapUrl:"https://maps.google.com/?q=Gulf+of+Mexico"}
+];
+
+const packing = {
+  "Shared": [
+    "Passports or government IDs",
+    "Cruise boarding documents",
+    "Printed luggage tags",
+    "Travel insurance and emergency contacts",
+    "Sunscreen and reef-safe sunscreen",
+    "Motion sickness medicine",
+    "Small first aid kit",
+    "Portable chargers and charging cords",
+    "Refillable water bottles",
+    "Beach bag",
+    "Waterproof phone pouch",
+    "Cash, credit cards, and small bills",
+    "Laundry bag",
+    "Zip bags for wet clothes"
+  ],
+  "Anthony": [
+    "Passport or ID",
+    "Cruise clothes for 6 nights",
+    "Dinner outfit",
+    "Swim trunks",
+    "Water shoes",
+    "Workout clothes",
+    "Walking shoes",
+    "Hat and sunglasses",
+    "Toiletries",
+    "Medications",
+    "Phone charger"
+  ],
+  "Sarah": [
+    "Passport or ID",
+    "Cruise clothes for 6 nights",
+    "Dinner outfits",
+    "Swimsuits",
+    "Cover-up",
+    "Comfortable sandals",
+    "Water shoes",
+    "Sun hat and sunglasses",
+    "Hair and skin care",
+    "Light sweater",
+    "Medications",
+    "Phone charger"
+  ],
+  "Lyric": [
+    "Passport or ID",
+    "Cruise outfits",
+    "Dinner outfit",
+    "Swimsuits",
+    "Water shoes",
+    "Pajamas",
+    "Light hoodie",
+    "Headphones or tablet",
+    "Charger",
+    "Toiletries",
+    "Small backpack"
+  ],
+  "Noble": [
+    "Passport or ID",
+    "Cruise outfits",
+    "Dinner outfit",
+    "Swimsuits",
+    "Water shoes",
+    "Pajamas",
+    "Light hoodie",
+    "Headphones or games",
+    "Charger",
+    "Toiletries",
+    "Small backpack"
+  ],
+  "Sky": [
+    "Passport or ID",
+    "Cruise outfits",
+    "Dinner outfit",
+    "Swimsuits",
+    "Water shoes",
+    "Pajamas",
+    "Light hoodie",
+    "Comfort item",
+    "Headphones or tablet",
+    "Charger",
+    "Toiletries"
+  ]
+};
+
+let state = loadState();
+
+function loadState(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    return raw ? JSON.parse(raw) : {packing:{}};
+  }catch(error){
+    return {packing:{}};
+  }
+}
+
+function saveState(){
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+}
+
+function iconForType(type){
+  if(type === "show") return "show";
+  if(type === "excursion") return "excursion";
+  return "travel";
+}
+
+function renderDayCards(targetId){
+  const target = document.getElementById(targetId);
+  target.innerHTML = itinerary.map(day => `
+    <article class="day-card">
+      <div>
+        <div class="day-num">Day ${day.day}</div>
+        <div class="day-date">${day.label}</div>
+      </div>
+      <div class="day-main">
+        <h3>${day.title}</h3>
+        <p>${day.summary}</p>
+        <div class="weather-strip">
+          <span class="weather-chip">${day.weather.temp}</span>
+          <span class="weather-chip">${day.weather.outlook}</span>
+        </div>
+        <div class="map-actions">
+          <a class="map-link" target="_blank" rel="noopener" href="${day.mapUrl}">Open map</a>
+        </div>
+        <div class="event-list">
+          ${day.events.map(event => `
+            <div class="event ${iconForType(event.type)}">
+              <div class="event-time">${event.time}</div>
+              <div>
+                <div class="event-title">${event.title}</div>
+                <div class="event-detail">${event.detail}</div>
+                ${event.description ? `<div class="event-description">${event.description}</div>` : ""}
+                ${event.mapUrl ? `<div class="map-actions"><a class="map-link" target="_blank" rel="noopener" href="${event.mapUrl}">Open map</a></div>` : ""}
+              </div>
+            </div>
+          `).join("")}
+        </div>
+      </div>
+    </article>
+  `).join("");
+}
+
+function renderPorts(){
+  document.getElementById("port-list").innerHTML = ports.map((port, index) => `
+    <div class="port">
+      <div class="port-index">${index + 1}</div>
+      <div>
+        <h3>${port.name}</h3>
+        <p><strong>${port.day}</strong> - ${port.detail}</p>
+        <div class="map-actions"><a class="map-link" target="_blank" rel="noopener" href="${port.mapUrl}">Open map</a></div>
+      </div>
+    </div>
+  `).join("");
+}
+
+function renderWeather(){
+  document.getElementById("weather-grid").innerHTML = itinerary.map(day => `
+    <article class="card weather-card">
+      <div class="weather-place">
+        <div>
+          <div class="day-num">Day ${day.day}</div>
+          <h3>${day.label} - ${day.weather.place}</h3>
+        </div>
+        <div class="weather-temp">${day.weather.temp}</div>
+      </div>
+      <p>${day.weather.outlook}</p>
+      <div class="weather-tip">${day.weather.tip}</div>
+      <div class="map-actions"><a class="map-link" target="_blank" rel="noopener" href="${day.mapUrl}">Open map</a></div>
+    </article>
+  `).join("");
+}
+
+function renderCalendar(){
+  const target = document.getElementById("calendar-grid");
+  const dayNames = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+  const tripByDate = new Map(itinerary.map(day => [day.date, day]));
+  const cells = dayNames.map(day => `<div class="dow">${day}</div>`);
+  const first = new Date(2026, 6, 1);
+  const startOffset = first.getDay();
+  const daysInMonth = 31;
+
+  for(let i = 0; i < startOffset; i++){
+    cells.push(`<div class="cal-day muted"><div class="cal-date"></div></div>`);
+  }
+
+  for(let day = 1; day <= daysInMonth; day++){
+    const dateKey = `2026-07-${String(day).padStart(2,"0")}`;
+    const tripDay = tripByDate.get(dateKey);
+    const dateClass = tripDay ? " trip" : "";
+    const title = tripDay ? `<span class="cal-chip travel">Day ${tripDay.day}: ${tripDay.title}</span>` : "";
+    const weather = tripDay ? `<span class="cal-chip">${tripDay.weather.temp} typical weather</span>` : "";
+    const events = tripDay ? tripDay.events.map(event => `<span class="cal-chip ${iconForType(event.type)}">${event.time} ${event.title}</span>`).join("") : "";
+    cells.push(`<div class="cal-day${dateClass}"><div class="cal-date">${day}</div>${title}${weather}${events}</div>`);
+  }
+
+  target.innerHTML = cells.join("");
+}
+
+function safeId(group, index){
+  return `${group.toLowerCase().replace(/[^a-z0-9]+/g,"-")}-${index}`;
+}
+
+function renderPacking(){
+  const target = document.getElementById("packing-grid");
+  target.innerHTML = Object.entries(packing).map(([group, items]) => {
+    const packed = items.filter((_, index) => state.packing[safeId(group,index)]).length;
+    return `
+      <article class="pack-card">
+        <div class="pack-head">
+          <h3>${group}</h3>
+          <div class="pack-count">${packed}/${items.length}</div>
+        </div>
+        <div class="checklist">
+          ${items.map((item, index) => {
+            const id = safeId(group,index);
+            const checked = state.packing[id] ? "checked" : "";
+            return `
+              <label class="checkitem">
+                <input type="checkbox" data-pack-id="${id}" ${checked} />
+                <span>${item}</span>
+              </label>
+            `;
+          }).join("")}
+        </div>
+      </article>
+    `;
+  }).join("");
+
+  target.querySelectorAll("input[type='checkbox']").forEach(box => {
+    box.addEventListener("change", () => {
+      state.packing[box.dataset.packId] = box.checked;
+      saveState();
+      renderPacking();
+    });
+  });
+
+  renderPackingProgress();
+}
+
+function renderPackingProgress(){
+  const total = Object.values(packing).reduce((sum, items) => sum + items.length, 0);
+  const packed = Object.entries(packing).reduce((sum, [group, items]) => {
+    return sum + items.filter((_, index) => state.packing[safeId(group,index)]).length;
+  }, 0);
+  document.getElementById("packing-progress").textContent = `${packed} of ${total} packed`;
+}
+
+function resetPacking(){
+  state.packing = {};
+  saveState();
+  renderPacking();
+}
+
+function setTab(name){
+  document.querySelectorAll(".panel").forEach(panel => panel.classList.toggle("active", panel.id === `panel-${name}`));
+  document.querySelectorAll("[data-tab]").forEach(button => button.classList.toggle("active", button.dataset.tab === name));
+  history.replaceState(null, "", `#${name}`);
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+function renderCountdown(){
+  const now = new Date();
+  const start = new Date(2026, 6, 12, 0, 0, 0);
+  const end = new Date(2026, 6, 18, 23, 59, 59);
+  const chip = document.getElementById("countdown-chip");
+  if(now < start){
+    const days = Math.ceil((start - now) / 86400000);
+    chip.textContent = `${days} days to cruise`;
+  }else if(now <= end){
+    const currentDay = Math.min(7, Math.max(1, Math.floor((now - start) / 86400000) + 1));
+    chip.textContent = `Cruise day ${currentDay}`;
+  }else{
+    chip.textContent = "Cruise complete";
+  }
+}
+
+document.querySelectorAll("[data-tab]").forEach(button => {
+  button.addEventListener("click", () => setTab(button.dataset.tab));
+});
+
+document.getElementById("reset-packing").addEventListener("click", resetPacking);
+
+if("serviceWorker" in navigator){
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./sw.js").catch(() => {});
+  });
+}
+
+renderCountdown();
+renderDayCards("overview-days");
+renderDayCards("calendar-days");
+renderPorts();
+renderWeather();
+renderCalendar();
+renderPacking();
+
+const initialTab = location.hash.replace("#","").trim();
+if(["overview","map","calendar","weather","packing","links"].includes(initialTab)){
+  setTab(initialTab);
+}
+</script>
+</body>
+</html>

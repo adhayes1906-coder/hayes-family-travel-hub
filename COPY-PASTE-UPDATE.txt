@@ -1,0 +1,8 @@
+Copy and paste this one line into Terminal:
+
+open "https://github.com/adhayes1906/hayes-family-travel-hub/upload/main" && open "/Users/teamhayes/Documents/Codex/2026-06-26/i/outputs/hayes-family-travel-hub-update"
+
+Then drag every file from the opened folder into the GitHub page and click "Commit changes".
+
+If GitHub says the repository does not exist yet, create it here first:
+https://github.com/new?name=hayes-family-travel-hub&visibility=public
