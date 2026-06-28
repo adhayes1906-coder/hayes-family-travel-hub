@@ -831,7 +831,7 @@ a{color:inherit}
             <div class="map-scale" aria-hidden="true">200 mi</div>
           </div>
           <div class="google-map-search"><strong>Symphony of the Seas route</strong><span>Galveston to Western Caribbean</span></div>
-          <div class="google-map-note">Live Google Map is ready. Replace the API key placeholder in index.html to activate it.</div>
+          <div class="google-map-note">Google-style fallback is showing. The live Google Map loads on the published GitHub Pages URL when the key is enabled, billed, and restricted correctly.</div>
         </div>
         <aside class="card">
           <h3>Route Stops</h3>
@@ -1527,18 +1527,40 @@ function googleMapsKeyIsConfigured(){
   return GOOGLE_MAPS_API_KEY && GOOGLE_MAPS_API_KEY !== "PASTE_YOUR_GOOGLE_MAPS_API_KEY_HERE";
 }
 
+function setGoogleMapNote(message){
+  const note = document.querySelector(".google-map-note");
+  if(note) note.textContent = message;
+}
+
 function loadGoogleMaps(){
-  if(!googleMapsKeyIsConfigured()) return;
+  if(location.protocol === "file:"){
+    setGoogleMapNote("Local file preview is showing the fallback map. Test the live Google Map from the published GitHub Pages URL.");
+    return;
+  }
+  if(!googleMapsKeyIsConfigured()){
+    setGoogleMapNote("Google Maps API key is missing. Add the key to index.html, then upload again.");
+    return;
+  }
+  setGoogleMapNote("Loading live Google Map...");
   const script = document.createElement("script");
   script.src = `https://maps.googleapis.com/maps/api/js?key=${encodeURIComponent(GOOGLE_MAPS_API_KEY)}&callback=initCruiseGoogleMap&loading=async`;
   script.async = true;
   script.defer = true;
   script.onerror = () => {
-    const note = document.querySelector(".google-map-note");
-    if(note) note.textContent = "Google Map could not load. Check the API key and referrer restrictions.";
+    setGoogleMapNote("Google Map script could not load. Check internet access, Maps JavaScript API, billing, and API key restrictions.");
   };
   document.head.appendChild(script);
+  setTimeout(() => {
+    const mapEl = document.getElementById("google-route-map");
+    if(mapEl && !mapEl.classList.contains("active")){
+      setGoogleMapNote("Google Map did not initialize. Most common causes: Maps JavaScript API not enabled, billing not enabled, or key restriction does not match this GitHub Pages URL.");
+    }
+  }, 7000);
 }
+
+window.gm_authFailure = function(){
+  setGoogleMapNote("Google Maps rejected the key. Enable Maps JavaScript API, enable billing, and restrict the key to https://adhayes1906.github.io/* and https://adhayes1906.github.io/hayes-family-travel-hub/*.");
+};
 
 window.initCruiseGoogleMap = function(){
   const mapEl = document.getElementById("google-route-map");
