@@ -183,6 +183,39 @@ a{color:inherit}
 .tag.teal{border-color:rgba(11,127,134,.3);background:rgba(11,127,134,.09);color:#075c61}
 .tag.gold{border-color:rgba(242,184,75,.38);background:rgba(242,184,75,.14);color:#765316}
 .tag.green{border-color:rgba(47,157,106,.28);background:rgba(47,157,106,.1);color:#236d4b}
+.weather-strip{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+  margin-top:10px;
+}
+.weather-chip{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  border:1px solid rgba(61,130,207,.24);
+  border-radius:999px;
+  background:rgba(61,130,207,.08);
+  color:#224c7d;
+  padding:6px 9px;
+  font-size:.84rem;
+  font-weight:800;
+}
+.map-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.map-link{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:34px;
+  border:1px solid var(--line);
+  border-radius:999px;
+  background:#fff;
+  color:var(--navy);
+  padding:7px 10px;
+  text-decoration:none;
+  font-size:.84rem;
+  font-weight:900;
+}
 .timeline{display:grid;gap:10px}
 .day-card{
   display:grid;
@@ -214,6 +247,7 @@ a{color:inherit}
 .event-time{font-weight:900;color:#223044}
 .event-title{font-weight:900}
 .event-detail{color:var(--muted);font-size:.9rem;margin-top:3px;line-height:1.35}
+.event-description{color:#435064;font-size:.9rem;line-height:1.4;margin-top:6px}
 .calendar-shell{
   background:rgba(255,255,255,.92);
   border:1px solid var(--line);
@@ -297,6 +331,30 @@ a{color:inherit}
 }
 .port h3{margin:0;font-size:.98rem}
 .port p{margin:4px 0 0;color:var(--muted);font-size:.9rem;line-height:1.35}
+.weather-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+.weather-card{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  min-height:210px;
+}
+.weather-place{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.weather-place h3{margin:0;font-size:1.02rem}
+.weather-temp{
+  font-size:1.45rem;
+  line-height:1;
+  font-weight:950;
+  color:var(--teal);
+  white-space:nowrap;
+}
+.weather-card p{margin:0;color:var(--muted);line-height:1.42}
+.weather-tip{
+  margin-top:auto;
+  border-top:1px solid var(--line);
+  padding-top:10px;
+  color:#344054;
+  font-weight:750;
+}
 .packing-toolbar{
   display:flex;
   align-items:center;
@@ -380,10 +438,10 @@ a{color:inherit}
   backdrop-filter:blur(14px);
 }
 .bottom-nav .wrap{
-  max-width:760px;
+  max-width:860px;
   margin:0 auto;
   display:grid;
-  grid-template-columns:repeat(5,1fr);
+  grid-template-columns:repeat(6,1fr);
   gap:8px;
 }
 .nav-btn{
@@ -410,7 +468,7 @@ a{color:inherit}
   .hero{grid-template-columns:1fr}
   .hero-map{border-left:0;border-top:1px solid var(--line)}
   .overview-grid,.route-layout{grid-template-columns:1fr}
-  .cards-3,.packing-grid,.link-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .cards-3,.packing-grid,.link-grid,.weather-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
 @media (max-width:660px){
   .app{padding:14px 12px 98px}
@@ -418,7 +476,7 @@ a{color:inherit}
   .trip-chip{display:none}
   .hero-copy{padding:18px}
   .metric-row{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .cards-3,.cards-2,.packing-grid,.link-grid{grid-template-columns:1fr}
+  .cards-3,.cards-2,.packing-grid,.link-grid,.weather-grid{grid-template-columns:1fr}
   .day-card{grid-template-columns:1fr}
   .event{grid-template-columns:1fr}
   .calendar-grid{display:block}
@@ -461,7 +519,7 @@ a{color:inherit}
         <div class="metric"><strong>Jul 12</strong><span>Embark Galveston</span></div>
         <div class="metric"><strong>3 shows</strong><span>Reserved entertainment</span></div>
         <div class="metric"><strong>Day 5</strong><span>Secret River excursion</span></div>
-        <div class="metric"><strong>5 lists</strong><span>Family packing</span></div>
+        <div class="metric"><strong>7 days</strong><span>Weather notes</span></div>
       </div>
     </div>
     <div class="hero-map" aria-hidden="true">
@@ -509,6 +567,10 @@ a{color:inherit}
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/></svg>
       Calendar
     </button>
+    <button class="tab-btn" data-tab="weather" type="button">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 3v2"/><path d="M12 19v2"/><path d="M4.2 4.2l1.4 1.4"/><path d="M18.4 18.4l1.4 1.4"/><path d="M3 12h2"/><path d="M19 12h2"/><path d="M4.2 19.8l1.4-1.4"/><path d="M18.4 5.6l1.4-1.4"/><circle cx="12" cy="12" r="4"/></svg>
+      Weather
+    </button>
     <button class="tab-btn" data-tab="packing" type="button">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6 7h12l1 14H5z"/><path d="M9 7V5a3 3 0 0 1 6 0v2"/><path d="M9 11v1"/><path d="M15 11v1"/></svg>
       Packing
@@ -554,6 +616,7 @@ a{color:inherit}
             <div>
               <h3>1977</h3>
               <p>10:00 PM CST - 50 min - Studio B, Deck 4</p>
+              <p>Ice skating production with music, lighting, and a time-travel style adventure built for Studio B.</p>
             </div>
           </div>
         </article>
@@ -563,6 +626,17 @@ a{color:inherit}
             <div>
               <h3>Hairspray</h3>
               <p>3:30 PM CST - 1 hr 30 min - Royal Theater, Deck 4</p>
+              <p>Broadway musical set in 1960s Baltimore, centered on Tracy Turnblad, dance TV, confidence, and inclusion.</p>
+            </div>
+          </div>
+        </article>
+        <article class="card accent-card green">
+          <div class="next-event">
+            <div class="date-tile"><span>DAY 3</span><strong>14</strong></div>
+            <div>
+              <h3>Hiro</h3>
+              <p>10:00 PM - 50 min - Aqua Theater, Deck 6</p>
+              <p>AquaTheater show with high dives, acrobatics, aerial movement, music, and big outdoor stage effects.</p>
             </div>
           </div>
         </article>
@@ -682,6 +756,17 @@ a{color:inherit}
       <div id="calendar-days" class="timeline"></div>
     </section>
 
+    <section id="panel-weather" class="panel">
+      <div class="section-head">
+        <div>
+          <h2>Weather</h2>
+          <p>Typical July weather for each cruise day. Check live forecasts again right before sailing.</p>
+        </div>
+      </div>
+      <div class="notice" style="margin-bottom:12px">Daily forecasts for July 12-18, 2026 are still too far out to trust. These notes use typical July conditions for each stop so the family can pack smart now.</div>
+      <div id="weather-grid" class="grid weather-grid"></div>
+    </section>
+
     <section id="panel-packing" class="panel">
       <div class="packing-toolbar">
         <div>
@@ -739,6 +824,10 @@ a{color:inherit}
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/></svg>
       Calendar
     </button>
+    <button class="nav-btn" data-tab="weather" type="button">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 3v2"/><path d="M12 19v2"/><path d="M4.2 4.2l1.4 1.4"/><path d="M18.4 18.4l1.4 1.4"/><path d="M3 12h2"/><path d="M19 12h2"/><path d="M4.2 19.8l1.4-1.4"/><path d="M18.4 5.6l1.4-1.4"/><circle cx="12" cy="12" r="4"/></svg>
+      Weather
+    </button>
     <button class="nav-btn" data-tab="packing" type="button">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6 7h12l1 14H5z"/><path d="M9 7V5a3 3 0 0 1 6 0v2"/></svg>
       Packing
@@ -760,9 +849,16 @@ const itinerary = [
     label: "Sun, Jul 12",
     title: "Galveston, Texas",
     summary: "Embarkation day for Symphony of the Seas.",
+    mapUrl: "https://maps.google.com/?q=Port+of+Galveston+Cruise+Terminal+Royal+Caribbean",
+    weather: {
+      place: "Galveston, Texas",
+      temp: "80-91 F",
+      outlook: "Typical July is hot, humid, and breezy near the water with a chance of afternoon storms.",
+      tip: "Wear light clothes for boarding and keep rain gear easy to reach."
+    },
     events: [
-      {time:"Embark", title:"Board in Galveston", detail:"Keep IDs, cruise documents, luggage tags, medications, and chargers easy to reach.", type:"travel"},
-      {time:"10:00 PM", title:"1977", detail:"50 min - Studio B, Deck 4 - CST", type:"show"}
+      {time:"Embark", title:"Board in Galveston", detail:"Keep IDs, cruise documents, luggage tags, medications, and chargers easy to reach.", type:"travel", mapUrl:"https://maps.google.com/?q=Port+of+Galveston+Cruise+Terminal+Royal+Caribbean"},
+      {time:"10:00 PM", title:"1977", detail:"50 min - Studio B, Deck 4 - CST", type:"show", description:"Ice skating production with music, lighting, and a time-travel style adventure built for Studio B."}
     ]
   },
   {
@@ -771,8 +867,15 @@ const itinerary = [
     label: "Mon, Jul 13",
     title: "Cruising",
     summary: "Sea day for ship exploring, pools, dining, and reservations.",
+    mapUrl: "https://maps.google.com/?q=Gulf+of+Mexico",
+    weather: {
+      place: "Gulf of Mexico",
+      temp: "80s F",
+      outlook: "Typical sea day weather is warm, humid, sunny at times, and breezy on open decks.",
+      tip: "Use sunscreen even when it is cloudy, and bring a light layer for indoor venues."
+    },
     events: [
-      {time:"3:30 PM", title:"Hairspray: The Broadway Musical", detail:"1 hr 30 min - Royal Theater, Deck 4 - CST", type:"show"}
+      {time:"3:30 PM", title:"Hairspray: The Broadway Musical", detail:"1 hr 30 min - Royal Theater, Deck 4 - CST", type:"show", description:"Broadway musical set in 1960s Baltimore, centered on Tracy Turnblad, dance TV, confidence, and inclusion."}
     ]
   },
   {
@@ -781,9 +884,16 @@ const itinerary = [
     label: "Tue, Jul 14",
     title: "Puerto Costa Maya, Mexico",
     summary: "First port day, with evening entertainment back onboard.",
+    mapUrl: "https://maps.google.com/?q=Puerto+Costa+Maya+Cruise+Port",
+    weather: {
+      place: "Puerto Costa Maya, Mexico",
+      temp: "78-90 F",
+      outlook: "Typical July is tropical, hot, humid, and mixed between sun and passing showers.",
+      tip: "Pack sunscreen, hats, water, and a small rain layer for the port bag."
+    },
     events: [
-      {time:"Port day", title:"Puerto Costa Maya", detail:"Use the Royal Caribbean app for final gangway and all-aboard times.", type:"travel"},
-      {time:"10:00 PM", title:"Hiro", detail:"50 min - Aqua Theater, Deck 6 - ship time", type:"show"}
+      {time:"Port day", title:"Puerto Costa Maya", detail:"Use the Royal Caribbean app for final gangway and all-aboard times.", type:"travel", mapUrl:"https://maps.google.com/?q=Puerto+Costa+Maya+Cruise+Port"},
+      {time:"10:00 PM", title:"Hiro", detail:"50 min - Aqua Theater, Deck 6 - ship time", type:"show", description:"AquaTheater show with high dives, acrobatics, aerial movement, music, and big outdoor stage effects."}
     ]
   },
   {
@@ -792,8 +902,15 @@ const itinerary = [
     label: "Wed, Jul 15",
     title: "Roatan, Honduras",
     summary: "Port day in Roatan.",
+    mapUrl: "https://maps.google.com/?q=Roatan+Honduras+Cruise+Port",
+    weather: {
+      place: "Roatan, Honduras",
+      temp: "77-88 F",
+      outlook: "Typical July is warm and tropical with humid air, bright sun, and quick showers possible.",
+      tip: "Good day for water shoes, reef-safe sunscreen, and a dry change of clothes."
+    },
     events: [
-      {time:"Port day", title:"Roatan", detail:"Pack swimwear, sunscreen, water shoes, and dry clothes if planning beach or water activities.", type:"travel"}
+      {time:"Port day", title:"Roatan", detail:"Pack swimwear, sunscreen, water shoes, and dry clothes if planning beach or water activities.", type:"travel", mapUrl:"https://maps.google.com/?q=Roatan+Honduras+Cruise+Port"}
     ]
   },
   {
@@ -802,8 +919,15 @@ const itinerary = [
     label: "Thu, Jul 16",
     title: "Cozumel, Mexico",
     summary: "Excursion day for Amazing Secret River and Playa del Carmen.",
+    mapUrl: "https://maps.google.com/?q=Cozumel+Cruise+Port",
+    weather: {
+      place: "Cozumel and Playa del Carmen",
+      temp: "78-90 F",
+      outlook: "Typical July is hot, humid, and tropical, with sun, clouds, and scattered showers possible.",
+      tip: "For Secret River, bring water shoes, dry clothes, sunscreen, and a waterproof bag."
+    },
     events: [
-      {time:"7:30 AM", title:"Amazing Secret River and Playa del Carmen", detail:"9 hrs - excursion from the Cozumel port day", type:"excursion"}
+      {time:"7:30 AM", title:"Amazing Secret River and Playa del Carmen", detail:"9 hrs - excursion from the Cozumel port day", type:"excursion", mapUrl:"https://maps.google.com/?q=Playa+del+Carmen+Rio+Secreto", description:"Underground river and Playa del Carmen day, so pack water shoes, dry clothes, and sun protection."}
     ]
   },
   {
@@ -812,6 +936,13 @@ const itinerary = [
     label: "Fri, Jul 17",
     title: "Cruising",
     summary: "Final sea day for favorite ship activities and packing.",
+    mapUrl: "https://maps.google.com/?q=Gulf+of+Mexico",
+    weather: {
+      place: "Gulf of Mexico",
+      temp: "80s F",
+      outlook: "Typical July sea conditions are warm and humid with strong sun and possible scattered showers.",
+      tip: "Keep sunscreen handy and pack most luggage before dinner."
+    },
     events: [
       {time:"Afternoon", title:"Pack most luggage", detail:"Keep next-day clothes, toiletries, IDs, and medications separate.", type:"travel"}
     ]
@@ -822,19 +953,26 @@ const itinerary = [
     label: "Sat, Jul 18",
     title: "Galveston, Texas",
     summary: "Disembarkation and return from the cruise.",
+    mapUrl: "https://maps.google.com/?q=Port+of+Galveston+Cruise+Terminal+Royal+Caribbean",
+    weather: {
+      place: "Galveston, Texas",
+      temp: "80-91 F",
+      outlook: "Typical July return weather is hot and humid, often with a chance of showers or storms.",
+      tip: "Dress light for the port and keep water available for the ride home."
+    },
     events: [
-      {time:"Morning", title:"Disembark in Galveston", detail:"Keep IDs, car details, and carry-off bags with the family.", type:"travel"}
+      {time:"Morning", title:"Disembark in Galveston", detail:"Keep IDs, car details, and carry-off bags with the family.", type:"travel", mapUrl:"https://maps.google.com/?q=Port+of+Galveston+Cruise+Terminal+Royal+Caribbean"}
     ]
   }
 ];
 
 const ports = [
-  {name:"Galveston, Texas", day:"Day 1 and Day 7", detail:"Embark July 12 and return July 18."},
-  {name:"Cruising", day:"Day 2", detail:"Sea day between Galveston and the Western Caribbean."},
-  {name:"Puerto Costa Maya, Mexico", day:"Day 3", detail:"First port stop on Tuesday, July 14."},
-  {name:"Roatan, Honduras", day:"Day 4", detail:"Honduras port stop on Wednesday, July 15."},
-  {name:"Cozumel, Mexico", day:"Day 5", detail:"Excursion day for Amazing Secret River and Playa del Carmen."},
-  {name:"Cruising", day:"Day 6", detail:"Sea day back toward Galveston."}
+  {name:"Galveston, Texas", day:"Day 1 and Day 7", detail:"Embark July 12 and return July 18.", mapUrl:"https://maps.google.com/?q=Port+of+Galveston+Cruise+Terminal+Royal+Caribbean"},
+  {name:"Cruising", day:"Day 2", detail:"Sea day between Galveston and the Western Caribbean.", mapUrl:"https://maps.google.com/?q=Gulf+of+Mexico"},
+  {name:"Puerto Costa Maya, Mexico", day:"Day 3", detail:"First port stop on Tuesday, July 14.", mapUrl:"https://maps.google.com/?q=Puerto+Costa+Maya+Cruise+Port"},
+  {name:"Roatan, Honduras", day:"Day 4", detail:"Honduras port stop on Wednesday, July 15.", mapUrl:"https://maps.google.com/?q=Roatan+Honduras+Cruise+Port"},
+  {name:"Cozumel, Mexico", day:"Day 5", detail:"Excursion day for Amazing Secret River and Playa del Carmen.", mapUrl:"https://maps.google.com/?q=Cozumel+Cruise+Port"},
+  {name:"Cruising", day:"Day 6", detail:"Sea day back toward Galveston.", mapUrl:"https://maps.google.com/?q=Gulf+of+Mexico"}
 ];
 
 const packing = {
@@ -954,6 +1092,13 @@ function renderDayCards(targetId){
       <div class="day-main">
         <h3>${day.title}</h3>
         <p>${day.summary}</p>
+        <div class="weather-strip">
+          <span class="weather-chip">${day.weather.temp}</span>
+          <span class="weather-chip">${day.weather.outlook}</span>
+        </div>
+        <div class="map-actions">
+          <a class="map-link" target="_blank" rel="noopener" href="${day.mapUrl}">Open map</a>
+        </div>
         <div class="event-list">
           ${day.events.map(event => `
             <div class="event ${iconForType(event.type)}">
@@ -961,6 +1106,8 @@ function renderDayCards(targetId){
               <div>
                 <div class="event-title">${event.title}</div>
                 <div class="event-detail">${event.detail}</div>
+                ${event.description ? `<div class="event-description">${event.description}</div>` : ""}
+                ${event.mapUrl ? `<div class="map-actions"><a class="map-link" target="_blank" rel="noopener" href="${event.mapUrl}">Open map</a></div>` : ""}
               </div>
             </div>
           `).join("")}
@@ -977,8 +1124,26 @@ function renderPorts(){
       <div>
         <h3>${port.name}</h3>
         <p><strong>${port.day}</strong> - ${port.detail}</p>
+        <div class="map-actions"><a class="map-link" target="_blank" rel="noopener" href="${port.mapUrl}">Open map</a></div>
       </div>
     </div>
+  `).join("");
+}
+
+function renderWeather(){
+  document.getElementById("weather-grid").innerHTML = itinerary.map(day => `
+    <article class="card weather-card">
+      <div class="weather-place">
+        <div>
+          <div class="day-num">Day ${day.day}</div>
+          <h3>${day.label} - ${day.weather.place}</h3>
+        </div>
+        <div class="weather-temp">${day.weather.temp}</div>
+      </div>
+      <p>${day.weather.outlook}</p>
+      <div class="weather-tip">${day.weather.tip}</div>
+      <div class="map-actions"><a class="map-link" target="_blank" rel="noopener" href="${day.mapUrl}">Open map</a></div>
+    </article>
   `).join("");
 }
 
@@ -1000,8 +1165,9 @@ function renderCalendar(){
     const tripDay = tripByDate.get(dateKey);
     const dateClass = tripDay ? " trip" : "";
     const title = tripDay ? `<span class="cal-chip travel">Day ${tripDay.day}: ${tripDay.title}</span>` : "";
+    const weather = tripDay ? `<span class="cal-chip">${tripDay.weather.temp} typical weather</span>` : "";
     const events = tripDay ? tripDay.events.map(event => `<span class="cal-chip ${iconForType(event.type)}">${event.time} ${event.title}</span>`).join("") : "";
-    cells.push(`<div class="cal-day${dateClass}"><div class="cal-date">${day}</div>${title}${events}</div>`);
+    cells.push(`<div class="cal-day${dateClass}"><div class="cal-date">${day}</div>${title}${weather}${events}</div>`);
   }
 
   target.innerHTML = cells.join("");
@@ -1101,11 +1267,12 @@ renderCountdown();
 renderDayCards("overview-days");
 renderDayCards("calendar-days");
 renderPorts();
+renderWeather();
 renderCalendar();
 renderPacking();
 
 const initialTab = location.hash.replace("#","").trim();
-if(["overview","map","calendar","packing","links"].includes(initialTab)){
+if(["overview","map","calendar","weather","packing","links"].includes(initialTab)){
   setTab(initialTab);
 }
 </script>
