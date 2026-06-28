@@ -348,20 +348,12 @@ a{color:inherit}
   position:relative;
 }
 .route-map svg{width:100%;height:100%;display:block}
-.google-map-live{
-  position:absolute;
-  inset:0;
-  z-index:1;
-  display:none;
-}
-.google-map-live.active{display:block}
 .google-map-fallback{
   position:absolute;
   inset:0;
   z-index:0;
   background:#e8f0ed;
 }
-.google-map-fallback.hidden{display:none}
 .google-map-search{
   position:absolute;
   left:14px;
@@ -382,22 +374,6 @@ a{color:inherit}
   font-weight:750;
 }
 .google-map-search strong{color:#202124;font-weight:900}
-.google-map-note{
-  position:absolute;
-  left:14px;
-  right:14px;
-  bottom:14px;
-  z-index:3;
-  border:1px solid rgba(251,188,4,.45);
-  border-radius:8px;
-  background:rgba(255,255,255,.94);
-  color:#5f4300;
-  padding:9px 11px;
-  font-size:.82rem;
-  font-weight:800;
-  box-shadow:0 6px 14px rgba(16,59,84,.09);
-}
-.google-map-live.active ~ .google-map-note{display:none}
 .google-pin{fill:#ea4335;stroke:#fff;stroke-width:5}
 .google-route{fill:none;stroke:#1a73e8;stroke-width:8;stroke-linecap:round;stroke-linejoin:round}
 .google-route-shadow{fill:none;stroke:#fff;stroke-width:13;stroke-linecap:round;stroke-linejoin:round;opacity:.92}
@@ -406,6 +382,21 @@ a{color:inherit}
 .google-road{fill:none;stroke:#fbbc04;stroke-width:5;stroke-linecap:round;opacity:.7}
 .google-road-light{fill:none;stroke:#fff;stroke-width:2.5;stroke-linecap:round;opacity:.9}
 .google-place{fill:#188038;font-size:14px;font-weight:850;opacity:.82}
+.google-map-link{
+  position:absolute;
+  right:14px;
+  bottom:14px;
+  z-index:3;
+  border:1px solid #d6dbe1;
+  border-radius:999px;
+  background:#fff;
+  color:#1a73e8;
+  padding:9px 12px;
+  text-decoration:none;
+  font-size:.84rem;
+  font-weight:900;
+  box-shadow:0 3px 10px rgba(25,40,60,.16);
+}
 .port-list{display:grid;gap:10px}
 .port{
   display:grid;
@@ -795,7 +786,6 @@ a{color:inherit}
       </div>
       <div class="route-layout">
         <div class="route-map">
-          <div id="google-route-map" class="google-map-live" aria-label="Live Google map route"></div>
           <div id="google-map-fallback" class="google-map-fallback" aria-hidden="true">
             <svg viewBox="0 0 900 560" role="img" aria-labelledby="mapTitle mapDesc">
               <title id="mapTitle">Google-style Symphony of the Seas Western Caribbean route</title>
@@ -831,7 +821,7 @@ a{color:inherit}
             <div class="map-scale" aria-hidden="true">200 mi</div>
           </div>
           <div class="google-map-search"><strong>Symphony of the Seas route</strong><span>Galveston to Western Caribbean</span></div>
-          <div class="google-map-note">Google-style fallback is showing. The live Google Map loads on the published GitHub Pages URL when the key is enabled, billed, and restricted correctly.</div>
+          <a class="google-map-link" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/Galveston,+TX/Puerto+Costa+Maya,+Mexico/Roatan,+Honduras/Cozumel,+Mexico/Galveston,+TX">Open in Google Maps</a>
         </div>
         <aside class="card">
           <h3>Route Stops</h3>
@@ -957,22 +947,6 @@ a{color:inherit}
 
 <script>
 const STORAGE_KEY = "hayes-cruise-hub-2026-v1";
-const GOOGLE_MAPS_API_KEY = "AIzaSyB_CVx9R4P3e4zZGUMi4JVMYDXEhM3DZpY";
-const cruiseRouteStops = [
-  {name:"Galveston", day:"Jul 12 / Jul 18", position:{lat:29.3013, lng:-94.7977}},
-  {name:"Puerto Costa Maya", day:"Jul 14", position:{lat:18.7149, lng:-87.7081}},
-  {name:"Roatan", day:"Jul 15", position:{lat:16.3297, lng:-86.5297}},
-  {name:"Cozumel", day:"Jul 16", position:{lat:20.4775, lng:-86.9730}}
-];
-const cruiseRoutePath = [
-  cruiseRouteStops[0].position,
-  {lat:24.5, lng:-91.5},
-  cruiseRouteStops[1].position,
-  cruiseRouteStops[2].position,
-  cruiseRouteStops[3].position,
-  {lat:25.4, lng:-92.7},
-  cruiseRouteStops[0].position
-];
 
 const itinerary = [
   {
@@ -1523,84 +1497,6 @@ function renderCountdown(){
   }
 }
 
-function googleMapsKeyIsConfigured(){
-  return GOOGLE_MAPS_API_KEY && GOOGLE_MAPS_API_KEY !== "PASTE_YOUR_GOOGLE_MAPS_API_KEY_HERE";
-}
-
-function setGoogleMapNote(message){
-  const note = document.querySelector(".google-map-note");
-  if(note) note.textContent = message;
-}
-
-function loadGoogleMaps(){
-  if(location.protocol === "file:"){
-    setGoogleMapNote("Local file preview is showing the fallback map. Test the live Google Map from the published GitHub Pages URL.");
-    return;
-  }
-  if(!googleMapsKeyIsConfigured()){
-    setGoogleMapNote("Google Maps API key is missing. Add the key to index.html, then upload again.");
-    return;
-  }
-  setGoogleMapNote("Loading live Google Map...");
-  const script = document.createElement("script");
-  script.src = `https://maps.googleapis.com/maps/api/js?key=${encodeURIComponent(GOOGLE_MAPS_API_KEY)}&callback=initCruiseGoogleMap&loading=async`;
-  script.async = true;
-  script.defer = true;
-  script.onerror = () => {
-    setGoogleMapNote("Google Map script could not load. Check internet access, Maps JavaScript API, billing, and API key restrictions.");
-  };
-  document.head.appendChild(script);
-  setTimeout(() => {
-    const mapEl = document.getElementById("google-route-map");
-    if(mapEl && !mapEl.classList.contains("active")){
-      setGoogleMapNote("Google Map did not initialize. Most common causes: Maps JavaScript API not enabled, billing not enabled, or key restriction does not match this GitHub Pages URL.");
-    }
-  }, 7000);
-}
-
-window.gm_authFailure = function(){
-  setGoogleMapNote("Google Maps rejected the key. Enable Maps JavaScript API, enable billing, and restrict the key to https://adhayes1906.github.io/* and https://adhayes1906.github.io/hayes-family-travel-hub/*.");
-};
-
-window.initCruiseGoogleMap = function(){
-  const mapEl = document.getElementById("google-route-map");
-  const fallbackEl = document.getElementById("google-map-fallback");
-  if(!mapEl || !window.google || !window.google.maps) return;
-
-  const map = new google.maps.Map(mapEl, {
-    center: {lat:23.4, lng:-89.7},
-    zoom: 5,
-    mapTypeId: "roadmap",
-    mapTypeControl: false,
-    streetViewControl: false,
-    fullscreenControl: true
-  });
-
-  new google.maps.Polyline({
-    path: cruiseRoutePath,
-    geodesic: true,
-    strokeColor: "#1a73e8",
-    strokeOpacity: 1,
-    strokeWeight: 4,
-    map
-  });
-
-  cruiseRouteStops.forEach(stop => {
-    const marker = new google.maps.Marker({
-      position: stop.position,
-      map,
-      title: stop.name
-    });
-    const info = new google.maps.InfoWindow({
-      content: `<strong>${stop.name}</strong><br>${stop.day}`
-    });
-    marker.addListener("click", () => info.open({anchor: marker, map}));
-  });
-
-  mapEl.classList.add("active");
-  if(fallbackEl) fallbackEl.classList.add("hidden");
-};
-
 document.querySelectorAll("[data-tab]").forEach(button => {
   button.addEventListener("click", () => setTab(button.dataset.tab));
 });
@@ -1621,7 +1517,6 @@ renderPorts();
 renderWeather();
 renderCalendar();
 renderPacking();
-loadGoogleMaps();
 loadLiveWeather();
 
 const initialTab = location.hash.replace("#","").trim();
