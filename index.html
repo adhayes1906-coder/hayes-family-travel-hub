@@ -96,6 +96,38 @@ a{color:inherit}
 .metric span{display:block;margin-top:4px;color:var(--muted);font-size:.82rem}
 .hero-map{min-height:310px;background:#dff4f7;position:relative;border-left:1px solid var(--line)}
 .hero-map svg{width:100%;height:100%;display:block}
+.map-control{
+  position:absolute;
+  right:12px;
+  top:12px;
+  display:grid;
+  gap:6px;
+}
+.map-control div{
+  width:32px;
+  height:32px;
+  display:grid;
+  place-items:center;
+  background:rgba(255,255,255,.92);
+  border:1px solid var(--line);
+  border-radius:6px;
+  color:var(--navy);
+  font-weight:950;
+  box-shadow:0 6px 14px rgba(16,59,84,.09);
+}
+.map-scale{
+  position:absolute;
+  left:14px;
+  bottom:14px;
+  background:rgba(255,255,255,.92);
+  border:1px solid var(--line);
+  border-radius:6px;
+  padding:7px 9px;
+  color:#344054;
+  font-size:.78rem;
+  font-weight:850;
+  box-shadow:0 6px 14px rgba(16,59,84,.09);
+}
 .tabbar{
   position:sticky;
   top:0;
@@ -313,8 +345,67 @@ a{color:inherit}
   overflow:hidden;
   min-height:520px;
   box-shadow:var(--shadow);
+  position:relative;
 }
 .route-map svg{width:100%;height:100%;display:block}
+.google-map-live{
+  position:absolute;
+  inset:0;
+  z-index:1;
+  display:none;
+}
+.google-map-live.active{display:block}
+.google-map-fallback{
+  position:absolute;
+  inset:0;
+  z-index:0;
+  background:#e8f0ed;
+}
+.google-map-fallback.hidden{display:none}
+.google-map-search{
+  position:absolute;
+  left:14px;
+  right:14px;
+  top:14px;
+  z-index:3;
+  min-height:46px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  border:1px solid #d6dbe1;
+  border-radius:999px;
+  background:#fff;
+  box-shadow:0 3px 10px rgba(25,40,60,.18);
+  padding:9px 14px;
+  color:#5f6368;
+  font-size:.86rem;
+  font-weight:750;
+}
+.google-map-search strong{color:#202124;font-weight:900}
+.google-map-note{
+  position:absolute;
+  left:14px;
+  right:14px;
+  bottom:14px;
+  z-index:3;
+  border:1px solid rgba(251,188,4,.45);
+  border-radius:8px;
+  background:rgba(255,255,255,.94);
+  color:#5f4300;
+  padding:9px 11px;
+  font-size:.82rem;
+  font-weight:800;
+  box-shadow:0 6px 14px rgba(16,59,84,.09);
+}
+.google-map-live.active ~ .google-map-note{display:none}
+.google-pin{fill:#ea4335;stroke:#fff;stroke-width:5}
+.google-route{fill:none;stroke:#1a73e8;stroke-width:8;stroke-linecap:round;stroke-linejoin:round}
+.google-route-shadow{fill:none;stroke:#fff;stroke-width:13;stroke-linecap:round;stroke-linejoin:round;opacity:.92}
+.google-label{font-size:17px;font-weight:900;fill:#3c4043}
+.google-small-label{font-size:13px;font-weight:800;fill:#5f6368}
+.google-road{fill:none;stroke:#fbbc04;stroke-width:5;stroke-linecap:round;opacity:.7}
+.google-road-light{fill:none;stroke:#fff;stroke-width:2.5;stroke-linecap:round;opacity:.9}
+.google-place{fill:#188038;font-size:14px;font-weight:850;opacity:.82}
 .port-list{display:grid;gap:10px}
 .port{
   display:grid;
@@ -338,6 +429,26 @@ a{color:inherit}
   gap:10px;
   min-height:210px;
 }
+.weather-status{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-bottom:12px;
+}
+.weather-status-text{
+  color:#344054;
+  font-weight:800;
+}
+.weather-refresh{
+  border:1px solid var(--line);
+  border-radius:999px;
+  background:#fff;
+  color:var(--navy);
+  padding:8px 11px;
+  font-weight:900;
+}
 .weather-place{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
 .weather-place h3{margin:0;font-size:1.02rem}
 .weather-temp{
@@ -355,6 +466,16 @@ a{color:inherit}
   color:#344054;
   font-weight:750;
 }
+.live-weather{
+  border:1px solid rgba(11,127,134,.22);
+  background:rgba(11,127,134,.07);
+  border-radius:8px;
+  padding:10px;
+  color:#164e52;
+  font-weight:800;
+  line-height:1.45;
+}
+.live-weather span{display:block;color:#475467;font-weight:750;font-size:.88rem;margin-top:3px}
 .packing-toolbar{
   display:flex;
   align-items:center;
@@ -523,34 +644,40 @@ a{color:inherit}
       </div>
     </div>
     <div class="hero-map" aria-hidden="true">
-      <svg viewBox="0 0 620 360" role="img">
+      <svg viewBox="0 0 700 420" role="img">
         <defs>
-          <linearGradient id="smallSea" x1="0" y1="0" x2="1" y2="1">
-            <stop stop-color="#cceff6" />
-            <stop offset="1" stop-color="#bfe6ef" />
+          <linearGradient id="heroRealSea" x1="0" y1="0" x2="1" y2="1">
+            <stop stop-color="#d6eef5"/>
+            <stop offset="1" stop-color="#b9dce8"/>
           </linearGradient>
-          <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
-            <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#103b54" flood-opacity=".18"/>
+          <filter id="heroRouteShadow" x="-20%" y="-20%" width="140%" height="140%">
+            <feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="#103b54" flood-opacity=".18"/>
           </filter>
         </defs>
-        <rect width="620" height="360" fill="url(#smallSea)" />
-        <path d="M0 75 C60 38 118 34 172 62 C216 84 252 76 290 62 C253 106 229 129 188 136 C129 146 73 127 0 151 Z" fill="#b7d9bf" opacity=".9"/>
-        <path d="M402 174 C455 160 513 176 545 216 C523 250 509 286 463 304 C418 321 377 300 363 260 C351 225 365 190 402 174 Z" fill="#b7d9bf"/>
-        <path d="M486 288 C536 282 596 304 620 330 L620 360 L453 360 C444 329 459 299 486 288 Z" fill="#9fccaa"/>
-        <path d="M164 86 C254 154 329 252 442 236 C499 228 509 181 455 178 C369 173 349 298 473 306 C548 312 540 168 164 86" fill="none" stroke="#ee6c5a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" filter="url(#softShadow)"/>
-        <g fill="#103b54" stroke="#fff" stroke-width="4">
-          <circle cx="164" cy="86" r="9"/>
-          <circle cx="442" cy="236" r="9"/>
-          <circle cx="473" cy="306" r="9"/>
-          <circle cx="455" cy="178" r="9"/>
+        <rect width="700" height="420" fill="url(#heroRealSea)"/>
+        <g stroke="#ffffff" stroke-width="1" opacity=".55">
+          <path d="M0 80H700M0 160H700M0 240H700M0 320H700"/>
+          <path d="M120 0V420M240 0V420M360 0V420M480 0V420M600 0V420"/>
         </g>
-        <g font-family="Inter, Arial, sans-serif" font-size="15" font-weight="850" fill="#103b54">
-          <text x="112" y="66">Galveston</text>
-          <text x="371" y="229">Costa Maya</text>
-          <text x="484" y="314">Roatan</text>
-          <text x="467" y="172">Cozumel</text>
+        <path d="M0 78 C64 45 123 35 177 60 C232 86 282 96 344 69 C324 116 284 152 227 169 C157 190 90 172 0 218 Z" fill="#bdd8bb"/>
+        <path d="M0 0H700V39C607 58 539 45 480 27C404 3 321 6 240 25C150 46 72 40 0 18Z" fill="#d6e8d0"/>
+        <path d="M420 186 C496 163 578 195 620 254 C591 306 566 350 505 372 C443 394 390 361 378 304 C366 249 383 203 420 186 Z" fill="#b6d5b7"/>
+        <path d="M490 352 C551 342 631 360 700 396 L700 420 L460 420 C452 390 462 365 490 352 Z" fill="#9cc7a6"/>
+        <path d="M180 107 C263 164 365 259 472 258 C542 257 561 201 510 194 C407 180 399 338 521 356 C622 370 609 196 180 107" fill="none" stroke="#ee6c5a" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" filter="url(#heroRouteShadow)"/>
+        <path d="M180 107 C263 164 365 259 472 258 C542 257 561 201 510 194 C407 180 399 338 521 356 C622 370 609 196 180 107" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity=".9"/>
+        <g font-family="Inter, Arial, sans-serif">
+          <circle cx="180" cy="107" r="11" fill="#103b54" stroke="#fff" stroke-width="4"/>
+          <text x="105" y="93" font-size="14" font-weight="900" fill="#102a3b">Galveston</text>
+          <circle cx="472" cy="258" r="11" fill="#0b7f86" stroke="#fff" stroke-width="4"/>
+          <text x="392" y="249" font-size="14" font-weight="900" fill="#102a3b">Costa Maya</text>
+          <circle cx="521" cy="356" r="11" fill="#2f9d6a" stroke="#fff" stroke-width="4"/>
+          <text x="540" y="361" font-size="14" font-weight="900" fill="#102a3b">Roatan</text>
+          <circle cx="510" cy="194" r="11" fill="#7167d8" stroke="#fff" stroke-width="4"/>
+          <text x="526" y="190" font-size="14" font-weight="900" fill="#102a3b">Cozumel</text>
         </g>
       </svg>
+      <div class="map-control" aria-hidden="true"><div>+</div><div>-</div></div>
+      <div class="map-scale" aria-hidden="true">200 mi</div>
     </div>
   </section>
 
@@ -668,58 +795,43 @@ a{color:inherit}
       </div>
       <div class="route-layout">
         <div class="route-map">
-          <svg viewBox="0 0 900 560" role="img" aria-labelledby="mapTitle mapDesc">
-            <title id="mapTitle">Symphony of the Seas Western Caribbean route</title>
-            <desc id="mapDesc">Route from Galveston to Costa Maya, Roatan, Cozumel, and back to Galveston.</desc>
-            <defs>
-              <linearGradient id="sea" x1="0" y1="0" x2="1" y2="1">
-                <stop stop-color="#d7f2f7" />
-                <stop offset=".55" stop-color="#c5e9f1" />
-                <stop offset="1" stop-color="#a9d7e4" />
-              </linearGradient>
-              <filter id="routeShadow" x="-20%" y="-20%" width="140%" height="140%">
-                <feDropShadow dx="0" dy="10" stdDeviation="8" flood-color="#103b54" flood-opacity=".16"/>
-              </filter>
-            </defs>
-            <rect width="900" height="560" fill="url(#sea)" />
-            <path d="M0 120 C82 63 150 46 226 80 C286 107 352 113 431 76 C410 127 377 167 319 191 C245 221 144 196 60 223 C34 231 15 239 0 246 Z" fill="#b9d9bf"/>
-            <path d="M0 0H900V60C806 84 736 74 676 45C575-4 477 16 392 48C297 83 215 57 132 30C78 13 36 10 0 16Z" fill="#d8e9d2" opacity=".55"/>
-            <path d="M548 236 C630 213 733 239 785 305 C745 361 724 427 649 458 C573 489 510 452 488 389 C469 333 497 257 548 236 Z" fill="#b7d9bf"/>
-            <path d="M628 444 C704 428 812 455 900 508 L900 560 L590 560 C571 515 585 465 628 444 Z" fill="#9fccaa"/>
-            <path d="M255 132 C352 200 456 320 610 340 C704 352 726 267 643 257 C504 245 479 450 681 472 C804 485 798 236 255 132" fill="none" stroke="#ee6c5a" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" filter="url(#routeShadow)"/>
-            <path d="M255 132 C352 200 456 320 610 340 C704 352 726 267 643 257 C504 245 479 450 681 472 C804 485 798 236 255 132" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity=".85"/>
-            <g font-family="Inter, Arial, sans-serif">
-              <g transform="translate(255 132)">
-                <circle r="15" fill="#103b54" stroke="#fff" stroke-width="5"/>
-                <text x="-8" y="6" fill="#fff" font-size="16" font-weight="900">1</text>
-                <text x="-84" y="-24" fill="#103b54" font-size="21" font-weight="900">Galveston</text>
-                <text x="-76" y="37" fill="#475467" font-size="14" font-weight="700">Jul 12 + Jul 18</text>
+          <div id="google-route-map" class="google-map-live" aria-label="Live Google map route"></div>
+          <div id="google-map-fallback" class="google-map-fallback" aria-hidden="true">
+            <svg viewBox="0 0 900 560" role="img" aria-labelledby="mapTitle mapDesc">
+              <title id="mapTitle">Google-style Symphony of the Seas Western Caribbean route</title>
+              <desc id="mapDesc">Google-style route from Galveston to Costa Maya, Roatan, Cozumel, and back to Galveston.</desc>
+              <rect width="900" height="560" fill="#e8f0ed"/>
+              <path d="M0 101 C91 50 181 54 266 91 C357 132 424 126 504 82 C471 154 414 203 323 237 C206 281 100 238 0 307 Z" fill="#cfe4c8"/>
+              <path d="M0 0H900V57C787 80 683 68 598 42C495 9 383 10 283 36C175 64 80 57 0 28Z" fill="#dbe9d2"/>
+              <path d="M541 236 C649 205 757 253 802 336 C763 417 720 478 644 502 C554 529 481 472 470 404 C459 328 496 256 541 236 Z" fill="#c8dfc4"/>
+              <path d="M626 469 C710 449 817 480 900 527 L900 560 L586 560 C579 519 593 487 626 469 Z" fill="#b8d7b4"/>
+              <g opacity=".55">
+                <path d="M39 153 C190 181 265 225 370 294" class="google-road"/>
+                <path d="M39 153 C190 181 265 225 370 294" class="google-road-light"/>
+                <path d="M553 183 C643 205 701 247 776 317" class="google-road"/>
+                <path d="M553 183 C643 205 701 247 776 317" class="google-road-light"/>
+                <path d="M625 426 C700 405 782 430 868 487" class="google-road"/>
+                <path d="M625 426 C700 405 782 430 868 487" class="google-road-light"/>
               </g>
-              <g transform="translate(610 340)">
-                <circle r="15" fill="#0b7f86" stroke="#fff" stroke-width="5"/>
-                <text x="-8" y="6" fill="#fff" font-size="16" font-weight="900">3</text>
-                <text x="-62" y="-24" fill="#103b54" font-size="21" font-weight="900">Costa Maya</text>
-                <text x="-45" y="39" fill="#475467" font-size="14" font-weight="700">Jul 14</text>
+              <path d="M232 143 C338 219 469 345 607 344 C697 343 721 268 656 259 C523 240 514 451 670 475 C799 493 783 261 232 143" class="google-route-shadow"/>
+              <path d="M232 143 C338 219 469 345 607 344 C697 343 721 268 656 259 C523 240 514 451 670 475 C799 493 783 261 232 143" class="google-route"/>
+              <g font-family="Inter, Arial, sans-serif">
+                <text x="335" y="274" fill="#5f6368" font-size="16" font-weight="800">Gulf of Mexico</text>
+                <text x="696" y="408" fill="#5f6368" font-size="16" font-weight="800">Caribbean Sea</text>
+                <text x="96" y="194" class="google-place">Texas</text>
+                <text x="692" y="301" class="google-place">Mexico</text>
+                <text x="712" y="512" class="google-place">Honduras</text>
+                <circle cx="232" cy="143" r="16" class="google-pin"/><text x="126" y="130" class="google-label">Galveston</text><text x="143" y="162" class="google-small-label">Jul 12 / Jul 18</text>
+                <circle cx="607" cy="344" r="16" class="google-pin"/><text x="493" y="331" class="google-label">Costa Maya</text><text x="535" y="374" class="google-small-label">Jul 14</text>
+                <circle cx="670" cy="475" r="16" class="google-pin"/><text x="696" y="481" class="google-label">Roatan</text><text x="697" y="507" class="google-small-label">Jul 15</text>
+                <circle cx="656" cy="259" r="16" class="google-pin"/><text x="684" y="255" class="google-label">Cozumel</text><text x="687" y="282" class="google-small-label">Jul 16</text>
               </g>
-              <g transform="translate(681 472)">
-                <circle r="15" fill="#2f9d6a" stroke="#fff" stroke-width="5"/>
-                <text x="-8" y="6" fill="#fff" font-size="16" font-weight="900">4</text>
-                <text x="24" y="7" fill="#103b54" font-size="21" font-weight="900">Roatan</text>
-                <text x="24" y="28" fill="#475467" font-size="14" font-weight="700">Jul 15</text>
-              </g>
-              <g transform="translate(643 257)">
-                <circle r="15" fill="#7167d8" stroke="#fff" stroke-width="5"/>
-                <text x="-8" y="6" fill="#fff" font-size="16" font-weight="900">5</text>
-                <text x="24" y="-4" fill="#103b54" font-size="21" font-weight="900">Cozumel</text>
-                <text x="24" y="18" fill="#475467" font-size="14" font-weight="700">Jul 16</text>
-              </g>
-            </g>
-            <g font-family="Inter, Arial, sans-serif" fill="#2f596a" font-size="13" font-weight="800" opacity=".72">
-              <text x="58" y="322">Gulf of Mexico</text>
-              <text x="646" y="520">Caribbean Sea</text>
-              <text x="665" y="318">Yucatan</text>
-            </g>
-          </svg>
+            </svg>
+            <div class="map-control" aria-hidden="true"><div>+</div><div>-</div></div>
+            <div class="map-scale" aria-hidden="true">200 mi</div>
+          </div>
+          <div class="google-map-search"><strong>Symphony of the Seas route</strong><span>Galveston to Western Caribbean</span></div>
+          <div class="google-map-note">Live Google Map is ready. Replace the API key placeholder in index.html to activate it.</div>
         </div>
         <aside class="card">
           <h3>Route Stops</h3>
@@ -760,10 +872,14 @@ a{color:inherit}
       <div class="section-head">
         <div>
           <h2>Weather</h2>
-          <p>Typical July weather for each cruise day. Check live forecasts again right before sailing.</p>
+          <p>Live current conditions when available, plus cruise-day forecasts when the dates are in range.</p>
         </div>
       </div>
-      <div class="notice" style="margin-bottom:12px">Daily forecasts for July 12-18, 2026 are still too far out to trust. These notes use typical July conditions for each stop so the family can pack smart now.</div>
+      <div class="weather-status">
+        <div id="weather-status" class="weather-status-text">Loading live weather...</div>
+        <button id="refresh-weather" class="weather-refresh" type="button">Refresh weather</button>
+      </div>
+      <div class="notice" style="margin-bottom:12px">The app uses live weather when the device is online. If a cruise date is outside forecast range, it shows typical July weather until the forecast becomes available.</div>
       <div id="weather-grid" class="grid weather-grid"></div>
     </section>
 
@@ -841,6 +957,22 @@ a{color:inherit}
 
 <script>
 const STORAGE_KEY = "hayes-cruise-hub-2026-v1";
+const GOOGLE_MAPS_API_KEY = "AIzaSyB_CVx9R4P3e4zZGUMi4JVMYDXEhM3DZpY";
+const cruiseRouteStops = [
+  {name:"Galveston", day:"Jul 12 / Jul 18", position:{lat:29.3013, lng:-94.7977}},
+  {name:"Puerto Costa Maya", day:"Jul 14", position:{lat:18.7149, lng:-87.7081}},
+  {name:"Roatan", day:"Jul 15", position:{lat:16.3297, lng:-86.5297}},
+  {name:"Cozumel", day:"Jul 16", position:{lat:20.4775, lng:-86.9730}}
+];
+const cruiseRoutePath = [
+  cruiseRouteStops[0].position,
+  {lat:24.5, lng:-91.5},
+  cruiseRouteStops[1].position,
+  cruiseRouteStops[2].position,
+  cruiseRouteStops[3].position,
+  {lat:25.4, lng:-92.7},
+  cruiseRouteStops[0].position
+];
 
 const itinerary = [
   {
@@ -852,6 +984,8 @@ const itinerary = [
     mapUrl: "https://maps.google.com/?q=Port+of+Galveston+Cruise+Terminal+Royal+Caribbean",
     weather: {
       place: "Galveston, Texas",
+      lat: 29.3013,
+      lng: -94.7977,
       temp: "80-91 F",
       outlook: "Typical July is hot, humid, and breezy near the water with a chance of afternoon storms.",
       tip: "Wear light clothes for boarding and keep rain gear easy to reach."
@@ -870,6 +1004,8 @@ const itinerary = [
     mapUrl: "https://maps.google.com/?q=Gulf+of+Mexico",
     weather: {
       place: "Gulf of Mexico",
+      lat: 25.0,
+      lng: -91.5,
       temp: "80s F",
       outlook: "Typical sea day weather is warm, humid, sunny at times, and breezy on open decks.",
       tip: "Use sunscreen even when it is cloudy, and bring a light layer for indoor venues."
@@ -887,6 +1023,8 @@ const itinerary = [
     mapUrl: "https://maps.google.com/?q=Puerto+Costa+Maya+Cruise+Port",
     weather: {
       place: "Puerto Costa Maya, Mexico",
+      lat: 18.7149,
+      lng: -87.7081,
       temp: "78-90 F",
       outlook: "Typical July is tropical, hot, humid, and mixed between sun and passing showers.",
       tip: "Pack sunscreen, hats, water, and a small rain layer for the port bag."
@@ -905,6 +1043,8 @@ const itinerary = [
     mapUrl: "https://maps.google.com/?q=Roatan+Honduras+Cruise+Port",
     weather: {
       place: "Roatan, Honduras",
+      lat: 16.3297,
+      lng: -86.5297,
       temp: "77-88 F",
       outlook: "Typical July is warm and tropical with humid air, bright sun, and quick showers possible.",
       tip: "Good day for water shoes, reef-safe sunscreen, and a dry change of clothes."
@@ -922,6 +1062,8 @@ const itinerary = [
     mapUrl: "https://maps.google.com/?q=Cozumel+Cruise+Port",
     weather: {
       place: "Cozumel and Playa del Carmen",
+      lat: 20.4775,
+      lng: -86.9730,
       temp: "78-90 F",
       outlook: "Typical July is hot, humid, and tropical, with sun, clouds, and scattered showers possible.",
       tip: "For Secret River, bring water shoes, dry clothes, sunscreen, and a waterproof bag."
@@ -939,6 +1081,8 @@ const itinerary = [
     mapUrl: "https://maps.google.com/?q=Gulf+of+Mexico",
     weather: {
       place: "Gulf of Mexico",
+      lat: 25.2,
+      lng: -91.8,
       temp: "80s F",
       outlook: "Typical July sea conditions are warm and humid with strong sun and possible scattered showers.",
       tip: "Keep sunscreen handy and pack most luggage before dinner."
@@ -956,6 +1100,8 @@ const itinerary = [
     mapUrl: "https://maps.google.com/?q=Port+of+Galveston+Cruise+Terminal+Royal+Caribbean",
     weather: {
       place: "Galveston, Texas",
+      lat: 29.3013,
+      lng: -94.7977,
       temp: "80-91 F",
       outlook: "Typical July return weather is hot and humid, often with a chance of showers or storms.",
       tip: "Dress light for the port and keep water available for the ride home."
@@ -1061,6 +1207,7 @@ const packing = {
 };
 
 let state = loadState();
+let liveWeatherByDate = {};
 
 function loadState(){
   try{
@@ -1081,6 +1228,58 @@ function iconForType(type){
   return "travel";
 }
 
+function weatherCodeText(code){
+  const codes = {
+    0:"Clear",
+    1:"Mainly clear",
+    2:"Partly cloudy",
+    3:"Overcast",
+    45:"Fog",
+    48:"Rime fog",
+    51:"Light drizzle",
+    53:"Drizzle",
+    55:"Heavy drizzle",
+    61:"Light rain",
+    63:"Rain",
+    65:"Heavy rain",
+    66:"Freezing rain",
+    67:"Heavy freezing rain",
+    71:"Light snow",
+    73:"Snow",
+    75:"Heavy snow",
+    80:"Light showers",
+    81:"Showers",
+    82:"Heavy showers",
+    95:"Thunderstorms",
+    96:"Thunderstorms with hail",
+    99:"Severe thunderstorms"
+  };
+  return codes[Number(code)] || "Weather update";
+}
+
+function tempText(value){
+  return Number.isFinite(Number(value)) ? `${Math.round(Number(value))} F` : "N/A";
+}
+
+function percentText(value){
+  return Number.isFinite(Number(value)) ? `${Math.round(Number(value))}%` : "N/A";
+}
+
+function windText(value){
+  return Number.isFinite(Number(value)) ? `${Math.round(Number(value))} mph` : "N/A";
+}
+
+function liveWeatherSummary(day){
+  const live = liveWeatherByDate[day.date];
+  if(live && live.forecast){
+    return `Forecast: ${tempText(live.forecast.min)}-${tempText(live.forecast.max)}, ${live.forecast.condition}`;
+  }
+  if(live && live.current){
+    return `Current near ${day.weather.place}: ${tempText(live.current.temp)}, ${live.current.condition}`;
+  }
+  return day.weather.outlook;
+}
+
 function renderDayCards(targetId){
   const target = document.getElementById(targetId);
   target.innerHTML = itinerary.map(day => `
@@ -1094,7 +1293,7 @@ function renderDayCards(targetId){
         <p>${day.summary}</p>
         <div class="weather-strip">
           <span class="weather-chip">${day.weather.temp}</span>
-          <span class="weather-chip">${day.weather.outlook}</span>
+          <span class="weather-chip">${liveWeatherSummary(day)}</span>
         </div>
         <div class="map-actions">
           <a class="map-link" target="_blank" rel="noopener" href="${day.mapUrl}">Open map</a>
@@ -1140,11 +1339,29 @@ function renderWeather(){
         </div>
         <div class="weather-temp">${day.weather.temp}</div>
       </div>
+      ${renderLiveWeatherBlock(day)}
       <p>${day.weather.outlook}</p>
       <div class="weather-tip">${day.weather.tip}</div>
       <div class="map-actions"><a class="map-link" target="_blank" rel="noopener" href="${day.mapUrl}">Open map</a></div>
     </article>
   `).join("");
+}
+
+function renderLiveWeatherBlock(day){
+  const live = liveWeatherByDate[day.date];
+  if(!live){
+    return `<div class="live-weather">Typical July shown until live data loads.<span>Current and forecast weather will appear here when available.</span></div>`;
+  }
+
+  const forecastLine = live.forecast
+    ? `Cruise-day forecast: ${tempText(live.forecast.min)}-${tempText(live.forecast.max)}, ${live.forecast.condition}, rain chance ${percentText(live.forecast.rainChance)}, wind ${windText(live.forecast.wind)}.`
+    : "Cruise-day forecast is not available yet.";
+
+  const currentLine = live.current
+    ? `Current near ${day.weather.place}: ${tempText(live.current.temp)}, feels like ${tempText(live.current.feelsLike)}, ${live.current.condition}, humidity ${percentText(live.current.humidity)}, wind ${windText(live.current.wind)}.`
+    : "Current weather is not available.";
+
+  return `<div class="live-weather">${forecastLine}<span>${currentLine}</span></div>`;
 }
 
 function renderCalendar(){
@@ -1228,6 +1445,61 @@ function resetPacking(){
   renderPacking();
 }
 
+function weatherApiUrl(day){
+  const params = new URLSearchParams({
+    latitude: day.weather.lat,
+    longitude: day.weather.lng,
+    current: "temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,wind_speed_10m",
+    daily: "weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,wind_speed_10m_max",
+    temperature_unit: "fahrenheit",
+    wind_speed_unit: "mph",
+    precipitation_unit: "inch",
+    timezone: "auto",
+    forecast_days: "16"
+  });
+  return `https://api.open-meteo.com/v1/forecast?${params.toString()}`;
+}
+
+async function fetchWeatherForDay(day){
+  const response = await fetch(weatherApiUrl(day));
+  if(!response.ok) throw new Error(`Weather request failed for ${day.title}`);
+  const payload = await response.json();
+  const dailyIndex = payload.daily && payload.daily.time ? payload.daily.time.indexOf(day.date) : -1;
+
+  return {
+    current: payload.current ? {
+      temp: payload.current.temperature_2m,
+      feelsLike: payload.current.apparent_temperature,
+      humidity: payload.current.relative_humidity_2m,
+      wind: payload.current.wind_speed_10m,
+      condition: weatherCodeText(payload.current.weather_code)
+    } : null,
+    forecast: dailyIndex >= 0 ? {
+      max: payload.daily.temperature_2m_max[dailyIndex],
+      min: payload.daily.temperature_2m_min[dailyIndex],
+      rainChance: payload.daily.precipitation_probability_max[dailyIndex],
+      wind: payload.daily.wind_speed_10m_max[dailyIndex],
+      condition: weatherCodeText(payload.daily.weather_code[dailyIndex])
+    } : null
+  };
+}
+
+async function loadLiveWeather(){
+  const status = document.getElementById("weather-status");
+  if(status) status.textContent = "Loading live weather...";
+  try{
+    const entries = await Promise.all(itinerary.map(async day => [day.date, await fetchWeatherForDay(day)]));
+    liveWeatherByDate = Object.fromEntries(entries);
+    renderWeather();
+    renderDayCards("overview-days");
+    renderDayCards("calendar-days");
+    renderCalendar();
+    if(status) status.textContent = `Live weather updated ${new Date().toLocaleTimeString([], {hour:"numeric", minute:"2-digit"})}.`;
+  }catch(error){
+    if(status) status.textContent = "Live weather unavailable. Showing typical July weather.";
+  }
+}
+
 function setTab(name){
   document.querySelectorAll(".panel").forEach(panel => panel.classList.toggle("active", panel.id === `panel-${name}`));
   document.querySelectorAll("[data-tab]").forEach(button => button.classList.toggle("active", button.dataset.tab === name));
@@ -1251,11 +1523,68 @@ function renderCountdown(){
   }
 }
 
+function googleMapsKeyIsConfigured(){
+  return GOOGLE_MAPS_API_KEY && GOOGLE_MAPS_API_KEY !== "PASTE_YOUR_GOOGLE_MAPS_API_KEY_HERE";
+}
+
+function loadGoogleMaps(){
+  if(!googleMapsKeyIsConfigured()) return;
+  const script = document.createElement("script");
+  script.src = `https://maps.googleapis.com/maps/api/js?key=${encodeURIComponent(GOOGLE_MAPS_API_KEY)}&callback=initCruiseGoogleMap&loading=async`;
+  script.async = true;
+  script.defer = true;
+  script.onerror = () => {
+    const note = document.querySelector(".google-map-note");
+    if(note) note.textContent = "Google Map could not load. Check the API key and referrer restrictions.";
+  };
+  document.head.appendChild(script);
+}
+
+window.initCruiseGoogleMap = function(){
+  const mapEl = document.getElementById("google-route-map");
+  const fallbackEl = document.getElementById("google-map-fallback");
+  if(!mapEl || !window.google || !window.google.maps) return;
+
+  const map = new google.maps.Map(mapEl, {
+    center: {lat:23.4, lng:-89.7},
+    zoom: 5,
+    mapTypeId: "roadmap",
+    mapTypeControl: false,
+    streetViewControl: false,
+    fullscreenControl: true
+  });
+
+  new google.maps.Polyline({
+    path: cruiseRoutePath,
+    geodesic: true,
+    strokeColor: "#1a73e8",
+    strokeOpacity: 1,
+    strokeWeight: 4,
+    map
+  });
+
+  cruiseRouteStops.forEach(stop => {
+    const marker = new google.maps.Marker({
+      position: stop.position,
+      map,
+      title: stop.name
+    });
+    const info = new google.maps.InfoWindow({
+      content: `<strong>${stop.name}</strong><br>${stop.day}`
+    });
+    marker.addListener("click", () => info.open({anchor: marker, map}));
+  });
+
+  mapEl.classList.add("active");
+  if(fallbackEl) fallbackEl.classList.add("hidden");
+};
+
 document.querySelectorAll("[data-tab]").forEach(button => {
   button.addEventListener("click", () => setTab(button.dataset.tab));
 });
 
 document.getElementById("reset-packing").addEventListener("click", resetPacking);
+document.getElementById("refresh-weather").addEventListener("click", loadLiveWeather);
 
 if("serviceWorker" in navigator){
   window.addEventListener("load", () => {
@@ -1270,6 +1599,8 @@ renderPorts();
 renderWeather();
 renderCalendar();
 renderPacking();
+loadGoogleMaps();
+loadLiveWeather();
 
 const initialTab = location.hash.replace("#","").trim();
 if(["overview","map","calendar","weather","packing","links"].includes(initialTab)){
